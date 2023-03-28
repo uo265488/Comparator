@@ -1,0 +1,25 @@
+{
+  "properties": {
+    "barcode": {
+      "type": "keyword"
+    },
+    "nombre": {
+      "type": "text"
+    },
+    "marca": {
+      "type": "text"
+    },
+    "fecha_de_registro": {
+      "type": "integer"
+    },
+    "precio": {
+      "type": "double"
+    },
+    "supermercado": {
+      "type": "keyword"
+    },
+    "proveedor": {
+      "type": "keyword"
+    }
+  }
+}
