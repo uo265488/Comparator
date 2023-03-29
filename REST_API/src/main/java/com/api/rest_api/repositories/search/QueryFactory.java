@@ -32,6 +32,21 @@ public interface QueryFactory {
     /**
      * Creates a matchall query
      */
-    Query matchAllQuery();
+    Query getMatchAllQuery();
 
+    /**
+     * Creates a must query combining all the filters
+     * @param filters
+     * @return
+     */
+    Query getMustQuery(List<Query> filters);
+
+    /**
+     * Creates a terms query
+     *
+     * @param field
+     * @param value
+     * @return Query
+     */
+    Query getTermsQuery(String field, Object value);
 }
