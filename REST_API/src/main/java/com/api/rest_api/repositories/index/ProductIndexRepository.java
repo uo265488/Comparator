@@ -41,7 +41,7 @@ public class ProductIndexRepository implements IndexRepository<Product> {
     }
 
     /**
-     * Updates the mapping of the MOVIE index
+     * Updates the mapping of the PRODUCT index
      * @return
      * @throws IOException
      */
@@ -60,11 +60,11 @@ public class ProductIndexRepository implements IndexRepository<Product> {
         try {
             response = elasticsearchClientConfig.getEsClient()
                     .index(i -> i.index(Indices.PRODUCT_INDEX)
-                            .id(product.getId())
+                            .id(product.getBarcode() + product.getFecha_de_registro())
                             .document(product)
                     );
         } catch (Exception e) {
-            return "The indexing of the product could not be performed.";
+            return "The indexing of the product could not be performed because " + e.getMessage();
         }
         return "" + response.version();
     }
@@ -77,7 +77,7 @@ public class ProductIndexRepository implements IndexRepository<Product> {
             br.operations(op -> op
                     .index(idx -> idx
                             .index(Indices.PRODUCT_INDEX)
-                            .id(product.getId())
+                            .id(product.getBarcode() + product.getFecha_de_registro())
                             .document(product)
                     )
             );

@@ -34,6 +34,7 @@ public class ProductIndexService {
             return indexingRepository.indexDocument(product);
         }
         public String createIndex() {
+            deleteRepository.deleteIndex();
             return indexingRepository.createIndex();
         }
 
@@ -47,9 +48,9 @@ public class ProductIndexService {
             deleteRepository.deleteIndex();
             indexingRepository.createIndex();
 
-            int numMoviesPerExecution = 50000;
+            int numProductsPerExecution = 50000;
             ProductParser movieParser = new ProductParser(file);
-            List<Product> products = movieParser.parseProducts(numMoviesPerExecution);
+            List<Product> products = movieParser.parseProducts(numProductsPerExecution);
             while(!products.isEmpty()) {
                 try {
                     indexingRepository.synchronousBulkIndexing(
@@ -58,7 +59,7 @@ public class ProductIndexService {
                     return false;
                 }
 
-                products = movieParser.parseProducts(numMoviesPerExecution);
+                products = movieParser.parseProducts(numProductsPerExecution);
             }
             return true;
         }

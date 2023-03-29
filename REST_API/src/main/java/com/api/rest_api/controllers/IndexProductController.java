@@ -18,7 +18,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/")
-public class ProductController {
+public class IndexProductController {
 
     @Autowired
     private ProductIndexService service;
@@ -75,7 +75,7 @@ public class ProductController {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(p.getId()).toUri();
+                .buildAndExpand(p.getBarcode() + p.getFecha_de_registro()).toUri();
 
         return ResponseEntity.created(uri).body(p);
     }

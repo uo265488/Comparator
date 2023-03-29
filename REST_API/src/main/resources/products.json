@@ -4,13 +4,13 @@
       "type": "keyword"
     },
     "nombre": {
-      "type": "text"
+      "type": "keyword"
     },
     "marca": {
-      "type": "text"
+      "type": "keyword"
     },
     "fecha_de_registro": {
-      "type": "integer"
+      "type": "keyword"
     },
     "precio": {
       "type": "double"
