@@ -46,7 +46,7 @@ public class ProductSearchRepository implements SearchRepository<Product> {
         List<Query> filters = new ArrayList<>();
 
         if (nombre.isPresent())
-            filters.add(queryFactory.getTermsQuery(FieldAttr.PRODUCT_NAME, nombre.get()));
+            filters.add(queryFactory.getLowercaseTermsQuery(FieldAttr.PRODUCT_NAME, nombre.get()));
         if (marca.isPresent())
             filters.add(queryFactory.getTermsQuery(FieldAttr.PRODUCT_BRAND, marca.get()));
         if (precio.isPresent())
@@ -76,8 +76,6 @@ public class ProductSearchRepository implements SearchRepository<Product> {
         return response;
     }
 
-
-
     /**
      * Creates a sorted Search Request
      * @param query
@@ -87,10 +85,12 @@ public class ProductSearchRepository implements SearchRepository<Product> {
      * @return
      */
     private SearchRequest getSearchRequest(Query query, int size, String sortOrder, String sortBy) {
+
         return SearchRequest.of(s -> s
                 .index(Indices.PRODUCT_INDEX)
                 .query(query)
                 .size(size)
+
                 //.aggregations(getAggregations())
                 //.sort(getSortOptions(sortOrder, sortBy))
         );

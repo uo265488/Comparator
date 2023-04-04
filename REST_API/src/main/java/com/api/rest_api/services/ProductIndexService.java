@@ -33,8 +33,8 @@ public class ProductIndexService {
         public String indexDocument(Product product) {
             return indexingRepository.indexDocument(product);
         }
-        public String createIndex() {
-            deleteRepository.deleteIndex();
+        public boolean createIndex() {
+            //deleteRepository.deleteIndex();
             return indexingRepository.createIndex();
         }
 

@@ -4,6 +4,7 @@ import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
+import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
 import com.api.rest_api.config.ESClientConfig;
 import com.api.rest_api.documents.Product;
@@ -24,15 +25,20 @@ public class ProductIndexRepository implements IndexRepository<Product> {
 
     private static final String configFilePath =
             "C:/Users/oscar/OneDrive/Desktop/TFG/TFG_code/REST_API/src/main/resources";
-    private static final String fileName = Indices.PRODUCT_INDEX + ".json";
+    private static final String MAPPING_FILENAME = Indices.PRODUCT_INDEX + ".json";
+    private static final String MY_ANALYZER_FILENAME = "my_analyzer.json";
     @Override
-    public String createIndex() {
+    public boolean createIndex() {
+        boolean res = false;
         try {
             BooleanResponse response =
                     elasticsearchClientConfig.getEsClient().indices().exists(i -> i.index(Indices.PRODUCT_INDEX));
             if(!response.value())
-                elasticsearchClientConfig.getEsClient().indices().create(i -> i.index(Indices.PRODUCT_INDEX));
-            return updateMapping();
+                res = elasticsearchClientConfig.getEsClient().indices().create(i -> i.index(Indices.PRODUCT_INDEX))
+                        .acknowledged();
+            updateSettings();
+            updateMapping();
+            return res;
         } catch (ElasticsearchException es) {
             throw new RuntimeException(es.getMessage());
         } catch(IOException e) {
@@ -50,8 +56,26 @@ public class ProductIndexRepository implements IndexRepository<Product> {
                 .indices()
                 .putMapping(
                         m -> m.index(Indices.PRODUCT_INDEX)
-                                .withJson(this.getClass().getClassLoader().getResourceAsStream(fileName)))
+                                .withJson(this.getClass().getClassLoader().getResourceAsStream(MAPPING_FILENAME)))
                 .toString();
+    }
+
+    /**
+     * Updates the settings
+     * @return String with the update
+     */
+    private String updateSettings() throws IOException {
+        elasticsearchClientConfig.getEsClient().indices().close(c -> c.index(Indices.PRODUCT_INDEX));
+        String response = elasticsearchClientConfig.getEsClient()
+                .indices()
+                .putSettings(
+                        p -> p.index(Indices.PRODUCT_INDEX)
+                                .withJson(getClass().getClassLoader().getResourceAsStream(MY_ANALYZER_FILENAME)))
+                .toString();
+
+        elasticsearchClientConfig.getEsClient().indices().open(c -> c.index(Indices.PRODUCT_INDEX));
+
+        return response;
     }
 
     @Override

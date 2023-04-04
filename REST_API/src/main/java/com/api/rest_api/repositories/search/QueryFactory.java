@@ -49,4 +49,6 @@ public interface QueryFactory {
      * @return Query
      */
     Query getTermsQuery(String field, Object value);
+
+    Query getLowercaseTermsQuery(String field, Object value);
 }

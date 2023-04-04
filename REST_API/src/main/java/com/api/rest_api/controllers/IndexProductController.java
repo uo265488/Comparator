@@ -58,7 +58,7 @@ public class IndexProductController {
 
     @PostMapping("create")
     public ResponseEntity createIndex() {
-        boolean success = Boolean.valueOf(service.createIndex());
+        boolean success = service.createIndex();
 
         return success
                 ? ResponseEntity.created(ServletUriComponentsBuilder
@@ -79,6 +79,4 @@ public class IndexProductController {
 
         return ResponseEntity.created(uri).body(p);
     }
-
-
 }

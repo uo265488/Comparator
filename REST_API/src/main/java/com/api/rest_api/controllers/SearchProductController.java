@@ -1,6 +1,5 @@
 package com.api.rest_api.controllers;
 
-import com.api.rest_api.documents.FieldAttr;
 import com.api.rest_api.documents.ResponseModel;
 import com.api.rest_api.services.ProductSearchService;
 import io.swagger.v3.oas.annotations.Operation;

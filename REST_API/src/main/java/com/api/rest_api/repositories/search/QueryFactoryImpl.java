@@ -48,4 +48,12 @@ public class QueryFactoryImpl implements QueryFactory {
                 .field(field))._toQuery();
         return termQuery;
     }
+    @Override
+    public Query getLowercaseTermsQuery(String field, Object value) {
+        Query termQuery = TermQuery.of(t -> t
+                .value(value.toString())
+                .field(field).caseInsensitive(true))._toQuery();
+        return termQuery;
+    }
+
 }
