@@ -11,7 +11,7 @@ public interface IndexRepository<Document> {
      * Creates an index
      * @return acknowledge
      */
-    String createIndex();
+    boolean createIndex();
 
     /**
      * Index a document

@@ -9,8 +9,6 @@ import java.util.List;
 @Repository
 public class QueryFactoryImpl implements QueryFactory {
 
-
-
     @Override
     public Query getFilterQuery(String fieldName, String value) {
         return MatchQuery.of(m -> m
@@ -34,9 +32,28 @@ public class QueryFactoryImpl implements QueryFactory {
     }
 
     @Override
-    public Query matchAllQuery() {
+    public Query getMatchAllQuery() {
         return MatchAllQuery.of(q -> q)._toQuery();
     }
 
+    @Override
+    public Query getMustQuery(List<Query> queryList) {
+        return BoolQuery.of(b -> b.must(queryList))._toQuery();
+    }
+
+    @Override
+    public Query getTermsQuery(String field, Object value) {
+        Query termQuery = TermQuery.of(t -> t
+                .value(value.toString())
+                .field(field))._toQuery();
+        return termQuery;
+    }
+    @Override
+    public Query getLowercaseTermsQuery(String field, Object value) {
+        Query termQuery = TermQuery.of(t -> t
+                .value(value.toString())
+                .field(field).caseInsensitive(true))._toQuery();
+        return termQuery;
+    }
 
 }
