@@ -1,5 +1,6 @@
 package com.api.rest_api.services;
 
+import co.elastic.clients.elasticsearch.core.UpdateResponse;
 import com.api.rest_api.documents.Product;
 import com.api.rest_api.repositories.update.UpdateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ public class ProductUpdateService {
     @Autowired
     private UpdateRepository<Product> productUpdateRepository;
 
-    public Object updateDocument(Product product) {
+    public UpdateResponse<Product> updateDocument(Product product) {
         return productUpdateRepository.update(product);
     }
 }

@@ -1,5 +1,6 @@
 package com.api.rest_api.controllers;
 
+import co.elastic.clients.elasticsearch.core.UpdateResponse;
 import com.api.rest_api.documents.Product;
 import com.api.rest_api.services.ProductUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,7 @@ public class UpdateProductController {
     private ProductUpdateService updateService;
 
     @PostMapping("/product")
-    public ResponseEntity<Object> update(@RequestBody Product product) {
-        System.out.println(product);
+    public ResponseEntity<UpdateResponse<Product>> update(@RequestBody Product product) {
         return ResponseEntity.ok(updateService.updateDocument(product));
     }
 }
