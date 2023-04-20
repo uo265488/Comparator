@@ -84,7 +84,7 @@ public class ProductIndexRepository implements IndexRepository<Product> {
         try {
             response = elasticsearchClientConfig.getEsClient()
                     .index(i -> i.index(Indices.PRODUCT_INDEX)
-                            .id(product.getBarcode() + product.getFecha_de_registro())
+                            .id(product.getBarcode())
                             .document(product)
                     );
         } catch (Exception e) {
@@ -101,7 +101,7 @@ public class ProductIndexRepository implements IndexRepository<Product> {
             br.operations(op -> op
                     .index(idx -> idx
                             .index(Indices.PRODUCT_INDEX)
-                            .id(product.getBarcode() + product.getFecha_de_registro())
+                            .id(product.getBarcode())
                             .document(product)
                     )
             );
