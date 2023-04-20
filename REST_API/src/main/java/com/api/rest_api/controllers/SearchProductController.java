@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
@@ -43,7 +44,7 @@ public class SearchProductController {
                                                   @RequestParam("fecha_de_registro") Optional<String> fecha_de_registro) {
 
         return ResponseEntity.ok(
-                service.basicFiltering(nombre, marca, precio, supermercado, proveedor, barcode, fecha_de_registro));
+                service.basicFiltering(nombre, marca, supermercado, proveedor, barcode));
     }
 
 
