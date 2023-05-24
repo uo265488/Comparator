@@ -2,8 +2,11 @@ package com.api.rest_api.repositories.search;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.json.JsonData;
+import com.api.rest_api.documents.Product;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -54,6 +57,18 @@ public class QueryFactoryImpl implements QueryFactory {
                 .value(value.toString())
                 .field(field).caseInsensitive(true))._toQuery();
         return termQuery;
+    }
+
+    @Override
+    public Query getMoreLikeThisQuery(Product product, String[] fields) {
+       Query MLTQuery = MoreLikeThisQuery.of(p ->
+                p   .minTermFreq(1)
+                    .maxQueryTerms(10)
+                    .fields(Arrays.asList(fields))
+                    .like(new Like.Builder().text(product.getNombre()).build()))._toQuery();
+
+
+        return MLTQuery;
     }
 
 }

@@ -1,18 +1,21 @@
 package com.api.rest_api.controllers;
 
+import com.api.rest_api.documents.Product;
 import com.api.rest_api.documents.ResponseModel;
+import com.api.rest_api.helper.parser.ProductParser;
 import com.api.rest_api.services.ProductSearchService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -47,5 +50,28 @@ public class SearchProductController {
                 service.basicFiltering(nombre, marca, supermercado, proveedor, barcode));
     }
 
+    @PostMapping("laLista/mejorar")
+    public ResponseEntity<ResponseModel> optimizeList(@RequestBody List<Product> laLista) {
+
+        ResponseEntity<ResponseModel> res = ResponseEntity.ok(service.optimizeList(laLista));
+        System.out.println(res);
+        return res;
+    }
+
+    @SneakyThrows
+    @PostMapping("producto/alternativa")
+    public ResponseEntity<ResponseModel> findBestAlternative(@RequestBody Product product,
+                                                             @RequestParam("supermercado") Optional<String> supermercado) {
+        /*ResponseModel responseModel = service.findProductByBarcode(barcode);
+        if(responseModel.getHits().size() > 0) {
+            return ResponseEntity.ok(service.findBestAlternative(responseModel.getHits().get(0), supermercado));
+        }
+        return ResponseEntity.status(HttpStatusCode.valueOf(HttpStatus.NOT_FOUND.value())).build();*/
+        System.out.println(product);
+        System.out.println(supermercado);
+        ResponseModel res = service.findBestAlternative(product, supermercado);
+        System.out.println(res);
+        return ResponseEntity.ok(res);
+    }
 
 }

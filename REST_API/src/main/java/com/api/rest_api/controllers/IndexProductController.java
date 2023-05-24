@@ -46,7 +46,7 @@ public class IndexProductController {
      */
     @PostMapping("/product")
     public ResponseEntity<String> indexProduct(@RequestBody Product product) {
-
+        System.out.println(product);
         return ResponseEntity.ok(service.indexDocument(product));
     }
 
@@ -55,7 +55,6 @@ public class IndexProductController {
             @ApiResponse(responseCode = "201", description = "Success. "),
             @ApiResponse(responseCode = "500", description = "Not created. ")
     })
-
     @PostMapping("create")
     public ResponseEntity createIndex() {
         boolean success = service.createIndex();

@@ -2,9 +2,6 @@ package com.api.rest_api.documents;
 
 import lombok.*;
 
-import java.util.Map;
-import java.util.UUID;
-
 @Value
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
@@ -19,5 +16,6 @@ public class Product {
     private String supermercado;
     private String[] fechas_de_registro;
     private double[] precios;
+    private double precioActual;
 
 }

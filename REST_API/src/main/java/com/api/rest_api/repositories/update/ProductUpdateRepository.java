@@ -24,7 +24,7 @@ public class ProductUpdateRepository implements UpdateRepository<Product> {
         try {
             res = esClientConfig.getEsClient().update(new UpdateRequest.Builder<Product, Product>()
                             .index(Indices.PRODUCT_INDEX)
-                            .id(product.getBarcode())
+                            .id(product.getBarcode() + product.getSupermercado())
                             .doc(product)
                             .build(),
                     Product.class
