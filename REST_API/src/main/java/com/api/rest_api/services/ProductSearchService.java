@@ -1,11 +1,8 @@
 package com.api.rest_api.services;
 
-import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.api.rest_api.documents.Product;
 import com.api.rest_api.documents.ResponseModel;
 import com.api.rest_api.repositories.search.SearchRepository;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.eql.EqlSearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +39,7 @@ public class ProductSearchService {
 
         for(Product p : laLista) {
             responseModel.addFirstHit(
-                    productSearchRepository.moreLikeThisQuery(p, new String[]{"nombre"},
+                    productSearchRepository.findAlternativeQuery(p, new String[]{"nombre"},
                             "ASC", "precioActual", new HashMap<>(), 10));
         }
         return responseModel;
@@ -50,10 +47,11 @@ public class ProductSearchService {
 
     public ResponseModel findBestAlternative(Product product, Optional<String> supermercado) {
         Map<String, String> filters = new HashMap<>();
-        filters.put("supermercado", supermercado.isPresent() ? supermercado.get() : "");
+        if(supermercado.isPresent())
+            filters.put("supermercado", supermercado.get());
 
         ResponseModel res = new ResponseModel();
-        res.addFirstHit(productSearchRepository.moreLikeThisQuery(product, new String[]{"nombre"},
+        res.addFirstHit(productSearchRepository.findAlternativeQuery(product, new String[]{"nombre"},
                 "ASC", "precioActual", filters, 10));
 
         return res;

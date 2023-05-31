@@ -68,14 +68,14 @@ public class ProductSearchRepository implements SearchRepository<Product> {
     }
 
     @Override
-    public SearchResponse<Product> moreLikeThisQuery(Product product, String[] fields, String sortOrder, String sortBy,
-                                                           Map<String, String> filters, int size) {
-        /*List<Query> queries = new ArrayList<>();
-        filters.keySet().forEach(k -> queries.add(queryFactory.getFilterQuery(k, filters.get(k))) );
+    public SearchResponse<Product> findAlternativeQuery(Product product, String[] fields, String sortOrder, String sortBy,
+                                                        Map<String, String> filters, int size) {
+        List<Query> queries = new ArrayList<>();
         queries.add(queryFactory.getMoreLikeThisQuery(product, fields));
+        if(!filters.isEmpty())
+            filters.forEach((key, value) -> queries.add(queryFactory.getTermsQuery(key, value)));
 
-        return executeQuery(queryFactory.getBoolQuery(queries), size, sortOrder, sortBy);*/
-        return executeQuery(queryFactory.getMoreLikeThisQuery(product, fields), size, sortOrder, sortBy);
+        return executeQuery(queryFactory.getBoolQuery(queries), size, sortOrder, sortBy);
     }
 
 

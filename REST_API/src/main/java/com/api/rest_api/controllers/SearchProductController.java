@@ -2,16 +2,15 @@ package com.api.rest_api.controllers;
 
 import com.api.rest_api.documents.Product;
 import com.api.rest_api.documents.ResponseModel;
-import com.api.rest_api.helper.parser.ProductParser;
+import com.api.rest_api.helper.exceptions.ControllerException;
 import com.api.rest_api.services.ProductSearchService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +22,9 @@ import java.util.Optional;
 public class SearchProductController {
     @Autowired
     private ProductSearchService service;
+
+    private static final Logger logger = LoggerFactory.getLogger("Logger");
+
 
     @Operation(summary = "Match all query")
     @ApiResponses(value = {
@@ -62,15 +64,12 @@ public class SearchProductController {
     @PostMapping("producto/alternativa")
     public ResponseEntity<ResponseModel> findBestAlternative(@RequestBody Product product,
                                                              @RequestParam("supermercado") Optional<String> supermercado) {
-        /*ResponseModel responseModel = service.findProductByBarcode(barcode);
-        if(responseModel.getHits().size() > 0) {
-            return ResponseEntity.ok(service.findBestAlternative(responseModel.getHits().get(0), supermercado));
+
+        if(product.getBarcode() == null || product.getBarcode().isEmpty() || product.getBarcode().isBlank()) {
+            throw new ControllerException("Product received in RequestBody cannot be null, blank nor empty. ");
         }
-        return ResponseEntity.status(HttpStatusCode.valueOf(HttpStatus.NOT_FOUND.value())).build();*/
-        System.out.println(product);
-        System.out.println(supermercado);
         ResponseModel res = service.findBestAlternative(product, supermercado);
-        System.out.println(res);
+        logger.info(res.toString());
         return ResponseEntity.ok(res);
     }
 

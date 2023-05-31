@@ -40,4 +40,10 @@ public class ResponseModel {
             this.hits.add(ProductParser.mapToProduct(response.hits().hits().get(0).source()));
     }
 
+    @Override
+    public String toString() {
+        if(hits.isEmpty())
+            return "No product found";
+        return hits.stream().map(h -> h.toString()).reduce((h, h1) -> h + " " + h1).get();
+    }
 }

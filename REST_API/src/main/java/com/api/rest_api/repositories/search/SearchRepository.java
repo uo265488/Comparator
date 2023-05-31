@@ -4,8 +4,6 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import com.api.rest_api.documents.Product;
 
-import java.util.List;
-
 import java.util.Map;
 import java.util.Optional;
 
@@ -54,9 +52,9 @@ public interface SearchRepository<Document> {
      * @param fields
      * @return
      */
-    SearchResponse<Product> moreLikeThisQuery(Product product, String[] fields,
-                                                    String sortOrder, String sortBy,
-                                                    Map<String, String> filters, int size);
+    SearchResponse<Product> findAlternativeQuery(Product product, String[] fields,
+                                                 String sortOrder, String sortBy,
+                                                 Map<String, String> filters, int size);
 
 
 }
