@@ -1,17 +1,20 @@
 package com.api.rest_api.controllers;
 
+import com.api.rest_api.documents.Product;
 import com.api.rest_api.documents.ResponseModel;
+import com.api.rest_api.helper.exceptions.ControllerException;
 import com.api.rest_api.services.ProductSearchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -19,6 +22,9 @@ import java.util.Optional;
 public class SearchProductController {
     @Autowired
     private ProductSearchService service;
+
+    private static final Logger logger = LoggerFactory.getLogger("Logger");
+
 
     @Operation(summary = "Match all query")
     @ApiResponses(value = {
@@ -43,8 +49,28 @@ public class SearchProductController {
                                                   @RequestParam("fecha_de_registro") Optional<String> fecha_de_registro) {
 
         return ResponseEntity.ok(
-                service.basicFiltering(nombre, marca, precio, supermercado, proveedor, barcode, fecha_de_registro));
+                service.basicFiltering(nombre, marca, supermercado, proveedor, barcode));
     }
 
+    @PostMapping("laLista/mejorar")
+    public ResponseEntity<ResponseModel> optimizeList(@RequestBody List<Product> laLista) {
+
+        ResponseEntity<ResponseModel> res = ResponseEntity.ok(service.optimizeList(laLista));
+        System.out.println(res);
+        return res;
+    }
+
+    @SneakyThrows
+    @PostMapping("producto/alternativa")
+    public ResponseEntity<ResponseModel> findBestAlternative(@RequestBody Product product,
+                                                             @RequestParam("supermercado") Optional<String> supermercado) {
+
+        if(product.getBarcode() == null || product.getBarcode().isEmpty() || product.getBarcode().isBlank()) {
+            throw new ControllerException("Product received in RequestBody cannot be null, blank nor empty. ");
+        }
+        ResponseModel res = service.findBestAlternative(product, supermercado);
+        logger.info(res.toString());
+        return ResponseEntity.ok(res);
+    }
 
 }

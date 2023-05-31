@@ -6,7 +6,7 @@
     "nombre": {
       "type": "text",
       "analyzer": "my_analyzer",
-      "search_analyzer": "my_analyzer",
+      "search_analyzer": "my_analyzer"
     },
     "marca": {
       "type": "keyword"

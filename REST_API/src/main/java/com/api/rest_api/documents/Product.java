@@ -2,8 +2,6 @@ package com.api.rest_api.documents;
 
 import lombok.*;
 
-import java.util.UUID;
-
 @Value
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
@@ -15,8 +13,9 @@ public class Product {
     private String nombre;
     private String marca;
     private String proveedor;
-    private String fecha_de_registro;
-    private double precio;
     private String supermercado;
+    private String[] fechas_de_registro;
+    private double[] precios;
+    private double precioActual;
 
 }

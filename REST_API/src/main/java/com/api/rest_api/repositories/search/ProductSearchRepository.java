@@ -1,5 +1,9 @@
 package com.api.rest_api.repositories.search;
 
+
+import co.elastic.clients.elasticsearch._types.FieldSort;
+import co.elastic.clients.elasticsearch._types.SortOptions;
+import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -7,13 +11,13 @@ import com.api.rest_api.config.ESClientConfig;
 import com.api.rest_api.documents.FieldAttr;
 import com.api.rest_api.documents.Product;
 import com.api.rest_api.helper.Indices;
+import org.elasticsearch.search.sort.SortBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -30,12 +34,12 @@ public class ProductSearchRepository implements SearchRepository<Product> {
     private static final int DEFAULT_QUERY_SIZE = 100;
 
     @Override
-    public SearchResponse matchAllQuery() {
+    public SearchResponse<Product> matchAllQuery() {
         return executeQuery(queryFactory.getMatchAllQuery(), DEFAULT_QUERY_SIZE, "ASC", null);
     }
 
     @Override
-    public SearchResponse filterByFieldQuery(String field, Object value) {
+    public SearchResponse<Product> filterByFieldQuery(String field, Object value) {
         return executeQuery(queryFactory.getFilterQuery(field, value.toString()), DEFAULT_QUERY_SIZE, "ASC", null);
     }
 
@@ -50,7 +54,7 @@ public class ProductSearchRepository implements SearchRepository<Product> {
         if (marca.isPresent())
             filters.add(queryFactory.getTermsQuery(FieldAttr.PRODUCT_BRAND, marca.get()));
         if (precio.isPresent())
-            filters.add(queryFactory.getTermsQuery(FieldAttr.PRODUCT_PRICE, precio.get()));
+            filters.add(queryFactory.getTermsQuery(FieldAttr.PRODUCT_PRICES, precio.get()));
         if (supermercado.isPresent())
             filters.add(queryFactory.getTermsQuery(FieldAttr.PRODUCT_SUPERMARKET, supermercado.get()));
         if (proveedor.isPresent())
@@ -64,7 +68,19 @@ public class ProductSearchRepository implements SearchRepository<Product> {
     }
 
     @Override
-    public SearchResponse executeQuery(Query query, int size, String sortOrder, String sortBy) {
+    public SearchResponse<Product> findAlternativeQuery(Product product, String[] fields, String sortOrder, String sortBy,
+                                                        Map<String, String> filters, int size) {
+        List<Query> queries = new ArrayList<>();
+        queries.add(queryFactory.getMoreLikeThisQuery(product, fields));
+        if(!filters.isEmpty())
+            filters.forEach((key, value) -> queries.add(queryFactory.getTermsQuery(key, value)));
+
+        return executeQuery(queryFactory.getBoolQuery(queries), size, sortOrder, sortBy);
+    }
+
+
+    @Override
+    public SearchResponse<Product> executeQuery(Query query, int size, String sortOrder, String sortBy) {
         SearchResponse response;
         try {
             response = elasticsearchClientConfig.getEsClient()
@@ -85,15 +101,29 @@ public class ProductSearchRepository implements SearchRepository<Product> {
      * @return
      */
     private SearchRequest getSearchRequest(Query query, int size, String sortOrder, String sortBy) {
-
-        return SearchRequest.of(s -> s
-                .index(Indices.PRODUCT_INDEX)
-                .query(query)
-                .size(size)
-
-                //.aggregations(getAggregations())
-                //.sort(getSortOptions(sortOrder, sortBy))
+        SearchRequest request =
+                SearchRequest.of(s -> {
+                    s
+                            .index(Indices.PRODUCT_INDEX)
+                            .query(query)
+                            .size(size);
+                    addSortingOptions(s, sortBy, sortOrder);
+                    //.aggregations(getAggregations())
+                    return s;
+                }
         );
+        return request;
     }
 
+    private void addSortingOptions(SearchRequest.Builder request, String sortBy, String sortOrder) {
+        List<SortOptions> sortOptions = new ArrayList<>();
+        if(sortBy != null && !sortBy.isBlank() && sortOrder != null && sortOrder.equals("ASC")) {
+            sortOptions.add(new SortOptions.Builder().field(f -> f.field(sortBy)
+                    .order(co.elastic.clients.elasticsearch._types.SortOrder.Asc)).build());
+        } else if(sortBy != null && !sortBy.isBlank() && sortOrder != null && sortOrder.equals("DESC")) {
+            sortOptions.add(new SortOptions.Builder().field(f -> f.field(sortBy)
+                    .order(SortOrder.Desc)).build());
+        }
+        request.sort(sortOptions);
+    }
 }

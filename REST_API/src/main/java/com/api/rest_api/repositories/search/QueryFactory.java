@@ -2,6 +2,7 @@ package com.api.rest_api.repositories.search;
 
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import com.api.rest_api.documents.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -50,5 +51,20 @@ public interface QueryFactory {
      */
     Query getTermsQuery(String field, Object value);
 
+    /**
+     * Get lowercasetermsquery
+     * @param field
+     * @param value
+     * @return
+     */
     Query getLowercaseTermsQuery(String field, Object value);
+
+    /**
+     * Get more like this query
+     *
+     * @param product
+     * @param fields
+     * @return
+     */
+    Query getMoreLikeThisQuery(Product product, String[] fields);
 }

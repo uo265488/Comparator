@@ -17,7 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/index")
 public class IndexProductController {
 
     @Autowired
@@ -44,9 +44,9 @@ public class IndexProductController {
     /**
      * Indexing a product document in the product index
      */
-    @PostMapping("/index")
+    @PostMapping("/product")
     public ResponseEntity<String> indexProduct(@RequestBody Product product) {
-
+        System.out.println(product);
         return ResponseEntity.ok(service.indexDocument(product));
     }
 
@@ -55,7 +55,6 @@ public class IndexProductController {
             @ApiResponse(responseCode = "201", description = "Success. "),
             @ApiResponse(responseCode = "500", description = "Not created. ")
     })
-
     @PostMapping("create")
     public ResponseEntity createIndex() {
         boolean success = service.createIndex();
@@ -66,17 +65,5 @@ public class IndexProductController {
                 .path("/products")
                 .buildAndExpand().toUri()).build()
                 : ResponseEntity.internalServerError().build();
-    }
-
-    @PostMapping
-    public ResponseEntity<Product> save(@RequestBody final Product product) {
-        Product p = null;
-
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(p.getBarcode() + p.getFecha_de_registro()).toUri();
-
-        return ResponseEntity.created(uri).body(p);
     }
 }
