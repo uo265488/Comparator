@@ -1,0 +1,1 @@
+export const productoAElemento = (selectedProduct) => ({ producto: selectedProduct, unidades: 1 });
