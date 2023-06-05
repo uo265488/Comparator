@@ -1,16 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Home from './routes/Home';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ProductRegistry from './routes/ProductRegistry';
-import { Provider } from 'react-redux';
+import { StyleSheet, View } from 'react-native';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { store } from './redux/reduxConfig';
+import { Provider } from 'react-redux';
+import { NavigationBar } from './components/NavigationBar';
+import Home from './routes/Home';
+import ProductRegistry  from './routes/ProductRegistry';
 import Catalogo from './routes/Catalogo';
 import LaLista from './routes/LaLista';
-import throttle from 'lodash.throttle';
-import { saveState } from './redux/localStorage';
-import { NavigationBar } from './components/NavigationBar';
 import DashboardContent from './routes/Dashboard';
+
 
 export default function App() {
 
