@@ -9,6 +9,7 @@ import ProductRegistry  from './routes/ProductRegistry';
 import Catalogo from './routes/Catalogo';
 import LaLista from './routes/LaLista';
 import DashboardContent from './routes/Dashboard';
+import { saveState } from './redux/localStorage';
 
 
 export default function App() {

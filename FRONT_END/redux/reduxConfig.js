@@ -1,5 +1,5 @@
-import { combineReducers, configureStore, createReducer, createSelector} from "@reduxjs/toolkit";
-import {persistReducer} from 'redux-persist';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import { createSlice } from "@reduxjs/toolkit";
@@ -29,7 +29,7 @@ export const laListaSlice = createSlice({
                 }
             }
             else {
-                state.lista.push(action.payload); 
+                state.lista.push(action.payload);
                 console.log("Nuevo producto.")
             }
         },
@@ -38,14 +38,14 @@ export const laListaSlice = createSlice({
                 .indexOf(action.payload.producto.barcode);
             if (isProductInLaLista >= 0) {
                 state.lista[isProductInLaLista].unidades--;
-                if(state.lista[isProductInLaLista].unidades === 0) {
-                    state.lista.splice(isProductInLaLista,1);
+                if (state.lista[isProductInLaLista].unidades === 0) {
+                    state.lista.splice(isProductInLaLista, 1);
                 }
             }
         },
         vaciarLaLista: (state) => {
             state.lista = [];
-        }, 
+        },
         cargarLaLista: (state, action) => {
             state.lista = action.payload;
         },
@@ -58,9 +58,9 @@ export const laListaSlice = createSlice({
                 (action.payload.productoAMejorar.precioActual - action.payload.alternativa.precioActual) /
                 action.payload.productoAMejorar.precioActual;
             state.lista.forEach(item => {
-                if (compareProducts(action.payload.alternativa, item.producto)) 
-                    isAlternativaInLaLista = counter;                    
-                if (compareProducts(action.payload.productoAMejorar, item.producto)) 
+                if (compareProducts(action.payload.alternativa, item.producto))
+                    isAlternativaInLaLista = counter;
+                if (compareProducts(action.payload.productoAMejorar, item.producto))
                     isProductInLaLista = counter;
                 counter++;
             });
@@ -76,7 +76,8 @@ export const laListaSlice = createSlice({
                     state.lista[isAlternativaInLaLista] =
                     {
                         producto: action.payload.alternativa,
-                        unidades: state.lista[isProductInLaLista].unidades + state.lista[isAlternativaInLaLista].unidades,
+                        unidades: //state.lista[isProductInLaLista].unidades +
+                            state.lista[isAlternativaInLaLista].unidades,
                         mejora: porcentajeDeMejora
                     }
                     state.lista.splice(isProductInLaLista, 1);
@@ -94,7 +95,7 @@ const persistConfig = {
 
 export const productSlice = createSlice({
     name: "products",
-    initialState, 
+    initialState,
     reducers: {
         cargarProductos: (state, action) => {
             state.lista = action.payload;
@@ -107,21 +108,21 @@ const reducers = combineReducers({
     producto: productSlice.reducer
 });
 
-const persistedReducer = persistReducer(persistConfig, reducers); 
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 const persistedState = loadState();
 
 export const store = configureStore({  //create Store abstraction
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-        serializableCheck: {
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-    }),
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }),
     preloadedState: persistedState
 });
 
 
-export const {cargarProductos} = productSlice.actions;
+export const { cargarProductos } = productSlice.actions;
 export const { añadirProductoALaLista, borrarProductoDeLaLista, vaciarLaLista, cargarLaLista, mejorarAlternativa } = laListaSlice.actions;

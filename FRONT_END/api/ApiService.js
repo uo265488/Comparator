@@ -149,7 +149,7 @@ export async function findAlternative(productoAMejorar) {
 		.then(response => response.json())
 		
 		.catch(error => {
-	  		console.error(error);
+	  		console.error("No pasa naa");
 		});
 }
 
