@@ -10,7 +10,7 @@ import {
 
 import { productoAElemento } from "../../helper/parser";
 import { findAlternative } from "../../api/ApiService";
-import { Alert } from "@mui/material";
+import { Alert, Checkbox, FormControlLabel } from "@mui/material";
 
 export default function ProductoEnLista(props) {
   let imageRef = require("../../static/images/producto.png");
@@ -59,7 +59,7 @@ export default function ProductoEnLista(props) {
         unidades: productItem.unidades - 1,
         mejora: productItem.mejora,
       });
-    
+
     props.borrarProductoDeLaLista(clickedItem);
   };
 
@@ -125,7 +125,7 @@ export default function ProductoEnLista(props) {
 
   return (
     <Wrapper className="cart-item-product">
-      <div>
+      <div >
         {productItem.mejora > 0 && (
           <Alert severity="success">
             La mejora de esta alternativa ha supuesto un ahorro del{" "}
@@ -157,6 +157,7 @@ export default function ProductoEnLista(props) {
         )}
 
         <h3>{productItem.producto.nombre}</h3>
+        <FormControlLabel control={<Checkbox color="success" />} label="Producto comprado" />
         <h4> Supermercado: {productItem.producto.supermercado}</h4>
         <div className="information">
           <p>Precio: {productItem.producto.precioActual} € </p>
