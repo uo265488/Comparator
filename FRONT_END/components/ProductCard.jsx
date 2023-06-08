@@ -3,8 +3,8 @@ import { Button, Card } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { añadirProductoALaLista } from "../redux/reduxConfig";
-import { StyledButton } from "./ProductInformation";
 import { productoAElemento } from "../helper/parser";
+import { StyledButton } from "../helper/styles";
 
 
 
@@ -15,6 +15,8 @@ export default function ProductCard(props) {
   const onAddToLaLista = (clickedItem) => {
     dispatch(añadirProductoALaLista(clickedItem, { payload : clickedItem.producto.barcode }));
   }
+
+  const verMas = () => props.setVerMasProducto(props.product);
 
   let imageRef = require("../static/images/producto.png");
   const navigate = useNavigate();
@@ -52,7 +54,7 @@ export default function ProductCard(props) {
             Añadir a la lista de la compra
           </StyledButton>
           <Button sx={{ bgcolor: 'background.button', ":hover": { bgcolor: 'background.buttonhover' }, color: 'text.dark' }}
-            onClick={_event => navigate("/productos/${props.producto.barcode}")}>
+            onPress={_event => verMas()}>
             Ver más
           </Button>
         </CardActions>

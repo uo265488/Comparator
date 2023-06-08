@@ -7,7 +7,7 @@ import MyCamera from "../components/Scanner/MyCamera";
 export default function ProductRegistry() {
 
     const [code, setCode] = useState("");
-    const [product, setProduct] = useState();
+    const [producto, setProducto] = useState();
 
     return (
         <Grid container
@@ -19,9 +19,9 @@ export default function ProductRegistry() {
             
             {
                 code === ""
-                    ? <MyCamera code={code} setProduct={setProduct} setCode={setCode} key="camera"></MyCamera>
-                    : product != undefined
-                        ? <ProductInformation product={product}></ProductInformation>
+                    ? <MyCamera code={code} setProducto={setProducto} setCode={setCode} key="camera"></MyCamera>
+                    : producto != undefined
+                        ? <ProductInformation producto={producto}></ProductInformation>
                         : <RegisterProductForm code={code} key="form"></RegisterProductForm>
             }
             

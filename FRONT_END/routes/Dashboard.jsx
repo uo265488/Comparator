@@ -15,6 +15,7 @@ import { Breadcrumbs } from '@mui/material';
 import Chart from '../components/estadisticas/Chart';
 import AdviceBox from '../components/estadisticas/AdviceBox';
 import Board from '../components/estadisticas/Board';
+import { createData } from '../helper/parser';
 
 function BreadcrumbsDashBoard() {
   return(
@@ -92,11 +93,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     },
   }),
 );
-
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
-}
 
 const data = [
     createData('2023-01-01', 0),
@@ -218,7 +214,7 @@ export default function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  <Chart data={data} title='Hoy' />
+                  <Chart data={data} title='Hoy' chartType="time" />
                 </Paper>
               </Grid>
               {/* Recent Deposits */}

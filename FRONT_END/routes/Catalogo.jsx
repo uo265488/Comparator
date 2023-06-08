@@ -1,11 +1,12 @@
 import React from "react";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { getAllProducts, getProductsFiltered } from "../api/ApiService";
 import { useState } from "react";
 import { FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import { Searchbar } from "react-native-paper";
+import ProductInformation from "../components/ProductInformation";
 
 export default function Catalogo() {
     
@@ -13,6 +14,29 @@ export default function Catalogo() {
 
   const [products, setProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
+  
+  /*const [verMasProducto, setVerMasProducto] = useState({
+    "barcode": "8430807000538",
+    "nombre": "Atún claro en aceite de girasol",
+    "marca": "Alimerka",
+    "proveedor": "ALIMERKA, S.L.",
+    "supermercado": "Mercadona",
+    "fechas_de_registro": [
+      "2023-05-03",
+      "2023-03-03",
+      "2023-01-03",
+      "2022-11-03",
+    ],
+    "precios": [
+      0.5,
+      2.0,
+      3.0,
+      6.0
+    ],
+    "precioActual": 4.0
+  });*/
+
+  const [verMasProducto, setVerMasProducto] = useState();
   
   useEffect(() => {
     refreshProductList();
@@ -81,7 +105,8 @@ export default function Catalogo() {
       }}
     >
 
-      <Grid item sx={{ pt: 4, pl: { xs: 0, sm: 15 } }}>
+      { verMasProducto == undefined ?
+      (<><Grid item sx={{ pt: 4, pl: { xs: 0, sm: 15 } }}>
         <Typography
           variant="h2"
           align="center"
@@ -91,7 +116,7 @@ export default function Catalogo() {
         </Typography>
       </Grid>
 
-       {/*<BreadcrumbsCatalogue />*/}
+
 
       <Grid container
         className="search-container"
@@ -99,13 +124,7 @@ export default function Catalogo() {
         sx={{ pt: 0 }}
          >
         <Grid item xs={8} sm={4}>
-          {/*<Typography
-            variant="h4"
-            align="center"
-            sx={{ color: "text.primary", typography: { md: 'h4', xs: 'h5' } }}
-          >
-            Búsqueda de productos
-    </Typography>*/}
+
         </Grid>
         <Grid  item xs={5} sm={8}>
           <form className="searchForm" onSubmit={event => searchForProducts(event)}>
@@ -145,12 +164,15 @@ export default function Catalogo() {
         {products.map((product, i) => {
           return (
             <Grid key={-i} item xs={11} sm={6} md={6} lg={4} xl={3} sx={{ pl: { xs: 0 }, pr: 0 }}>
-              <ProductCard key={i} product={product}></ProductCard>
+              <ProductCard key={i} product={product} setVerMasProducto={setVerMasProducto}></ProductCard>
             </Grid>
           );
         })}
 
-      </Grid>
+      </Grid></>)
+      :
+      <ProductInformation producto={verMasProducto}></ProductInformation>
+    }
 
     </Grid>
   )

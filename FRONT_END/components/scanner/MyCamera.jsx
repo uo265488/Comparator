@@ -93,7 +93,7 @@ export default function MyCamera(props) {
 
   async function sendCode() {
     var prod = await findProductByBarcode(tempCode);
-    props.setProduct(prod.hits[0]);
+    props.setProducto(prod.hits[0]);
     
     props.setCode(tempCode);
   }
