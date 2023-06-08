@@ -132,14 +132,10 @@ export default function RegisterProductForm(props) {
       </Grid>
       {errors.precio && <Alert severity="error">{errors.precios}</Alert>}
       <Grid item xs={12} sm={6}>
-        <TextField
-          id="supermercado"
-          name="state"
-          label="Supermercado"
-          fullWidth
-          variant="standard"
-          onChange={handleInputChange}
-          value={formValues.supermercado}
+      <MyComboBox
+          supermercado={formValues.supermercado}
+          setSupermercado={(supermercado) => formValues.supermercado = supermercado }
+          supermercados={SUPERMERCADOS}
         />
       </Grid>
       {errors.supermercado && <Alert severity="error">{errors.supermercado}</Alert>}

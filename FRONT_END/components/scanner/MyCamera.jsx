@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
+/*import {
   BrowserBarcodeReader,
   NotFoundException,
   ChecksumException,
   FormatException
-} from "@zxing/library";
+} from "@zxing/library";*/
 
 import { Button } from "react-native-paper";
 import { Box, FormLabel, NativeSelect } from "@mui/material";
@@ -112,7 +112,7 @@ export default function MyCamera(props) {
       height: '100%', justifyContent: 'center', pb: 5
     }}>
       
-      <section className="container" id="demo-content">
+      {/*<section className="container" id="demo-content">
         <div id="sourceSelectPanel">
           <FormLabel htmlFor="sourceSelect">Change video source:  </FormLabel>
           <NativeSelect
@@ -139,7 +139,7 @@ export default function MyCamera(props) {
           <Button mode="contained" id="registerButton" onClick={() => sendCode()}>Registrar código de barras</Button>
           <Button mode="contained" id="resetButton" onClick={() => resetClick()}>Resetear</Button> 
 
-      </section>
+          </section>*/}
     </Box>
   );
 }

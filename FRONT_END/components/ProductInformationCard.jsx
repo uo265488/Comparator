@@ -6,7 +6,6 @@ import { NumberPicker } from "react-widgets/cjs";
 import { StyledButton, Wrapper } from "../helper/styles";
 
 export default function ProductInformationCard(props) {
-
   console.log("props");
   console.log(props.producto);
 
@@ -56,12 +55,17 @@ export default function ProductInformationCard(props) {
                 typography: { sm: "h5", xs: "h6" },
               }}
             >
-              Precio:{" "}
-              {props.precioActual}€
+              Precio: {props.producto.precioActual}€
             </Typography>
             <Box>
               <img src={imageRef} alt={props.producto.nombre} />
             </Box>
+            <div>
+              <Typography variant="subtitle1" paragraph>
+                Marca: {props.producto.marca}<br></br>
+                Proveedor: {props.producto.proveedor}
+              </Typography>
+            </div>
             <Box
               sx={{
                 display: "flex",
