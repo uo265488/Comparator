@@ -32,6 +32,7 @@ export default function SupermercadoEnLista(props) {
               key={item.producto.barcode + item.producto.supermercado}
               item={item}
               supermercado={props.supermercado}
+              marca={props.marca}
               mejorarAlternativa={props.mejorarAlternativa}
               listaDeProductos={props.listaDeProductos}
               añadirProductoALaLista={props.añadirProductoALaLista}

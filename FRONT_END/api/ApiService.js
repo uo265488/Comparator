@@ -7,6 +7,7 @@ const getProductsByNombreURL = apiEndPoint + '/search/filter?nombre=';
 const registrarSubidaDePrecioURL = apiEndPoint + '/update/product';
 const generarListaMejoradaURL = apiEndPoint + '/search/laLista/mejorar';
 const findAlternativeURL = apiEndPoint + '/search/producto/alternativa';
+const getAllMarcasURL = apiEndPoint + '/search/marcas';
 
 /**
  * This function returns the productst that are currently stored in the databse.
@@ -136,9 +137,11 @@ export function registrarSubidaDePrecio(producto) {
 }
 
 export async function findAlternative(productoAMejorar) {
-	return await fetch((productoAMejorar.supermercado != undefined && productoAMejorar.supermercado != '') 
-		? findAlternativeURL +  '?supermercado=' + productoAMejorar.supermercado
-		: findAlternativeURL,
+	var url = (productoAMejorar.supermercado != undefined && productoAMejorar.supermercado != '')
+		? findAlternativeURL + '?supermercado=' + productoAMejorar.supermercado + ((productoAMejorar.marca) != undefined ? '&marca=' + productoAMejorar.marca : '')
+		: findAlternativeURL + ((productoAMejorar.marca) != undefined ? '?marca=' + productoAMejorar.marca : '');
+	
+	return await fetch(url,
 		{
 			method: "POST",
 			body: JSON.stringify(productoAMejorar.producto),
@@ -149,8 +152,13 @@ export async function findAlternative(productoAMejorar) {
 		.then(response => response.json())
 		
 		.catch(error => {
-	  		console.error("No pasa naa");
+	  		console.error(error);
 		});
+}
+
+export async function getAllMarcas() {
+	let response = await fetch(getAllMarcasURL);
+	return response.json().aggregations.marcas;
 }
 
 

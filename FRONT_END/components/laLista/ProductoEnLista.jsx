@@ -70,6 +70,7 @@ export default function ProductoEnLista(props) {
     findAlternative({
       producto: productItem.producto,
       supermercado: props.supermercado,
+      marca: props.marca
     }).then((data) => {
       var productoMejorado = data.hits[0];
 
@@ -158,7 +159,7 @@ export default function ProductoEnLista(props) {
 
         <h3>{productItem.producto.nombre}</h3>
         <FormControlLabel control={<Checkbox color="success" />} label="Producto comprado" />
-        <h4> Supermercado: {productItem.producto.supermercado}</h4>
+        <h4> Marca: {productItem.producto.marca}</h4>
         <div className="information">
           <p>Precio: {productItem.producto.precioActual} € </p>
           <p>
@@ -215,7 +216,7 @@ export default function ProductoEnLista(props) {
             width: "100%",
           }}
         >
-          Mejorar alternativa
+          Buscar mejor alternativa
         </StyledButton>
       </div>
 

@@ -5,6 +5,8 @@ import {
   styled,
   Button,
   Breadcrumbs,
+  TextField,
+  FormControl,
 } from "@mui/material";
 import ProductoEnLista from "../components/laLista/ProductoEnLista";
 import { Link } from "react-router-dom";
@@ -15,6 +17,7 @@ import { SUPERMERCADOS } from "../helper/settings";
 import { Title } from "react-native-paper";
 import SupermercadoEnLista from "../components/laLista/SupermercadoEnLista";
 import { compareProducts } from "../helper/comparator";
+import { getAllMarcas } from "../api/ApiService";
 
 export const StyledButton = styled(Button)`
   background: #9681f2;
@@ -43,6 +46,7 @@ export default function LaLista() {
   let state = loadState();
 
   const [supermercado, setSupermercado] = useState("");
+  const [marca, setMarca] = useState("");
   const [listaDeProductos, setListaDeProductos] = useState(
     state.laListaReducer.lista
   );
@@ -58,11 +62,6 @@ export default function LaLista() {
   const [activateUseEffect, setActivateUseEffect] = useState(true);
 
   useEffect(() => {
-    //setPrecioTotal(state.laListaReducer.lista.length === 0 ? 0.00 : state.laListaReducer.lista.map((item) =>
-    //  (item.producto.precioActual * item.unidades)).reduce((a, b) => a + b).toFixed(2));
-    //setListaDeProductos(state.laListaReducer.lista);
-    console.log("useEffect hook disparado");
-
     setPrecioTotal(
       state.laListaReducer.lista.length === 0
         ? 0.0
@@ -149,10 +148,11 @@ export default function LaLista() {
         nuevaLista.splice(isProductInLaLista, 1);
       }
     }
-    debugger;
     setListaDeProductos(nuevaLista);
     computeTotalPrice();
   };
+
+  const handleInputChange = (event) => setMarca(event.target.value);
 
   return (
     <Box
@@ -179,11 +179,27 @@ export default function LaLista() {
         Tu lista de la compra:
       </Typography>
       <div>
-        <MyComboBox
+        <Typography variant="subtitle1" paragraph>
+          Utiliza estos parámetros para filtrar las mejoras de alternativa:
+        </Typography>
+      <MyComboBox
           supermercado={supermercado}
           setSupermercado={setSupermercado}
           supermercados={SUPERMERCADOS}
         />
+      <FormControl sx={{ m: 1, minWidth: 120, width: '100%' }}>
+        
+        <TextField
+          id="marca"
+          name="marca"
+          label="Marca del producto"
+          fullWidth
+          autoComplete="marca"
+          variant="standard"
+          onChange={handleInputChange}
+          value={marca}
+          />
+          </FormControl>
       </div>
 
       {state.laListaReducer.lista.length === 0 && (
@@ -200,6 +216,7 @@ export default function LaLista() {
             (i) => i.producto.supermercado == s
           )}
           supermercado={supermercado}
+          marca={marca}
           mejorarAlternativa={mejorarAlternativa}
           listaDeProductos={listaDeProductos}
           añadirProductoALaLista={añadirProductoALaLista}

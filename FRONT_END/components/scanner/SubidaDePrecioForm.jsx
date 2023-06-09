@@ -92,7 +92,7 @@ export default function SubidaDePrecioForm(props) {
       </Typography>
 
       <Grid item xs={12}>
-              <Title>{props.product.barcode}</Title>
+              <Title>{props.producto.barcode}</Title>
       </Grid>
       <Grid item xs={12}>
         <TextField
@@ -103,7 +103,7 @@ export default function SubidaDePrecioForm(props) {
           fullWidth
           autoComplete="Nombre del producto"
           variant="standard"
-          value={props.product.nombre}
+          value={props.producto.nombre}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -141,7 +141,7 @@ export default function SubidaDePrecioForm(props) {
           fullWidth
           autoComplete="proveedor"
           variant="standard"
-          value={props.product.proveedor}
+          value={props.producto.proveedor}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -154,7 +154,7 @@ export default function SubidaDePrecioForm(props) {
           autoComplete="marca"
           variant="standard"
           onChange={handleInputChange}
-          value={props.product.marca}
+          value={props.producto.marca}
         /></Grid>
         <Grid item xs={12} sm={6}>
             <img src={imageRef}  alt={props.product.nombre} style={{ width: '100%', height: 'auto', padding:'1em' }} />
