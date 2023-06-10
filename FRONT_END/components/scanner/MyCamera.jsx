@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
+/*import {
   BrowserBarcodeReader,
   NotFoundException,
   ChecksumException,
   FormatException
-} from "@zxing/library";
+} from "@zxing/library";*/
 
 import { Button } from "react-native-paper";
 import { Box, FormLabel, NativeSelect } from "@mui/material";
@@ -15,7 +15,7 @@ export default function MyCamera(props) {
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
   const [videoInputDevices, setVideoInputDevices] = useState([]);
 
-  const [tempCode, setTempCode] = useState("8480017333797");
+  const [tempCode, setTempCode] = useState("84800173337897");
   const [tempSupermecado, setTempSupermercado] = useState("Alimerka");
 
   const barcodeReader = new BrowserBarcodeReader();
@@ -111,7 +111,8 @@ export default function MyCamera(props) {
     <Box sx={{bgcolor: 'background.default', display: 'flex', flexWrap: 'wrap', 
       height: '100%', justifyContent: 'center', pb: 5
     }}>
-      
+      {/*
+    
       <section className="container" id="demo-content">
         <div id="sourceSelectPanel">
           <FormLabel htmlFor="sourceSelect">Change video source:  </FormLabel>
@@ -119,7 +120,7 @@ export default function MyCamera(props) {
             id="sourceSelect"
             onChange={() => setSelectedDeviceId(sourceSelect.value)}
           > 
-            { 
+            {
               videoInputDevices.map(element => (
                 <option key={element.deviceId} value={element.deviceId}>{element.label}</option>
               )) 
@@ -139,7 +140,7 @@ export default function MyCamera(props) {
           <Button mode="contained" id="registerButton" onClick={() => sendCode()}>Registrar código de barras</Button>
           <Button mode="contained" id="resetButton" onClick={() => resetClick()}>Resetear</Button> 
 
-          </section>
+          </section>*/}
     </Box>
   );
 }

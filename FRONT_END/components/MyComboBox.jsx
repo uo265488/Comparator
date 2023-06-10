@@ -28,7 +28,7 @@ export default function MyComboBox(props) {
                   
                   {props.supermercados.map(s => <MenuItem value={s} key={s}> {s}</MenuItem>)}
         </Select>
-        <FormHelperText>Selecciona un supermercado si quieres filtrar LaLista</FormHelperText>
+        <FormHelperText>{props.helperText}</FormHelperText>
       </FormControl>
     </div>
   );

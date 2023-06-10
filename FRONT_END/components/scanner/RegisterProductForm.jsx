@@ -2,12 +2,28 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import { Alert, Button, Container, Dialog, Paper } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Container,
+  Dialog,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+} from "@mui/material";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import { addNonExistingProduct } from "../../api/ApiService";
+import { SUPERMERCADOS } from "../../helper/settings";
+import PhotoCaptureForm from "./PhotoManager";
 
 export default function RegisterProductForm(props) {
+
+  const [imagen, setImagen] = useState(undefined); 
+
   const [formValues, setFormValues] = useState({
     nombre: "",
     precio: "",
@@ -33,6 +49,13 @@ export default function RegisterProductForm(props) {
     setFormValues({
       ...formValues,
       [id]: value,
+    });
+  };
+
+  const handleSupermercadoChange = (event) => {
+    setFormValues({
+      ...formValues,
+      ["supermercado"]: event.target.value,
     });
   };
 
@@ -135,14 +158,14 @@ export default function RegisterProductForm(props) {
         <Grid item xs={12}>
           <p>{props.code}</p>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="nombre"
             name="nombre"
             label="Nombre del producto"
             fullWidth
-            autoComplete="Nombre del producto"
+            autoComplete="Nombre"
             variant="standard"
             onChange={handleInputChange}
             value={formValues.nombre}
@@ -162,26 +185,28 @@ export default function RegisterProductForm(props) {
             value={formValues.precio}
           />
         </Grid>
-        {errors.precio && <Alert severity="error">{errors.precios}</Alert>}
+        {errors.precio && <Alert severity="error">{errors.precio}</Alert>}
         <Grid item xs={12} sm={6}>
-          {/*<MyComboBox
-            supermercado={formValues.supermercado}
-            setSupermercado={(supermercado) =>
-              (formValues.supermercado = supermercado)
-            }
-            supermercados={SUPERMERCADOS}
-          />*/}<TextField
-            required
-            id="supermercado"
-            name="supermercado"
-            label="Supermercado del producto"
-            fullWidth
-            autoComplete="supermercado"
-            variant="standard"
-            onChange={handleInputChange}
-            value={formValues.supermercado}
-          />
-
+          <FormControl sx={{ m: 1, minWidth: 120, width: "100%" }}>
+            <InputLabel id="demo-simple-select-helper-label">
+              Supermercado
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="supermercado"
+              value={formValues.supermercado}
+              label="supermercado"
+              onChange={handleSupermercadoChange}
+            >
+              {SUPERMERCADOS.map((s) => (
+                <MenuItem id="supermercado" value={s} key={s}>
+                  {" "}
+                  {s}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>Selecciona un supermercado</FormHelperText>
+          </FormControl>
         </Grid>
         {errors.supermercado && (
           <Alert severity="error">{errors.supermercado}</Alert>
@@ -214,6 +239,14 @@ export default function RegisterProductForm(props) {
           />
         </Grid>
         {errors.marca && <Alert severity="error">{errors.marca}</Alert>}
+        <Grid item xs={12} marginTop="2em">
+        <Typography variant="subtitle1" paragraph>
+                Imagen del producto: 
+          </Typography>
+          {imagen == undefined
+            ? <PhotoCaptureForm barcode={props.code} ></PhotoCaptureForm>
+            : imagen}
+        </Grid>
         <Grid item xs={12} marginTop="2em">
           <Button type="submit" variant="contained" onClick={submitForm}>
             Registrar producto

@@ -186,6 +186,7 @@ export default function LaLista() {
           supermercado={supermercado}
           setSupermercado={setSupermercado}
           supermercados={SUPERMERCADOS}
+          helperText={"Selecciona un supermercado si quieres filtrar LaLista"}
         />
       <FormControl sx={{ m: 1, minWidth: 120, width: '100%' }}>
         

@@ -8,6 +8,7 @@ const registrarSubidaDePrecioURL = apiEndPoint + '/update/product';
 const generarListaMejoradaURL = apiEndPoint + '/search/laLista/mejorar';
 const findAlternativeURL = apiEndPoint + '/search/producto/alternativa';
 const getAllMarcasURL = apiEndPoint + '/search/marcas';
+const saveImageURL = apiEndPoint + '/utils/saveImage';
 
 /**
  * This function returns the productst that are currently stored in the databse.
@@ -20,12 +21,12 @@ export async function getAllProducts() {
 	return response.json();
 }
 
-export async function getProductsFiltered(name)  {
+export async function getProductsFiltered(name) {
 	let response = await fetch(getProductsByNombreURL + name);
 	return response.json();
 }
 
-export async function findProductByBarcode(barcode)  {
+export async function findProductByBarcode(barcode) {
 	let response = await fetch(findProductByBarcodeURL + barcode);
 	return response.json();
 }
@@ -36,17 +37,17 @@ export async function findProductByBarcode(barcode)  {
  * @returns
  */
 export async function addNonExistingProduct(product) {
-    
+
 	let response = await fetch(addNonExistingProductURL, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
-            barcode: product.barcode,
-            nombre: product.nombre,
-            supermercado: product.supermercado,
-            proveedor: product.proveedor,
-            precios: product.precios,
-            marca: product.marca,
+			barcode: product.barcode,
+			nombre: product.nombre,
+			supermercado: product.supermercado,
+			proveedor: product.proveedor,
+			precios: product.precios,
+			marca: product.marca,
 			fechas_de_registro: [getActualDate()],
 			precioActual: product.precioActual
 		}),
@@ -59,16 +60,16 @@ export async function addNonExistingProduct(product) {
 
 export async function findProductByBarcodeAndSupermercado(producto) {
 	try {
-	  const response = await fetch("http://localhost:8080/search/filter?barcode=" + producto.barcode + "&supermercado=" + producto.supermercado);
-	  if (!response.ok) {
-		throw new Error('Network response was not ok');
-	  }
-	  const data = await response.json();
-	  return data;
+		const response = await fetch("http://localhost:8080/search/filter?barcode=" + producto.barcode + "&supermercado=" + producto.supermercado);
+		if (!response.ok) {
+			throw new Error('Network response was not ok');
+		}
+		const data = await response.json();
+		return data;
 	} catch (error) {
-	  console.error(error);
+		console.error(error);
 	}
-  }
+}
 
 export function actualizarProducto(producto) {
 	producto.fechas_de_registro[producto.fechas_de_registro.length] = getActualDate();
@@ -76,71 +77,71 @@ export function actualizarProducto(producto) {
 	fetch(registrarSubidaDePrecioURL, {
 		method: 'PUT',
 		headers: {
-	  		'Content-Type': 'application/json',
-	  		// Add any other headers required by your API
+			'Content-Type': 'application/json',
+			// Add any other headers required by your API
 		},
 		body: JSON.stringify(producto),
- 	})
-    .then(response => {
-		if (!response.ok) {
-	  		throw new Error('Error updating data');
-		}
-		return response.json();
-  	})
-  	.then(updatedData => {
-		console.log('Data updated successfully:', updatedData);
-  	})
-  	.catch(error => {
-		console.error('Error updating data:', error);
-  	});
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Error updating data');
+			}
+			return response.json();
+		})
+		.then(updatedData => {
+			console.log('Data updated successfully:', updatedData);
+		})
+		.catch(error => {
+			console.error('Error updating data:', error);
+		});
 }
 
 function getActualDate() {
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth() + 1; // Note that months are zero-indexed, so we add 1 to get the actual month number
-    let day = today.getDate();
+	let today = new Date();
+	let year = today.getFullYear();
+	let month = today.getMonth() + 1; // Note that months are zero-indexed, so we add 1 to get the actual month number
+	let day = today.getDate();
 
-    // Format the date as YYYY-MM-DD
-    return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+	// Format the date as YYYY-MM-DD
+	return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 }
 
 export function generarListaMejorada(lista) {
 	fetch(generarListaMejoradaURL, {
- 		method: 'POST',
-  		body: JSON.stringify(lista),
- 		headers: {
-    		'Content-Type': 'application/json'
-  		}
+		method: 'POST',
+		body: JSON.stringify(lista),
+		headers: {
+			'Content-Type': 'application/json'
+		}
 	})
-  	.then(response => response.json())
-  	.then(data => {
-    	console.log(data);
-  	})
-  	.catch(error => {
-    	console.error(error);
-  	});
+		.then(response => response.json())
+		.then(data => {
+			console.log(data);
+		})
+		.catch(error => {
+			console.error(error);
+		});
 }
 
 export function registrarSubidaDePrecio(producto) {
 	findProductByBarcodeAndSupermercado(producto).then(
-        response => {
-          if (response.hits.length > 0) {
-            console.log("actualiza")
-            return actualizarProducto(producto);
-          } else {
-            console.log("registra")
-            producto.precios = [producto.precios[producto.precios.length - 1]];
-            return addNonExistingProduct(producto);
-          }
-        });
+		response => {
+			if (response.hits.length > 0) {
+				console.log("actualiza")
+				return actualizarProducto(producto);
+			} else {
+				console.log("registra")
+				producto.precios = [producto.precios[producto.precios.length - 1]];
+				return addNonExistingProduct(producto);
+			}
+		});
 }
 
 export async function findAlternative(productoAMejorar) {
 	var url = (productoAMejorar.supermercado != undefined && productoAMejorar.supermercado != '')
 		? findAlternativeURL + '?supermercado=' + productoAMejorar.supermercado + ((productoAMejorar.marca) != undefined ? '&marca=' + productoAMejorar.marca : '')
 		: findAlternativeURL + ((productoAMejorar.marca) != undefined ? '?marca=' + productoAMejorar.marca : '');
-	
+
 	return await fetch(url,
 		{
 			method: "POST",
@@ -150,15 +151,38 @@ export async function findAlternative(productoAMejorar) {
 			}
 		})
 		.then(response => response.json())
-		
+
 		.catch(error => {
-	  		console.error(error);
+			console.error(error);
 		});
 }
 
 export async function getAllMarcas() {
 	let response = await fetch(getAllMarcasURL);
 	return response.json().aggregations.marcas;
+}
+
+export function saveImage(barcode, base64Image) {
+	const data = { barcode, base64Image };
+
+	fetch(saveImageURL, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	})
+		.then((response) => {
+			if (response.ok) {
+				console.log('Image saved successfully.');
+			} else {
+				console.error('Error occurred while saving the image:', response.status, response.statusText);
+			}
+		})
+		.catch((error) => {
+			console.error('Error occurred while saving the image:', error);
+		});
+
 }
 
 

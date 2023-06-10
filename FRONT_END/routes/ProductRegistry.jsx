@@ -4,9 +4,10 @@ import { Box, Grid } from "@mui/material";
 import RegisterProductForm from "../components/scanner/RegisterProductForm";
 import MyCamera from "../components/Scanner/MyCamera";
 
+
 export default function ProductRegistry() {
 
-    const [code, setCode] = useState("");
+    const [code, setCode] = useState("423423423");
     const [producto, setProducto] = useState();
 
     return (
