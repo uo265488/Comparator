@@ -14,10 +14,7 @@ import { loadState } from "../redux/localStorage";
 import { useEffect, useState } from "react";
 import MyComboBox from "../components/MyComboBox.jsx";
 import { SUPERMERCADOS } from "../helper/settings";
-import { Title } from "react-native-paper";
-import SupermercadoEnLista from "../components/laLista/SupermercadoEnLista";
 import { compareProducts } from "../helper/comparator";
-import { getAllMarcas } from "../api/ApiService";
 
 export const StyledButton = styled(Button)`
   background: #9681f2;
