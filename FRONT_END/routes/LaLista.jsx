@@ -8,13 +8,13 @@ import {
   TextField,
   FormControl,
 } from "@mui/material";
-import ProductoEnLista from "../components/laLista/ProductoEnLista";
 import { Link } from "react-router-dom";
 import { loadState } from "../redux/localStorage";
 import { useEffect, useState } from "react";
 import MyComboBox from "../components/MyComboBox.jsx";
 import { SUPERMERCADOS } from "../helper/settings";
 import { compareProducts } from "../helper/comparator";
+import SupermercadoEnLista from "../components/laLista/SupermercadoEnLista";
 
 export const StyledButton = styled(Button)`
   background: #9681f2;

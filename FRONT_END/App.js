@@ -32,8 +32,8 @@ export default function App() {
         <Routes>
             <Route path="/" element={<Home />} ></Route>
             <Route path="scanner" element={<ProductRegistry></ProductRegistry>}> </Route>
-            <Route path="productos" element={<Catalogo></Catalogo>}></Route>
-            <Route path="la Lista de la compra" element={<LaLista></LaLista>}></Route>
+            <Route path="catalogue" element={<Catalogo></Catalogo>}></Route>
+            <Route path="lista" element={<LaLista></LaLista>}></Route>
             <Route path="estadisticas" element={<DashboardContent></DashboardContent>}></Route>
         </Routes>
       </BrowserRouter>
