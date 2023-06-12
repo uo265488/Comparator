@@ -6,8 +6,6 @@ import { NumberPicker } from "react-widgets/cjs";
 import { StyledButton, Wrapper } from "../helper/styles";
 
 export default function ProductInformationCard(props) {
-  console.log("props");
-  console.log(props.producto);
 
   let imageRef = require("../static/images/producto.png");
   let imgSupermercado = require("../static/images/" +
@@ -19,7 +17,7 @@ export default function ProductInformationCard(props) {
   const [value, setValue] = useState(1);
 
   function abrirSubidaDePrecioForm() {
-    props.setButtonPressed(1);
+    props.displaySubidaDePrecio(props.producto);
   }
 
   const addProductToLaLista = () => {
@@ -107,7 +105,7 @@ export default function ProductInformationCard(props) {
               }}
               onClick={abrirSubidaDePrecioForm}
             >
-              Registrar una subida de precio
+              Registrar un cambio de precio
             </StyledButton>
           </div>
         </Box>

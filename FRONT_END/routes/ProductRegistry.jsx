@@ -3,12 +3,13 @@ import ProductInformation from "../components/ProductInformation";
 import { Box, Grid } from "@mui/material";
 import RegisterProductForm from "../components/scanner/RegisterProductForm";
 import MyCamera from "../components/Scanner/MyCamera";
+import BarcodeInformation from "../components/scanner/BarcodeInformation";
 
 
 export default function ProductRegistry() {
 
-    const [code, setCode] = useState("423423423");
-    const [producto, setProducto] = useState();
+    const [code, setCode] = useState("");
+    const [productos, setProductos] = useState();
 
     return (
         <Grid container
@@ -20,9 +21,9 @@ export default function ProductRegistry() {
             
             {
                 code === ""
-                    ? <MyCamera code={code} setProducto={setProducto} setCode={setCode} key="camera"></MyCamera>
-                    : producto != undefined
-                        ? <ProductInformation producto={producto}></ProductInformation>
+                    ? <MyCamera code={code} setProductos={setProductos} setCode={setCode} key="camera"></MyCamera>
+                    : productos != undefined
+                        ? <BarcodeInformation productos={productos}></BarcodeInformation>
                         : <RegisterProductForm code={code} key="form"></RegisterProductForm>
             }
             

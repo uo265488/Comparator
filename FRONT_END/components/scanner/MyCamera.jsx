@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-/*import {
+import {
   BrowserBarcodeReader,
   NotFoundException,
   ChecksumException,
   FormatException
-} from "@zxing/library";*/
+} from "@zxing/library";
 
 import { Button } from "react-native-paper";
 import { Box, FormLabel, NativeSelect } from "@mui/material";
@@ -15,8 +15,7 @@ export default function MyCamera(props) {
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
   const [videoInputDevices, setVideoInputDevices] = useState([]);
 
-  const [tempCode, setTempCode] = useState("84800173337897");
-  const [tempSupermecado, setTempSupermercado] = useState("Alimerka");
+  const [tempCode, setTempCode] = useState("8430807000538");
 
   const barcodeReader = new BrowserBarcodeReader();
 
@@ -93,7 +92,7 @@ export default function MyCamera(props) {
 
   async function sendCode() {
     var prod = await findProductByBarcode(tempCode);
-    props.setProducto(prod.hits[0]);
+    props.setProductos(prod.hits);
     
     props.setCode(tempCode);
   }
@@ -111,7 +110,6 @@ export default function MyCamera(props) {
     <Box sx={{bgcolor: 'background.default', display: 'flex', flexWrap: 'wrap', 
       height: '100%', justifyContent: 'center', pb: 5
     }}>
-      {/*
     
       <section className="container" id="demo-content">
         <div id="sourceSelectPanel">
@@ -140,7 +138,7 @@ export default function MyCamera(props) {
           <Button mode="contained" id="registerButton" onClick={() => sendCode()}>Registrar código de barras</Button>
           <Button mode="contained" id="resetButton" onClick={() => resetClick()}>Resetear</Button> 
 
-          </section>*/}
+          </section>
     </Box>
   );
 }
