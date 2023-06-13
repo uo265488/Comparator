@@ -9,6 +9,7 @@ const generarListaMejoradaURL = apiEndPoint + '/search/laLista/mejorar';
 const findAlternativeURL = apiEndPoint + '/search/producto/alternativa';
 const getAllMarcasURL = apiEndPoint + '/search/marcas';
 const saveImageURL = apiEndPoint + '/utils/saveImage';
+const lastPriceChangeURL = apiEndPoint + '/search/lastPriceChange';
 
 /**
  * This function returns the productst that are currently stored in the databse.
@@ -182,7 +183,11 @@ export function saveImage(barcode, base64Image) {
 		.catch((error) => {
 			console.error('Error occurred while saving the image:', error);
 		});
+}
 
+export async function getLastPriceChange() {
+	let response = await fetch(lastPriceChangeURL);
+	return response.json();
 }
 
 

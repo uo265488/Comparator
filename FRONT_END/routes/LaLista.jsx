@@ -4,7 +4,6 @@ import {
   Typography,
   styled,
   Button,
-  Breadcrumbs,
   TextField,
   FormControl,
 } from "@mui/material";
@@ -15,6 +14,7 @@ import MyComboBox from "../components/MyComboBox.jsx";
 import { SUPERMERCADOS } from "../helper/settings";
 import { compareProducts } from "../helper/comparator";
 import SupermercadoEnLista from "../components/laLista/SupermercadoEnLista";
+import { BreadcrumbsLaLista } from "../components/BreadCrumbs";
 
 export const StyledButton = styled(Button)`
   background: #9681f2;
@@ -23,21 +23,6 @@ export const StyledButton = styled(Button)`
     background: #81c9f2;
   }
 `;
-
-function BreadcrumbsLaLista() {
-  return (
-    <Breadcrumbs aria-label="breadcrumb">
-      <Link underline="hover" to="/">
-        <Typography variant="h6" sx={{ color: "text.secondary" }}>
-          Home
-        </Typography>
-      </Link>
-      <Typography variant="h6" sx={{ color: "text.secondary" }}>
-        LaLista
-      </Typography>
-    </Breadcrumbs>
-  );
-}
 
 export default function LaLista() {
   let state = loadState();
@@ -162,7 +147,7 @@ export default function LaLista() {
         flexDirection: "column",
       }}
     >
-      <BreadcrumbsLaLista />
+      <BreadcrumbsLaLista/>
 
       <Typography
         variant="h3"

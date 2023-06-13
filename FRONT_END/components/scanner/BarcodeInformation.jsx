@@ -1,7 +1,6 @@
 import {
   Alert,
   Box,
-  Breadcrumbs,
   Container,
   CssBaseline,
   Grid,
@@ -10,8 +9,6 @@ import {
   createTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-
-import { Link } from "react-router-dom";
 import SubidaDePrecioForm from "./SubidaDePrecioForm";
 import { findAlternative } from "../../api/ApiService";
 import ProductInformationCard from "../ProductInformationCard";
@@ -46,26 +43,6 @@ export default function BarcodeInformation(props) {
   useEffect(() => {
     if (!alternativaDefined) encontrarAlternativa();
   }, []);
-
-  function BreadcrumbsProduct() {
-    return (
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" href="/">
-          <Typography variant="h6" sx={{ color: "text.secondary" }}>
-            Home
-          </Typography>
-        </Link>
-        <Link underline="hover" href="/shop">
-          <Typography variant="h6" sx={{ color: "text.secondary" }}>
-            Catalogue
-          </Typography>
-        </Link>
-        <Typography variant="h6" sx={{ color: "text.secondary" }}>
-          {props.producto.barcode}
-        </Typography>
-      </Breadcrumbs>
-    );
-  }
 
   return productToUpdate == undefined ? (
     <ThemeProvider theme={mdTheme}>

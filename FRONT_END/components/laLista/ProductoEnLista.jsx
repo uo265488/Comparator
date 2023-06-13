@@ -100,7 +100,7 @@ export default function ProductoEnLista(props) {
         setExistsAlternativeAlert(true);
       }
     });
-    props.computeTotalPrice();
+    //props.computeTotalPrice();
   };
 
   const Wrapper = styled.div`

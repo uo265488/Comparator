@@ -1,7 +1,6 @@
 import {
   Alert,
   Box,
-  Breadcrumbs,
   Container,
   CssBaseline,
   Grid,
@@ -10,8 +9,6 @@ import {
   createTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-
-import { Link } from "react-router-dom";
 import SubidaDePrecioForm from "./scanner/SubidaDePrecioForm";
 import { productToChartData } from "../helper/parser";
 import Chart from "./estadisticas/Chart";
@@ -44,25 +41,7 @@ export default function ProductInformation(props) {
     if (!alternativaDefined) encontrarAlternativa();
   }, []);
 
-  function BreadcrumbsProduct() {
-    return (
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" href="/">
-          <Typography variant="h6" sx={{ color: "text.secondary" }}>
-            Home
-          </Typography>
-        </Link>
-        <Link underline="hover" href="/shop">
-          <Typography variant="h6" sx={{ color: "text.secondary" }}>
-            Catalogue
-          </Typography>
-        </Link>
-        <Typography variant="h6" sx={{ color: "text.secondary" }}>
-          {props.producto.barcode}
-        </Typography>
-      </Breadcrumbs>
-    );
-  }
+
 
   return buttonPressed == 0 ? (
     <ThemeProvider theme={mdTheme}>
