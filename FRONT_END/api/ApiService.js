@@ -141,7 +141,7 @@ export function registrarSubidaDePrecio(producto) {
 export async function findAlternative(productoAMejorar) {
 	var url = (productoAMejorar.supermercado != undefined && productoAMejorar.supermercado != '')
 		? findAlternativeURL + '?supermercado=' + productoAMejorar.supermercado + ((productoAMejorar.marca) != undefined ? '&marca=' + productoAMejorar.marca : '')
-		: findAlternativeURL + ((productoAMejorar.marca) != undefined ? '?marca=' + productoAMejorar.marca : '');
+		: findAlternativeURL + ((productoAMejorar.marca) != undefined ? '' : '?marca=' + productoAMejorar.marca );
 
 	return await fetch(url,
 		{

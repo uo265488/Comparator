@@ -93,6 +93,7 @@ export default function LaLista() {
   };
 
   const mejorarAlternativa = (productoAMejorar, alternativa) => {
+    console.log("Q PASA")
     var isProductInLaLista = -1;
     var isAlternativaInLaLista = -1;
     var counter = 0;

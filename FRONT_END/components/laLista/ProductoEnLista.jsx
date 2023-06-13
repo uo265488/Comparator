@@ -85,7 +85,6 @@ export default function ProductoEnLista(props) {
         setMejoraPerformed(true);
 
         props.mejorarAlternativa(productItem.producto, productoMejorado);
-
         setProductItem({
           producto: productoMejorado,
           unidades: productItem.unidades,
@@ -94,6 +93,7 @@ export default function ProductoEnLista(props) {
               productoMejorado.precioActual) /
             productItem.producto.precioActual,
         });
+        
 
         setExistsAlternativeAlert(false);
       } else {
@@ -152,8 +152,13 @@ export default function ProductoEnLista(props) {
           </Alert>
         )}
         {productItem.mejora == 0 && (
+          <Alert severity="success">
+            Este producto es la mejor de las alternativas.
+          </Alert>
+        )}
+        {existsAlternativeAlert == true && (
           <Alert severity="warning">
-            No hay una alternativa mejor para este producto.{" "}
+            No existe una alternativa para este producto.
           </Alert>
         )}
 
