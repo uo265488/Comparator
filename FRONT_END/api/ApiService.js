@@ -10,7 +10,8 @@ const findAlternativeURL = apiEndPoint + '/search/producto/alternativa';
 const getAllMarcasURL = apiEndPoint + '/search/marcas';
 const saveImageURL = apiEndPoint + '/utils/saveImage';
 const lastPriceChangeURL = apiEndPoint + '/search/lastPriceChange';
-
+const getAvgPriceBySupermercadoURL = apiEndPoint + '/statistics/avgPriceBySupermercado';
+const getAvgPricePerMonthBySupermercadoURL = apiEndPoint + '/statistics/avgPricePerMonthBySupermercado';
 /**
  * This function returns the productst that are currently stored in the databse.
  * First we get the api endpoint that we are going to be listening on.
@@ -190,4 +191,12 @@ export async function getLastPriceChange() {
 	return response.json();
 }
 
+export async function getAvgPriceBySupermercado() {
+	let response = await fetch(getAvgPriceBySupermercadoURL);
+	return response.json();
+}
 
+export async function getAvgPricePerMonthBySupermercado() {
+	let response = await fetch(getAvgPricePerMonthBySupermercadoURL);
+	return response.json();
+}

@@ -8,13 +8,17 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
 import { useSelector } from "react-redux";
+import LoginButton from "./authentication/LoginButton";
+import LogoutButton from "./authentication/LogoutButton";
+import Button from "@mui/material/Button";
+import ProfileButton from "./authentication/ProfileButton";
 
 const pages = [
   { name: "Scanner", link: "scanner" },
@@ -22,7 +26,6 @@ const pages = [
   { name: "La Lista de la compra", link: "lista" },
   { name: "Estadisticas", link: "estadisticas" },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export function NavigationBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -143,7 +146,7 @@ export function NavigationBar() {
           <MenuItem
             color="grey"
               onClick={() => {
-                navigate("lista");
+               // navigate("lista");
               }}
             >
               <IconButton
@@ -178,11 +181,31 @@ export function NavigationBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+               {/**settings.map((setting) => (
+                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              <Button
+                href={setting.link}
+                key={setting.name}
+                onClick={handleCloseNavMenu}
+              >
+                {setting.name}
+              </Button>
                 </MenuItem>
-              ))}
+              ))*/}
+            
+              <MenuItem key={"loginButton"} onClick={handleCloseUserMenu}>
+                <LoginButton></LoginButton>
+              </MenuItem>
+
+              <MenuItem key={"profileButton"} onClick={handleCloseUserMenu}>
+                <ProfileButton></ProfileButton>
+              </MenuItem>
+
+              <MenuItem key={"logoutButton"} onClick={handleCloseUserMenu}>
+                <LogoutButton></LogoutButton>
+              </MenuItem>
+              
+
             </Menu>
           </Box>
         </Toolbar>

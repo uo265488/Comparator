@@ -1,3 +1,5 @@
+import { createBrowserRouter } from "react-router-dom";
+
 export const productoAElemento = (selectedProduct) => ({ producto: selectedProduct, unidades: 1 });
 
 export const productToChartData = (producto) => {
@@ -18,3 +20,4 @@ export const productToChartData = (producto) => {
 export const createData = (date, precio) => {
     return { date, precio };
 }
+

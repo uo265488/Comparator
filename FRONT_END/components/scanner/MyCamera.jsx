@@ -15,7 +15,7 @@ export default function MyCamera(props) {
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
   const [videoInputDevices, setVideoInputDevices] = useState([]);
 
-  const [tempCode, setTempCode] = useState("8430807000538");
+  const [tempCode, setTempCode] = useState("");
 
   const barcodeReader = new BrowserBarcodeReader();
 

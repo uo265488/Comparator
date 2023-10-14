@@ -12,54 +12,12 @@ import Chart from "../components/estadisticas/Chart";
 import AdviceBox from "../components/estadisticas/AdviceBox";
 import Board from "../components/estadisticas/Board";
 import { createData } from "../helper/parser";
-import { getLastPriceChange } from "../api/ApiService";
+import {
+  getAvgPriceBySupermercado,
+  getAvgPricePerMonthBySupermercado,
+  getLastPriceChange,
+} from "../api/ApiService";
 import { BreadcrumbsDashBoard } from "../components/BreadCrumbs";
-
-const drawerWidth = 240;
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  "& .MuiDrawer-paper": {
-    position: "relative",
-    whiteSpace: "nowrap",
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    boxSizing: "border-box",
-    ...(!open && {
-      overflowX: "hidden",
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9),
-      },
-    }),
-  },
-}));
 
 const data = [
   createData("2023-01-01", 0),
@@ -78,15 +36,47 @@ const mdTheme = createTheme();
 export default function DashboardContent() {
   const [lastPriceChangeProduct, setLastPriceChangeProduct] =
     React.useState(undefined);
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+  const [boardData, setBoardData] = React.useState(undefined);
 
   React.useEffect(() => {
-    console.log("epa")
-    getLastPriceChange().then(result => {
-      setLastPriceChangeProduct(result.hits[0])
+    getLastPriceChange().then((result) => {
+      setLastPriceChangeProduct(result.hits[0]);
+    });
+
+    var data = [];
+    var counter = 0;
+    getAvgPriceBySupermercado().then((result) => {
+      result.terms_supermercado._value.buckets._value.forEach((v) => {
+        data[counter] = {
+          Supermercado: v.key._value,
+          "Precio medio por producto":
+            v.aggregations.avg_price._value.value.toFixed(2),
+        };
+        counter = counter + 1;
+      });
+
+      getAvgPricePerMonthBySupermercado().then((result) => {
+        data.forEach((d) => {
+          Object.entries(result[d["Supermercado"]]).forEach(
+            ([month, average]) => {
+              var porcentaje =
+                ((average - d[Object.keys(d)[1]]) / d[Object.keys(d)[1]]) * 100;
+              d[month] =
+                porcentaje >= 0
+                  ? average.toFixed(2) + " (+" + porcentaje.toFixed(2) + " %)"
+                  : average.toFixed(2) + " (" + porcentaje.toFixed(2) + " %)";
+            }
+          );
+        });
+
+        data.forEach((d) => {
+          var subida = d[Object.keys(d)[Object.keys(d).length - 1]];
+          d["Porcentaje de subida total"] = subida.substring(subida.length - 9, subida.length - 1);
+        });
+        setBoardData(data);
+
+        console.log(data);
+      });
     });
   }, []);
 
@@ -123,7 +113,19 @@ export default function DashboardContent() {
             >
               Estadísticas: ¿Qué supermercado se aprovecha más de la inflación?
             </Typography>
+            
             <Grid container spacing={3}>
+            <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                  {/*<Orders />*/}
+                  {boardData != undefined && (
+                    <Board
+                      title="Comparativa de supermercados"
+                      data={boardData}
+                    ></Board>
+                  )}
+                </Paper>
+              </Grid>
               {/* Chart */}
               <Grid item xs={12} md={8} lg={9}>
                 <Paper
@@ -134,7 +136,8 @@ export default function DashboardContent() {
                     height: 240,
                   }}
                 >
-                  <Chart data={data} title="Hoy" chartType="time" />
+                  <Chart data={data} title="Evolución del precio del atun claro en aceite de girasol (Mercadona)"
+                    chartType="time" />
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
@@ -158,12 +161,7 @@ export default function DashboardContent() {
                 </Paper>
               </Grid>
               {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  {/*<Orders />*/}
-                  <Board title="Comparativa de supermercados"></Board>
-                </Paper>
-              </Grid>
+              
             </Grid>
           </Container>
         </Box>

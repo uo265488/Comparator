@@ -1,8 +1,18 @@
-import { registerRootComponent } from 'expo';
-
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 
-// registerRootComponent calls AppRegistry.registerComponent('main', () => App);
-// It also ensures that whether you load the app in Expo Go or in a native build,
-// the environment is set up appropriately
-registerRootComponent(App);
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+<Auth0Provider
+     domain="dev-0s8etfxle7ellxsg.us.auth0.com"
+     clientId="2JsgrQHLS6WEkFYGHEOnPx5ONsgVl4Kk"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  >
+    <App />
+  </Auth0Provider>,
+);
