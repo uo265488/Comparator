@@ -19,6 +19,7 @@ import LoginButton from "./authentication/LoginButton";
 import LogoutButton from "./authentication/LogoutButton";
 import Button from "@mui/material/Button";
 import ProfileButton from "./authentication/ProfileButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const pages = [
   { name: "Scanner", link: "scanner" },
@@ -28,6 +29,8 @@ const pages = [
 ];
 
 export function NavigationBar() {
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -145,43 +148,33 @@ export function NavigationBar() {
           </Box>
           <MenuItem
             color="grey"
-              onClick={() => {
-               // navigate("lista");
-              }}
+            onClick={() => {
+              // navigate("lista");
+            }}
+          >
+            <IconButton
+              size="large"
+              aria-label={"show " + cart.forEach + "new notifications"}
             >
-              <IconButton
-                size="large"
-                aria-label={"show " + cart.forEach + "new notifications"}
-              >
-                <Badge badgeContent={unidades} color="error">
-                  <ShoppingCartIcon />
-                </Badge>{" "}
-              </IconButton>
-            </MenuItem>
+              <Badge badgeContent={unidades} color="error">
+                <ShoppingCartIcon />
+              </Badge>{" "}
+            </IconButton>
+          </MenuItem>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
+                {
+                  isAuthenticated ?
+                    (<Avatar alt="Profile pic" src={user.picture} />)
+                    :
+                    (<Avatar alt="Profile pic" />)
+                }
+                  </IconButton>
             </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-               {/**settings.map((setting) => (
+
+            {/**settings.map((setting) => (
                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
               <Button
                 href={setting.link}
@@ -192,21 +185,54 @@ export function NavigationBar() {
               </Button>
                 </MenuItem>
               ))*/}
-            
-              <MenuItem key={"loginButton"} onClick={handleCloseUserMenu}>
-                <LoginButton></LoginButton>
-              </MenuItem>
 
-              <MenuItem key={"profileButton"} onClick={handleCloseUserMenu}>
-                <ProfileButton></ProfileButton>
-              </MenuItem>
+            {isAuthenticated ? (
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem key={"profileButton"} onClick={handleCloseUserMenu}>
+                  <ProfileButton></ProfileButton>
+                </MenuItem>
 
-              <MenuItem key={"logoutButton"} onClick={handleCloseUserMenu}>
-                <LogoutButton></LogoutButton>
-              </MenuItem>
-              
-
-            </Menu>
+                <MenuItem key={"logoutButton"} onClick={handleCloseUserMenu}>
+                  <LogoutButton></LogoutButton>
+                </MenuItem>
+              </Menu>
+            ) : (
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem key={"loginButton"} onClick={handleCloseUserMenu}>
+                  <LoginButton></LoginButton>
+                </MenuItem>
+              </Menu>
+            )}
           </Box>
         </Toolbar>
       </Container>
