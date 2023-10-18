@@ -23,6 +23,7 @@ public class ListaSearchController {
         if(autor.isEmpty())
             return ResponseEntity.badRequest().build();
 
+        System.out.println(autor);
         return ResponseEntity.ok(service.getListasByAutor(autor.get()));
     }
 }

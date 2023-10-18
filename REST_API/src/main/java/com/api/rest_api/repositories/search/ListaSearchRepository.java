@@ -64,7 +64,7 @@ public class ListaSearchRepository implements SearchRepository<Lista> {
         SearchRequest request =
                 SearchRequest.of(s -> {
                             s
-                                    .index(Indices.PRODUCT_INDEX)
+                                    .index(Indices.LISTAS_INDEX)
                                     .query(query)
                                     .size(size);
                             addSortingOptions(s, sortBy, sortOrder);

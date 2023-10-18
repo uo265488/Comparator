@@ -14,6 +14,7 @@ public class ListaSearchService {
     public ListaResponseModel getListasByAutor(String autor) {
         //exists autor
 
+        System.out.println(repo.filterByFieldQuery("autor", autor));
         return new ListaResponseModel(repo.filterByFieldQuery("autor", autor));
     }
 

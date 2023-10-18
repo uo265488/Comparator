@@ -10,7 +10,7 @@
       "type": "text"
     },
     "fechaDeRegistro": {
-      "type": "date"
+      "type": "text"
     }
   }
 }

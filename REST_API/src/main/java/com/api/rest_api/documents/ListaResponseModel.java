@@ -24,6 +24,7 @@ public class ListaResponseModel {
         {
             if(!this.hits.contains(h)) {
                 hits.add(ListaParser.mapToLista(h.source()));
+
             }
         });
     }
