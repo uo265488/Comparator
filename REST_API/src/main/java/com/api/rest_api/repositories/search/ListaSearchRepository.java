@@ -35,10 +35,12 @@ public class ListaSearchRepository implements SearchRepository<Lista> {
 
     @Override
     public SearchResponse<Lista> filterByFieldQuery(String field, Object value) {
-        return executeQuery(queryFactory.getFilterQuery(field, value.toString()), DEFAULT_QUERY_SIZE, "ASC", null);
+        return executeQuery(queryFactory.getFilterQuery(field, value.toString()),
+                DEFAULT_QUERY_SIZE, "ASC", null);
     }
     @Override
-    public SearchResponse<Lista> executeQuery(Query query, int size, String sortOrder, String sortBy, Map<String, Aggregation> aggs) {
+    public SearchResponse<Lista> executeQuery(Query query, int size, String sortOrder,
+                                              String sortBy, Map<String, Aggregation> aggs) {
         SearchResponse response;
         try {
             response = elasticsearchClientConfig.getEsClient()
@@ -111,6 +113,7 @@ public class ListaSearchRepository implements SearchRepository<Lista> {
     public SearchResponse<Lista> executeQuery(Query query, int size, String ordering, String orderBy) {
         throw new NotYetImplementedException();
     }
+
     @Override
     public SearchResponse<Lista> matchAllQuery(String sortOrder, String sortBy, int size) {
         throw new NotYetImplementedException();

@@ -1,7 +1,7 @@
 package com.api.rest_api.controllers.images;
 
 import com.api.rest_api.documents.ImageRequest;
-import org.apache.commons.io.FileUtils;
+//import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +38,12 @@ public class ImageController {
 
         try {
             // Save the image file to the specified location
-            FileUtils.writeByteArrayToFile(new File(targetPath), imageBytes);
+           // FileUtils.writeByteArrayToFile(new File(targetPath), imageBytes);
             System.out.println("Image saved successfully.");
             return ResponseEntity.ok("Image saved successfully.");
-        } catch (IOException e) {
+        //} catch (IOException e) {
+        } catch (Exception e) {
+
             System.out.println("Error occurred while saving the image: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while saving the image.");
         }

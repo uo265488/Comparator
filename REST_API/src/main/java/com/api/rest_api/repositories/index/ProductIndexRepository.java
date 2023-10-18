@@ -79,7 +79,7 @@ public class ProductIndexRepository implements IndexRepository<Product> {
     }
 
     @Override
-    public String indexDocument(Product product) {
+    public IndexResponse indexDocument(Product product) {
         IndexResponse response;
         try {
             response = elasticsearchClientConfig.getEsClient()
@@ -87,13 +87,13 @@ public class ProductIndexRepository implements IndexRepository<Product> {
                             .id(product.getBarcode() + product.getSupermercado())
                             .document(product)
                     );
-        } catch (Exception e) {
-            return "The indexing of the product could not be performed because " + e.getMessage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return "" + response.version();
+        return response;
     }
 
-    @Override
+        @Override
     public List<Product> synchronousBulkIndexing(List<Product> productList) {
         BulkRequest.Builder br = new BulkRequest.Builder();
 
