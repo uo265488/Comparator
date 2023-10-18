@@ -1,0 +1,16 @@
+{
+  "properties": {
+    "Lista": {
+      "type": "nested"
+    },
+    "autor": {
+      "type": "text"
+    },
+    "nombre": {
+      "type": "text"
+    },
+    "fechaDeReistro": {
+      "type": "date"
+    }
+  }
+}
