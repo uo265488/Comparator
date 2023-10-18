@@ -36,7 +36,7 @@ public class ListaSearchRepository implements SearchRepository<Lista> {
     @Override
     public SearchResponse<Lista> filterByFieldQuery(String field, Object value) {
         return executeQuery(queryFactory.getFilterQuery(field, value.toString()),
-                DEFAULT_QUERY_SIZE, "ASC", null);
+                DEFAULT_QUERY_SIZE, "ASC", null, null);
     }
     @Override
     public SearchResponse<Lista> executeQuery(Query query, int size, String sortOrder,

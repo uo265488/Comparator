@@ -9,7 +9,7 @@
     "nombre": {
       "type": "text"
     },
-    "fechaDeReistro": {
+    "fechaDeRegistro": {
       "type": "date"
     }
   }
