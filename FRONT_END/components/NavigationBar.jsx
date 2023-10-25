@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LoginButton from "./authentication/LoginButton";
 import LogoutButton from "./authentication/LogoutButton";
@@ -146,32 +147,28 @@ export function NavigationBar() {
               </Button>
             ))}
           </Box>
-          <MenuItem
-            color="grey"
-            onClick={() => {
-              // navigate("lista");
-            }}
-          >
+          <Link to="/profile">
             <IconButton
+              style={{ marginRight: "1em" }}
               size="large"
-              aria-label={"show " + cart.forEach + "new notifications"}
+            aria-label={"show " + cart.forEach + "new notifications"}
+            
             >
               <Badge badgeContent={unidades} color="error">
-                <ShoppingCartIcon />
+                <ShoppingCartIcon  />
               </Badge>{" "}
             </IconButton>
-          </MenuItem>
+            </Link>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {
-                  isAuthenticated ?
-                    (<Avatar alt="Profile pic" src={user.picture} />)
-                    :
-                    (<Avatar alt="Profile pic" />)
-                }
-                  </IconButton>
+                {isAuthenticated ? (
+                  <Avatar alt="Profile pic" src={user.picture} />
+                ) : (
+                  <Avatar alt="Profile pic" />
+                )}
+              </IconButton>
             </Tooltip>
 
             {/**settings.map((setting) => (
