@@ -1,7 +1,7 @@
 package com.api.rest_api.controllers.lista;
 
-import com.api.rest_api.documents.ListaResponseModel;
-import com.api.rest_api.services.lista.ListaSearchService;
+import com.api.rest_api.documents.responseModels.LaListaResponseModel;
+import com.api.rest_api.services.lista.LaListaSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,14 +16,14 @@ import java.util.Optional;
 public class ListaSearchController {
 
     @Autowired
-    private ListaSearchService service;
+    private LaListaSearchService service;
 
-    @GetMapping("/findByAutor")
-    public ResponseEntity<ListaResponseModel> findByAutor(@RequestParam("autor") Optional<String> autor) {
-        if(autor.isEmpty())
+    @GetMapping("/findByEmail")
+    public ResponseEntity<LaListaResponseModel> findByEmail(@RequestParam("email") Optional<String> email) {
+        if(email.isEmpty() || email.get().isBlank())
             return ResponseEntity.badRequest().build();
 
-        System.out.println(autor);
-        return ResponseEntity.ok(service.getListasByAutor(autor.get()));
+        System.out.println(email);
+        return ResponseEntity.ok(service.getListasByEmail(email.get()));
     }
 }

@@ -1,7 +1,7 @@
 package com.api.rest_api.controllers.product;
 
 import com.api.rest_api.documents.Product;
-import com.api.rest_api.documents.ProductResponseModel;
+import com.api.rest_api.documents.responseModels.ProductResponseModel;
 import com.api.rest_api.helper.exceptions.ControllerException;
 import com.api.rest_api.services.product.ProductSearchService;
 import io.swagger.v3.oas.annotations.Operation;
