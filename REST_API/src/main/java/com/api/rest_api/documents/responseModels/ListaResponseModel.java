@@ -9,7 +9,6 @@ import lombok.Value;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
 @Value
 public class ListaResponseModel {
 

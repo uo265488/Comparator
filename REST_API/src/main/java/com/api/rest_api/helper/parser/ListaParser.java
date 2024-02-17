@@ -1,21 +1,21 @@
 package com.api.rest_api.helper.parser;
 
-import com.api.rest_api.documents.Lista;
+import com.api.rest_api.documents.LaListaProduct;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ListaParser {
-    public static Lista mapToLista(Object obj) {
+    public static LaListaProduct mapToLista(Object obj) {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = null;
-        Lista lista = null;
+        LaListaProduct laListaProduct = null;
         try {
             jsonString = objectMapper.writeValueAsString(obj);
-            lista = objectMapper.readValue(jsonString, Lista.class);
+            laListaProduct = objectMapper.readValue(jsonString, LaListaProduct.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return lista;
+        return laListaProduct;
     }
 
 }
