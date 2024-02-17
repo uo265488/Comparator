@@ -1,5 +1,6 @@
 package com.api.rest_api.repositories.index;
 
+import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +26,7 @@ public interface IndexRepository<Document> {
      * @param documentsList
      * @return the documentList
      */
-    List<Document> synchronousBulkIndexing(List<Document> documentsList);
+    BulkResponse synchronousBulkIndexing(List<Document> documentsList);
 
     /**
      * Performs asynchronous bulk indexing
