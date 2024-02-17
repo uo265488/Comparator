@@ -7,7 +7,6 @@ import {
   TextField,
   FormControl,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { loadState } from "../redux/localStorage";
 import { useEffect, useState } from "react";
 import MyComboBox from "../components/MyComboBox.jsx";
@@ -15,6 +14,7 @@ import { SUPERMERCADOS } from "../helper/settings";
 import { compareProducts } from "../helper/comparator";
 import SupermercadoEnLista from "../components/laLista/SupermercadoEnLista";
 import { BreadcrumbsLaLista } from "../components/BreadCrumbs";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const StyledButton = styled(Button)`
   background: #9681f2;
@@ -26,6 +26,8 @@ export const StyledButton = styled(Button)`
 
 export default function LaLista() {
   let state = loadState();
+
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
   const [supermercado, setSupermercado] = useState("");
   const [marca, setMarca] = useState("");
@@ -42,6 +44,9 @@ export default function LaLista() {
   );
 
   const [activateUseEffect, setActivateUseEffect] = useState(true);
+
+  const [isListSaved, setListSaved] = (false);
+  const [isErrorWhenSave, setErrorWhenSave] = (false);
 
   useEffect(() => {
     setPrecioTotal(
@@ -135,6 +140,17 @@ export default function LaLista() {
     computeTotalPrice();
   };
 
+  const savePersonalList = () => {
+    if (isAuthenticated) {
+      //ABRIR DIALOGO PARA ESCRIBIR EL NOMBRE DE LA LISTA
+      if (savePersonalList(listName, user.email, listaDeProductos)) {
+        setListSaved(true);
+      } else {
+        setErrorWhenSave(true);
+      }
+    }
+  }
+
   const handleInputChange = (event) => setMarca(event.target.value);
 
   return (
@@ -183,9 +199,17 @@ export default function LaLista() {
           onChange={handleInputChange}
           value={marca}
           />
-          </FormControl>
+        </FormControl>
       </div>
-
+      <div>
+        {
+          isListSaved
+            ? <Alert severity="success">La Lista ha sido guardada con éxito. </Alert>
+            : isErrorWhenSave 
+              ? <Alert severity="error">Ha ocurrido un error, no se ha podido guardar la Lista...</Alert>
+              : <StyledButton onClick={savePersonalList}> Guardar Lista personal</StyledButton>
+        }
+      </div>
       {state.laListaReducer.lista.length === 0 && (
         <Typography
           sx={{ color: "text.default", typography: { sm: "h4", xs: "h5" } }}
