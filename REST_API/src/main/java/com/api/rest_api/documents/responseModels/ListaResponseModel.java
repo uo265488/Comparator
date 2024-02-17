@@ -1,25 +1,28 @@
-package com.api.rest_api.documents;
+package com.api.rest_api.documents.responseModels;
 
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import com.api.rest_api.documents.LaListaProduct;
 import com.api.rest_api.helper.parser.ListaParser;
+import lombok.Builder;
 import lombok.Value;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Value
 public class ListaResponseModel {
 
-    List<Lista> hits = new ArrayList<>();
+    List<LaListaProduct> hits = new ArrayList<>();
 
-    public ListaResponseModel(SearchResponse<Lista> response) {
+    public ListaResponseModel(SearchResponse<LaListaProduct> response) {
         addHits(response);
     }
     /**
      * Adds the List to the hits
      * @param  response
      */
-    public void addHits(SearchResponse<Lista> response) {
+    public void addHits(SearchResponse<LaListaProduct> response) {
         response.hits().hits().forEach(h ->
         {
             if(!this.hits.contains(h)) {
