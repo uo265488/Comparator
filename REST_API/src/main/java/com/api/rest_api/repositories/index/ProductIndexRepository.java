@@ -4,7 +4,6 @@ import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
-import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
 import com.api.rest_api.config.ESClientConfig;
 import com.api.rest_api.documents.Product;
@@ -94,7 +93,7 @@ public class ProductIndexRepository implements IndexRepository<Product> {
     }
 
         @Override
-    public List<Product> synchronousBulkIndexing(List<Product> productList) {
+    public BulkResponse synchronousBulkIndexing(List<Product> productList) {
         BulkRequest.Builder br = new BulkRequest.Builder();
 
         for (Product product : productList) {
@@ -113,7 +112,7 @@ public class ProductIndexRepository implements IndexRepository<Product> {
             LoggerFactory.getLogger(this.getClass()).error(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
-        return productList;
+        return result;
     }
 
     @Override
