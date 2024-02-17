@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import ProductInformation from "../components/ProductInformation";
-import { Box, Grid } from "@mui/material";
+import React, { useState} from "react";
+import { Grid } from "@mui/material";
 import RegisterProductForm from "../components/scanner/RegisterProductForm";
 import MyCamera from "../components/Scanner/MyCamera";
 import BarcodeInformation from "../components/scanner/BarcodeInformation";

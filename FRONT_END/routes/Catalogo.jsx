@@ -3,22 +3,15 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAllProducts, getProductsFiltered } from "../api/ApiService";
 import { useState } from "react";
-import {
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import { Searchbar } from "react-native-paper";
 import ProductInformation from "../components/ProductInformation";
 import MyComboBox from "../components/MyComboBox.jsx";
 import { SUPERMERCADOS } from "../helper/settings";
 
-
 export default function Catalogo() {
+
   const dispatch = useDispatch();
 
   const [products, setProducts] = useState([]);
@@ -97,7 +90,7 @@ export default function Catalogo() {
               sx={{ color: "text.primary" }}
             >
               Catálogo: escoge los productos que quieras añadir a tu Lista de la
-              compra!
+              compra! 
             </Typography>
           </Grid>
 
@@ -136,10 +129,7 @@ export default function Catalogo() {
                       supermercado={value}
                       setSupermercado={setValue}
                       supermercados={SUPERMERCADOS}
-                      
-                      helperText={
-                        ""
-                      }
+                      helperText={""}
                     />
                     {/*<FormControl
                       variant="filled"
