@@ -7,8 +7,8 @@ const root = createRoot(document.getElementById('root'));
 
 root.render(
 <Auth0Provider
-     domain="dev-0s8etfxle7ellxsg.us.auth0.com"
-     clientId="2JsgrQHLS6WEkFYGHEOnPx5ONsgVl4Kk"
+     domain="dev-7bom31phfk83ffkv.us.auth0.com"
+     clientId="Dh4MXqUj8w9N52IY9psQ54TjUje50SJe"
     authorizationParams={{
       redirect_uri: window.location.origin
     }}
