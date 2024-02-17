@@ -12,6 +12,8 @@ const saveImageURL = apiEndPoint + '/utils/saveImage';
 const lastPriceChangeURL = apiEndPoint + '/search/lastPriceChange';
 const getAvgPriceBySupermercadoURL = apiEndPoint + '/statistics/avgPriceBySupermercado';
 const getAvgPricePerMonthBySupermercadoURL = apiEndPoint + '/statistics/avgPricePerMonthBySupermercado';
+const getListByEmailURL = apiEndPoint + '/search/listas/findByEmail';
+const savePersonalListURL = apiEndPoint + '/index/listas/add';
 /**
  * This function returns the productst that are currently stored in the databse.
  * First we get the api endpoint that we are going to be listening on.
@@ -142,7 +144,7 @@ export function registrarSubidaDePrecio(producto) {
 export async function findAlternative(productoAMejorar) {
 	var url = (productoAMejorar.supermercado != undefined && productoAMejorar.supermercado != '')
 		? findAlternativeURL + '?supermercado=' + productoAMejorar.supermercado + ((productoAMejorar.marca) != undefined ? '&marca=' + productoAMejorar.marca : '')
-		: findAlternativeURL + ((productoAMejorar.marca) != undefined ? '' : '?marca=' + productoAMejorar.marca );
+		: findAlternativeURL + ((productoAMejorar.marca) != undefined ? '' : '?marca=' + productoAMejorar.marca);
 
 	return await fetch(url,
 		{
@@ -199,4 +201,41 @@ export async function getAvgPriceBySupermercado() {
 export async function getAvgPricePerMonthBySupermercado() {
 	let response = await fetch(getAvgPricePerMonthBySupermercadoURL);
 	return response.json();
+}
+
+export async function getPersonalListByEmail(email) {
+	try {
+		const response = await fetch(getListByEmailURL + "?email=" + email);
+		if (!response.ok) {
+			throw new Error('Could not retrieve LaLista from database...');
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+export async function savePersonalList(listName, email, productList) {
+	try {
+		const requestBody = JSON.stringify({
+			productList: productList,
+			email: email,
+			listName: listName
+		});
+
+		// Make the POST request
+		const response = await fetch(savePersonalListURL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: requestBody
+		})
+
+		return await response.json();
+
+	} catch (error) {
+		console.error(error);
+	}
 }
