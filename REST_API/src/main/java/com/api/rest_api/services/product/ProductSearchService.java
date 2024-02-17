@@ -2,7 +2,7 @@ package com.api.rest_api.services.product;
 
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import com.api.rest_api.documents.Product;
-import com.api.rest_api.documents.ProductResponseModel;
+import com.api.rest_api.documents.responseModels.ProductResponseModel;
 import com.api.rest_api.helper.parser.ProductParser;
 import com.api.rest_api.repositories.search.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
