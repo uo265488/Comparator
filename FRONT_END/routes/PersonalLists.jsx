@@ -23,6 +23,16 @@ export const StyledButton = styled(Button)`
   }
 `;
 
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * TENER EN CUENTA EL PRODUCTO EN LISTA PERSONAL! IMPORTANTISIMO
+ * 
+ */
 export default function PersonalLists() {
   const { user, isAuthenticated } = useAuth0();
 
