@@ -1,10 +1,11 @@
-import { useAuth0 } from "@auth0/auth0-react";
+
 import { Grid } from "@mui/material";
 import { Button, Text } from "react-native-paper";
 import { Link } from "react-router-dom";
 
 export default function Home() {
 
+  
   return (
     <Grid
       container
@@ -24,10 +25,13 @@ export default function Home() {
         <Button mode="contained">Hacer una lista de la compra</Button>
       </Link>
       <Link to="/laLista" underline="none">
-        <Button mode="contained">Ver LaLista</Button>
+        <Button mode="contained">Crea LaLista</Button>
       </Link>
       <Link to="/estadisticas" underline="none">
         <Button mode="contained">Ver estadísticas</Button>
+      </Link>
+      <Link to="/tusListas" underline="none">
+        <Button mode="contained">Tus listas</Button>
       </Link>
     </Grid>
   );

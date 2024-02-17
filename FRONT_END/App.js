@@ -10,7 +10,7 @@ import Catalogo from './routes/Catalogo';
 import LaLista from './routes/LaLista';
 import DashboardContent from './routes/Dashboard';
 import { saveState } from './redux/localStorage';
-import Profile from './routes/Profile';
+import Perfil from './routes/Perfil';
 
 export default function App() {
 
@@ -18,23 +18,25 @@ export default function App() {
     saveState(store.getState());
   });
 
+
+
   return (
-    
-      <View style={styles.container}>
-        <Provider store={store}>
-          <BrowserRouter>
-            <NavigationBar />
-            <Routes>
-              <Route path="/" element={<Home />} ></Route>
-              <Route path="scanner" element={<ProductRegistry></ProductRegistry>}> </Route>
-              <Route path="catalogue" element={<Catalogo></Catalogo>}></Route>
-              <Route path="lista" element={<LaLista></LaLista>}></Route>
-              <Route path="estadisticas" element={<DashboardContent></DashboardContent>}></Route>
-              <Route path="profile" element={<Profile></Profile>}></Route>
-            </Routes>
-          </BrowserRouter>
-        </Provider>
-      </View>
+
+    <View style={styles.container}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <NavigationBar />
+          <Routes>
+            <Route path="/" element={<Home />} ></Route>
+            <Route path="scanner" element={<ProductRegistry></ProductRegistry>}> </Route>
+            <Route path="catalogue" element={<Catalogo></Catalogo>}></Route>
+            <Route path="lista" element={<LaLista></LaLista>}></Route>
+            <Route path="estadisticas" element={<DashboardContent></DashboardContent>}></Route>
+            <Route path="profile" element={<Perfil></Perfil>}></Route>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
+    </View>
   );
 }
 

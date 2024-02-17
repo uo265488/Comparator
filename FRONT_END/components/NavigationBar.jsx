@@ -27,11 +27,15 @@ const pages = [
   { name: "Catálogo", link: "catalogue" },
   { name: "La Lista de la compra", link: "lista" },
   { name: "Estadisticas", link: "estadisticas" },
+  { name: "Perfil", link : "profile"},
+  { name: "Tus listas", link: "tusListas" }
 ];
 
 export function NavigationBar() {
   const { user, isAuthenticated, isLoading } = useAuth0();
-
+  console.log(user);
+  console.log(isAuthenticated);
+    
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
