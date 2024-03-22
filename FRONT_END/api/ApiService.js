@@ -1,6 +1,8 @@
+import { productListToListaProductList } from "../helper/parser";
 
 const apiEndPoint = process.env.API_URI || 'http://localhost:8080';
 const searchAllURL = apiEndPoint + "/search/all";
+const findProductByIdURL = apiEndPoint + "/search/";
 const findProductByBarcodeURL = apiEndPoint + "/search/filter?barcode=";
 const addNonExistingProductURL = apiEndPoint + "/index/product";
 const getProductsByNombreURL = apiEndPoint + '/search/filter?nombre=';
@@ -14,6 +16,7 @@ const getAvgPriceBySupermercadoURL = apiEndPoint + '/statistics/avgPriceBySuperm
 const getAvgPricePerMonthBySupermercadoURL = apiEndPoint + '/statistics/avgPricePerMonthBySupermercado';
 const getListByEmailURL = apiEndPoint + '/search/listas/findByEmail';
 const savePersonalListURL = apiEndPoint + '/index/listas/add';
+
 /**
  * This function returns the productst that are currently stored in the databse.
  * First we get the api endpoint that we are going to be listening on.
@@ -25,13 +28,19 @@ export async function getAllProducts() {
 	return response.json();
 }
 
-export async function getProductsFiltered(name) {
-	let response = await fetch(getProductsByNombreURL + name);
-	return response.json();
-}
+export async function findProductById(id) {
+	let response = await fetch(findProductByIdURL + id);
+	let data = await response.json(); 
+	return data;
+  }
 
 export async function findProductByBarcode(barcode) {
 	let response = await fetch(findProductByBarcodeURL + barcode);
+	return response.json();
+}
+
+export async function getProductsFiltered(name) {
+	let response = await fetch(getProductsByNombreURL + name);
 	return response.json();
 }
 
@@ -217,14 +226,15 @@ export async function getPersonalListByEmail(email) {
 }
 
 export async function savePersonalList(listName, email, productList) {
+	
 	try {
 		const requestBody = JSON.stringify({
-			productList: productList,
+			productList: productListToListaProductList(productList),
 			email: email,
 			listName: listName
 		});
 
-		// Make the POST request
+		console.log(requestBody);
 		const response = await fetch(savePersonalListURL, {
 			method: 'POST',
 			headers: {
@@ -237,5 +247,6 @@ export async function savePersonalList(listName, email, productList) {
 
 	} catch (error) {
 		console.error(error);
+		return Promise.reject(error);
 	}
 }

@@ -4,7 +4,7 @@ import { SUPERMERCADOS } from "../helper/settings";
 import SupermercadoEnLista from "../components/laLista/SupermercadoEnLista";
 import { BreadcrumbsLaLista } from "../components/BreadCrumbs";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getListaPersonal } from "../api/ApiService";
+import { getListaPersonal, getPersonalListByEmail } from "../api/ApiService";
 import { Wrapper } from "../helper/styles";
 import image from "../static/images/Mercadona.png";
 
@@ -23,7 +23,7 @@ export default function Perfil() {
 
   const dispatchListaPersonal = async () => {
     if (isAuthenticated) {
-      const productsResult = await getListaPersonal(user.email);
+      const productsResult = await getPersonalListByEmail(user.email);
       setListaDeProductos(productsResult.hits);
     }
   };

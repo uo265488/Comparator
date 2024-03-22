@@ -24,17 +24,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const pages = [
   { name: "Scanner", link: "scanner" },
-  { name: "Catálogo", link: "catalogue" },
+  { name: "Catálogo", link: "productos" },
   { name: "La Lista de la compra", link: "lista" },
   { name: "Estadisticas", link: "estadisticas" },
   { name: "Perfil", link : "profile"},
-  { name: "Tus listas", link: "tusListas" }
+  { name: "Tus listas", link: "listasPersonales" }
 ];
 
 export function NavigationBar() {
   const { user, isAuthenticated, isLoading } = useAuth0();
-  console.log(user);
-  console.log(isAuthenticated);
+  console.log("Usuario en sesion: " + user);
     
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);

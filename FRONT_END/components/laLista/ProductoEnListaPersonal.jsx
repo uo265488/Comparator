@@ -1,54 +1,83 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
-import { Checkbox, FormControlLabel } from "@mui/material";
+import {
+  Box,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  Paper,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { findProductById } from "../../api/ApiService";
+import { Wrapper } from "../../helper/styles";
+import { Link } from "react-router-dom";
+import { Card } from "react-native-paper";
 
 export default function ProductoEnListaPersonal(props) {
-  let imageRef = require("../../static/images/producto.png");
 
-  const [productItem, setProductItem] = useState(props.item);
+  let productImg = require("../../static/images/producto.png");
+  var supermercadoImg = require("../../static/images/" + props.product.supermercado + ".png");;
 
-  const Wrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    font-family: Arial, Helvetica, sans-serif;
-    border-bottom: 0.01em solid lightblue;
-    padding-bottom: 2em;
-    div {
-      flex: 1;
-    }
-    .information,
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-    }
-    img {
-      max-width: 10em;
-      object-fit: cover;
-      margin-left: 2em;
-    }
-  `;
+  const [productItem, setProductItem] = useState();
+
+  const getProductCharacteristics = () => {
+    findProductById(
+      props.product.barcode + "" + props.product.supermercado
+    ).then((res) => {
+      setProductItem(res);
+    });
+  };
+
+  useEffect(() => {
+    getProductCharacteristics();
+  }, []);
 
   return (
-    <Wrapper className="cart-item-product">
-      <div>
-        <h3>{producto.nombre}</h3>
-        <FormControlLabel
+    <Grid item xs={12} md={6}>
+      {productItem != undefined && (
+        <Card
+          sx={{
+            width: { md: 345, xs: 250 },
+            height: { md: 500, xs: 350 },
+            bgcolor: "background.card",
+            borderRadius: 8,
+            boxShadow: "10",
+          }}
+        >
+          <CardMedia
+            component="img"
+            sx={{ height: { md: 300, xs: 150 } }}
+            image={productImg}
+            alt={productItem.nombre}
+          />
+          <CardContent sx={{ height: { xs: 100, md: 120 } }}>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{ typography: { md: "h5", xs: "h6" } }}
+            >
+              {productItem.nombre}
+            </Typography>
+
+            <Wrapper>
+              <img
+                src={supermercadoImg}
+                alt={"Product image"}
+              />
+            </Wrapper>
+          </CardContent>
+          <FormControlLabel
           control={<Checkbox color="success" />}
           label="Producto comprado"
         />
-        <h4> Marca: {productItem.producto.marca}</h4>
-        <div className="information">
-          <p>Precio: {productItem.producto.precioActual} € </p>
-          <p>
-            Total:{" "}
-            {(productItem.unidades * productItem.producto.precioActual).toFixed(
-              2
-            )}{" "}
-            €{" "}
-          </p>
-        </div>
-      </div>
-      <img src={imageRef} alt={productItem.producto.nombre} />
-    </Wrapper>
+        </Card>
+      )}
+    </Grid>
   );
 }

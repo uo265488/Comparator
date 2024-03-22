@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { StyledButton } from "../../routes/LaLista";
+import { StyleFilledButton } from "../../routes/LaLista";
 import {
   añadirProductoALaLista,
   borrarProductoDeLaLista,
@@ -11,6 +11,7 @@ import {
 import { productoAElemento } from "../../helper/parser";
 import { findAlternative } from "../../api/ApiService";
 import { Alert, Checkbox, FormControlLabel } from "@mui/material";
+import { StyledFilledButton, Wrapper } from "../../helper/styles";
 
 export default function ProductoEnLista(props) {
   let imageRef = require("../../static/images/producto.png");
@@ -70,7 +71,7 @@ export default function ProductoEnLista(props) {
     findAlternative({
       producto: productItem.producto,
       supermercado: props.supermercado,
-      marca: props.marca
+      marca: props.marca,
     }).then((data) => {
       var productoMejorado = data.hits[0];
 
@@ -93,7 +94,6 @@ export default function ProductoEnLista(props) {
               productoMejorado.precioActual) /
             productItem.producto.precioActual,
         });
-        
 
         setExistsAlternativeAlert(false);
       } else {
@@ -103,30 +103,9 @@ export default function ProductoEnLista(props) {
     //props.computeTotalPrice();
   };
 
-  const Wrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    font-family: Arial, Helvetica, sans-serif;
-    border-bottom: 0.01em solid lightblue;
-    padding-bottom: 2em;
-    div {
-      flex: 1;
-    }
-    .information,
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-    }
-    img {
-      max-width: 10em;
-      object-fit: cover;
-      margin-left: 2em;
-    }
-  `;
-
   return (
     <Wrapper className="cart-item-product">
-      <div >
+      <div>
         {productItem.mejora > 0 && (
           <Alert severity="success">
             La mejora de esta alternativa ha supuesto un ahorro del{" "}
@@ -163,7 +142,10 @@ export default function ProductoEnLista(props) {
         )}
 
         <h3>{productItem.producto.nombre}</h3>
-        <FormControlLabel control={<Checkbox color="success" />} label="Producto comprado" />
+        <FormControlLabel
+          control={<Checkbox color="success" />}
+          label="Producto comprado"
+        />
         <h4> Marca: {productItem.producto.marca}</h4>
         <div className="information">
           <p>Precio: {productItem.producto.precioActual} € </p>
@@ -176,7 +158,7 @@ export default function ProductoEnLista(props) {
           </p>
         </div>
         <div className="buttons">
-          <StyledButton
+          <StyledFilledButton
             size="small"
             disableElevation
             variant="contained"
@@ -190,9 +172,9 @@ export default function ProductoEnLista(props) {
             }}
           >
             -
-          </StyledButton>
+          </StyledFilledButton>
           <p>{productItem.unidades}</p>
-          <StyledButton
+          <StyledFilledButton
             size="small"
             disableElevation
             variant="contained"
@@ -206,10 +188,10 @@ export default function ProductoEnLista(props) {
             }}
           >
             +
-          </StyledButton>
+          </StyledFilledButton>
         </div>
         <p> </p>
-        <StyledButton
+        <StyledFilledButton
           size="small"
           disableElevation
           variant="contained"
@@ -222,7 +204,7 @@ export default function ProductoEnLista(props) {
           }}
         >
           Buscar mejor alternativa
-        </StyledButton>
+        </StyledFilledButton>
       </div>
 
       <img src={imageRef} alt={productItem.producto.nombre} />

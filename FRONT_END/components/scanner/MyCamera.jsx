@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+{/*import React, { useState, useEffect } from "react";
 import {
   BrowserBarcodeReader,
   NotFoundException,
@@ -125,10 +125,10 @@ export default function MyCamera(props) {
             }
           </NativeSelect>
         </div>
-
+        
         <div>
           <video id="video"  width="100%" max-width="600px" padding-bottom="56.25%" />
-        </div>
+          </div>
 
         <FormLabel>Código de barras: </FormLabel>
         <pre>
@@ -141,4 +141,4 @@ export default function MyCamera(props) {
           </section>
     </Box>
   );
-}
+}*/}

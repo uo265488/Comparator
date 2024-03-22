@@ -1,7 +1,16 @@
 import styled from "@emotion/styled";
 import { Button } from "react-native-paper";
+import { Button as Button2} from "@mui/material";
 
 export const StyledButton = styled(Button)`
+  background: #9681f2;
+  color: black;
+  :hover {
+    background: #81c9f2;
+  }
+`;
+
+export const StyledFilledButton = styled(Button2)`
   background: #9681f2;
   color: black;
   :hover {

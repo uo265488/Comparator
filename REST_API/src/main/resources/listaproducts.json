@@ -1,9 +1,9 @@
 {
   "properties": {
-    "productBarcode": {
+    "barcode": {
       "type": "text"
     },
-    "productSupermercado": {
+    "supermercado": {
       "type": "text"
     },
     "listaId": {

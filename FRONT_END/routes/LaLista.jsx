@@ -2,10 +2,14 @@ import {
   Box,
   Grid,
   Typography,
-  styled,
-  Button,
   TextField,
   FormControl,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Alert,
 } from "@mui/material";
 import { loadState } from "../redux/localStorage";
 import { useEffect, useState } from "react";
@@ -15,14 +19,9 @@ import { compareProducts } from "../helper/comparator";
 import SupermercadoEnLista from "../components/laLista/SupermercadoEnLista";
 import { BreadcrumbsLaLista } from "../components/BreadCrumbs";
 import { useAuth0 } from "@auth0/auth0-react";
-
-export const StyledButton = styled(Button)`
-  background: #9681f2;
-  color: black;
-  :hover {
-    background: #81c9f2;
-  }
-`;
+import { savePersonalList } from "../api/ApiService.js";
+import { StyledFilledButton } from "../helper/styles.jsx";
+import { Label } from "recharts";
 
 export default function LaLista() {
   let state = loadState();
@@ -45,8 +44,11 @@ export default function LaLista() {
 
   const [activateUseEffect, setActivateUseEffect] = useState(true);
 
-  const [isListSaved, setListSaved] = (false);
-  const [isErrorWhenSave, setErrorWhenSave] = (false);
+  const [isShowPersonalListNameDialog, setShowPersonalListNameDialog] =
+    useState(false);
+  const [isListSaved, setListSaved] = useState(false);
+  const [isErrorWhenSave, setErrorWhenSave] = useState(false);
+  const [listName, setListName] = useState("");
 
   useEffect(() => {
     setPrecioTotal(
@@ -98,7 +100,6 @@ export default function LaLista() {
   };
 
   const mejorarAlternativa = (productoAMejorar, alternativa) => {
-    console.log("Q PASA")
     var isProductInLaLista = -1;
     var isAlternativaInLaLista = -1;
     var counter = 0;
@@ -140,16 +141,14 @@ export default function LaLista() {
     computeTotalPrice();
   };
 
-  const savePersonalList = () => {
+  const savePersonalListWithName = (listName) => {
     if (isAuthenticated) {
-      //ABRIR DIALOGO PARA ESCRIBIR EL NOMBRE DE LA LISTA
-      if (savePersonalList(listName, user.email, listaDeProductos)) {
-        setListSaved(true);
-      } else {
-        setErrorWhenSave(true);
-      }
+      savePersonalList(listName, user.email, listaDeProductos)
+        .then(() => setListSaved(true))
+        .catch(() => setErrorWhenSave(true))
+        .finally(() => setShowPersonalListNameDialog(false));
     }
-  }
+  };
 
   const handleInputChange = (event) => setMarca(event.target.value);
 
@@ -164,7 +163,7 @@ export default function LaLista() {
         flexDirection: "column",
       }}
     >
-      <BreadcrumbsLaLista/>
+      <BreadcrumbsLaLista />
 
       <Typography
         variant="h3"
@@ -181,35 +180,26 @@ export default function LaLista() {
         <Typography variant="subtitle1" paragraph>
           Utiliza estos parámetros para filtrar las mejoras de alternativa:
         </Typography>
-      <MyComboBox
+        <MyComboBox
           supermercado={supermercado}
           setSupermercado={setSupermercado}
           supermercados={SUPERMERCADOS}
           helperText={"Selecciona un supermercado si quieres filtrar LaLista"}
         />
-      <FormControl sx={{ m: 1, minWidth: 120, width: '100%' }}>
-        
-        <TextField
-          id="marca"
-          name="marca"
-          label="Marca del producto"
-          fullWidth
-          autoComplete="marca"
-          variant="standard"
-          onChange={handleInputChange}
-          value={marca}
+        <FormControl sx={{ m: 1, minWidth: 120, width: "100%" }}>
+          <TextField
+            id="marca"
+            name="marca"
+            label="Marca del producto"
+            fullWidth
+            autoComplete="marca"
+            variant="standard"
+            onChange={handleInputChange}
+            value={marca}
           />
         </FormControl>
       </div>
-      <div>
-        {
-          isListSaved
-            ? <Alert severity="success">La Lista ha sido guardada con éxito. </Alert>
-            : isErrorWhenSave 
-              ? <Alert severity="error">Ha ocurrido un error, no se ha podido guardar la Lista...</Alert>
-              : <StyledButton onClick={savePersonalList}> Guardar Lista personal</StyledButton>
-        }
-      </div>
+
       {state.laListaReducer.lista.length === 0 && (
         <Typography
           sx={{ color: "text.default", typography: { sm: "h4", xs: "h5" } }}
@@ -235,6 +225,51 @@ export default function LaLista() {
 
       <Grid>
         <h2 className="total-text">Total: {precioTotal} €</h2>
+
+        <StyledFilledButton onClick={() => setShowPersonalListNameDialog(true)}>
+          {" "}
+          Guardar Lista personal
+        </StyledFilledButton>
+
+        <Dialog open={isShowPersonalListNameDialog}>
+          <DialogTitle>Guardar LaLista</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Introduce un nombre para tu lista:
+            </DialogContentText>
+            <TextField
+              type="text"
+              id="listName"
+              placeholder="Nombre de la lista"
+              value={listName}
+              onChange={(event) => setListName(event.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <StyledFilledButton
+              onClick={() => savePersonalListWithName(listName)}
+            >
+              Guardar LaLista Personal
+            </StyledFilledButton>
+            <StyledFilledButton
+              onClick={() => setShowPersonalListNameDialog(false)}
+            >
+              Cancel
+            </StyledFilledButton>
+          </DialogActions>
+        </Dialog>
+        <div>
+          {isListSaved && (
+            <Alert severity="success">
+              La Lista ha sido guardada con éxito!{" "}
+            </Alert>
+          )}
+          {isErrorWhenSave && (
+            <Alert severity="error">
+              Ha ocurrido un error, no se ha podido guardar la Lista...
+            </Alert>
+          )}
+        </div>
       </Grid>
     </Box>
   );
