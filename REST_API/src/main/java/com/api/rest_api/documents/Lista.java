@@ -1,16 +1,19 @@
 package com.api.rest_api.documents;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+
+import java.io.Serializable;
 
 @Value
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @ToString
-@Getter
-@Setter
 @Builder
-public class Lista {
+public class Lista implements Serializable {
+
+    @JsonProperty("name")
     String name;
-    String email;
-    String date;
+    @JsonProperty("email") String email;
+    @JsonProperty("date") String date;
 }

@@ -17,21 +17,19 @@ import java.util.Optional;
 public class ProductSearchService {
 
     @Autowired
-    private SearchRepository productSearchRepository;
+    private SearchRepository<Product> productSearchRepository;
 
-    public ProductResponseModel matchAllQuery() {
+    public ProductResponseModel findAll() {
         return new ProductResponseModel(productSearchRepository.matchAllQuery("ASC", "supermercado", 1000));
     }
 
-
-    public ProductResponseModel filterBy(String field, Object value) {
-
-        return new ProductResponseModel(productSearchRepository.filterByFieldQuery(field, value));
+    public Product findById(String id) {
+        return productSearchRepository.filterByFieldQuery("_id", id).hits().hits().get(0).source();
     }
 
-    public ProductResponseModel basicFiltering(Optional<String> nombre, Optional<String> marca,
-                                               Optional<String> supermercado, Optional<String> proveedor,
-                                               Optional<String> barcode) {
+    public ProductResponseModel filter(Optional<String> nombre, Optional<String> marca,
+                                       Optional<String> supermercado, Optional<String> proveedor,
+                                       Optional<String> barcode) {
 
         return new ProductResponseModel(productSearchRepository.filterQuery(nombre, marca, Optional.empty(),
                 supermercado, proveedor, barcode, Optional.empty()));

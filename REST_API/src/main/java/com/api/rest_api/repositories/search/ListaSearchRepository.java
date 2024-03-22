@@ -28,23 +28,38 @@ import static com.api.rest_api.repositories.search.ProductSearchRepository.DEFAU
 public class ListaSearchRepository implements SearchRepository<Lista> {
 
     @Autowired
+    private QueryFactory queryFactory;
+    @Autowired
     private ESClientConfig elasticsearchClientConfig;
 
-    @Autowired
-    private QueryFactory queryFactory;
+
+    @Override
+    public SearchResponse<Lista> matchAllQuery(String sortOrder, String sortBy, int size) {
+        return null;
+    }
 
     @Override
     public SearchResponse<Lista> filterByFieldQuery(String field, Object value) {
         return executeQuery(queryFactory.getFilterQuery(field, value.toString()),
-                DEFAULT_QUERY_SIZE, "ASC", null, null);
+            DEFAULT_QUERY_SIZE, "ASC", null, null);
     }
+
     @Override
-    public SearchResponse<Lista> executeQuery(Query query, int size, String sortOrder,
-                                              String sortBy, Map<String, Aggregation> aggs) {
-        SearchResponse response;
+    public SearchResponse<Lista> getAveragePricesBySupermercado() {
+        return null;
+    }
+
+    @Override
+    public SearchResponse<Lista> executeQuery(Query query, int size, String ordering, String orderBy) {
+        throw new NotYetImplementedException();
+    }
+
+    @Override
+    public SearchResponse<Lista> executeQuery(Query query, int size, String sortOrder, String sortBy, Map<String, Aggregation> aggs) {
+        SearchResponse<Lista> response;
         try {
             response = elasticsearchClientConfig.getEsClient()
-                    .search(getSearchRequest(query, size, sortOrder, sortBy), Object.class);
+                    .search(getSearchRequest(query, size, sortOrder, sortBy), Lista.class);
         } catch(IOException e) {
             Logger.getAnonymousLogger().log(new LogRecord(Level.ALL, e.getMessage()));
             throw new RuntimeException(e.getMessage());
@@ -85,38 +100,25 @@ public class ListaSearchRepository implements SearchRepository<Lista> {
         }
         request.sort(sortOptions);
     }
+
+
     @Override
     public SearchResponse<Lista> filterQuery(Optional<String> nombre, Optional<String> marca, Optional<Double> precio, Optional<String> supermercado, Optional<String> proveedor, Optional<String> barcode, Optional<String> fechaDeRegistro) {
-        throw new NotYetImplementedException();
+        return null;
     }
 
     @Override
     public SearchResponse<Lista> findAlternativeQuery(Lista Document, String[] fields, String sortOrder, String sortBy, Map<String, String> filters, int size) {
-        throw new NotYetImplementedException();
+        return null;
     }
 
     @Override
     public SearchResponse<Lista> getMostUpdated() {
-        throw new NotYetImplementedException();
+        return null;
     }
 
     @Override
     public SearchResponse<Lista> getAllMarcas() {
-        throw new NotYetImplementedException();
+        return null;
     }
-    @Override
-    public SearchResponse<Lista> getAveragePricesBySupermercado() {
-        throw new NotYetImplementedException();
-    }
-
-    @Override
-    public SearchResponse<Lista> executeQuery(Query query, int size, String ordering, String orderBy) {
-        throw new NotYetImplementedException();
-    }
-
-    @Override
-    public SearchResponse<Lista> matchAllQuery(String sortOrder, String sortBy, int size) {
-        throw new NotYetImplementedException();
-    }
-
 }

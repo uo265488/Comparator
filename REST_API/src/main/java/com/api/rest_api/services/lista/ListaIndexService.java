@@ -10,6 +10,7 @@ import com.api.rest_api.repositories.index.ListaIndexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -26,6 +27,7 @@ public class ListaIndexService {
         return listaIndexRepository.indexDocument(Lista.builder()
                 .name(listName)
                 .email(email)
+                .date(LocalDate.now().toString())
                 .build());
     }
 

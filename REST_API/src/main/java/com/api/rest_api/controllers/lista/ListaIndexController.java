@@ -3,8 +3,11 @@ package com.api.rest_api.controllers.lista;
 import co.elastic.clients.elasticsearch._types.Result;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import com.api.rest_api.documents.LaListaProduct;
+import com.api.rest_api.documents.requestModels.AddListaRequest;
 import com.api.rest_api.services.laListaProduct.LaListaProductIndexService;
 import com.api.rest_api.services.lista.ListaIndexService;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +38,12 @@ public class ListaIndexController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addLista(@RequestBody List<LaListaProduct> productList,
-                                   @RequestBody String email,
-                                   @RequestBody String listName) {
+    public ResponseEntity addLista(@RequestBody AddListaRequest request) {
+
         //Check list exists
-        IndexResponse indexResponse = listaIndexService.indexLista(email, listName);
+        IndexResponse indexResponse = listaIndexService.indexLista(request.getEmail(), request.getListName());
         if (indexResponse.result().equals(Result.Created)) {
-            return laListaProductIndexService.indexLaListaProducts(indexResponse.id(), productList)
+            return laListaProductIndexService.indexLaListaProducts(indexResponse.id(), request.getProductList())
                     ? ResponseEntity.ok(HttpStatus.CREATED)
                     : ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

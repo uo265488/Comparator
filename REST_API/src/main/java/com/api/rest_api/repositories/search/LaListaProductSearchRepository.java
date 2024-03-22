@@ -42,10 +42,10 @@ public class LaListaProductSearchRepository implements SearchRepository<LaListaP
     @Override
     public SearchResponse<LaListaProduct> executeQuery(Query query, int size, String sortOrder,
                                                        String sortBy, Map<String, Aggregation> aggs) {
-        SearchResponse response;
+        SearchResponse<LaListaProduct> response;
         try {
             response = elasticsearchClientConfig.getEsClient()
-                    .search(getSearchRequest(query, size, sortOrder, sortBy), Object.class);
+                    .search(getSearchRequest(query, size, sortOrder, sortBy), LaListaProduct.class);
         } catch(IOException e) {
             Logger.getAnonymousLogger().log(new LogRecord(Level.ALL, e.getMessage()));
             throw new RuntimeException(e.getMessage());
@@ -65,7 +65,7 @@ public class LaListaProductSearchRepository implements SearchRepository<LaListaP
         SearchRequest request =
                 SearchRequest.of(s -> {
                             s
-                                    .index(Indices.LISTAS_INDEX)
+                                    .index(Indices.LALISTA_PRODUCT_INDEX)
                                     .query(query)
                                     .size(size);
                             addSortingOptions(s, sortBy, sortOrder);

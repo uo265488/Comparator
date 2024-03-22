@@ -1,13 +1,20 @@
 package com.api.rest_api.documents.responseModels;
 
 import com.api.rest_api.documents.LaListaProduct;
-import com.api.rest_api.documents.Lista;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-import java.util.List;
+import java.io.Serializable;
 
 @Builder
-public class LaListaResponseModel {
-    private Lista lista;
-    private List<LaListaProduct> laListaProductsList;
+@AllArgsConstructor
+public class LaListaResponseModel implements Serializable {
+    @JsonProperty("email") private String email;
+
+    @JsonProperty("name") private String name;
+
+    @JsonProperty("date") private String date;
+
+    @JsonProperty("products") private LaListaProduct[] laListaProductsList;
 }

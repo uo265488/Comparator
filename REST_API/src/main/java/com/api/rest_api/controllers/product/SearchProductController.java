@@ -33,8 +33,21 @@ public class SearchProductController {
     })
     //@Parameters(value = {    })
     @GetMapping("/all")
-    public ResponseEntity<ProductResponseModel> matchAllQuery() {
-        return ResponseEntity.ok(service.matchAllQuery());
+    public ResponseEntity<ProductResponseModel> findAll() {
+        return ResponseEntity.ok(service.findAll());
+    }
+
+    @Operation(summary = "Match all query")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success. "),
+            @ApiResponse(responseCode = "400", description = "Bad request. ")
+    })
+    //@Parameters(value = {    })
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> findById(@PathVariable("id") final String id) {
+        System.out.println(id);
+        System.out.println(service.findById(id));
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @GetMapping("/filter")
@@ -47,7 +60,7 @@ public class SearchProductController {
                                                          @RequestParam("fecha_de_registro") Optional<String> fecha_de_registro) {
 
         return ResponseEntity.ok(
-                service.basicFiltering(nombre, marca, supermercado, proveedor, barcode));
+                service.filter(nombre, marca, supermercado, proveedor, barcode));
     }
 
     @PostMapping("laLista/mejorar")

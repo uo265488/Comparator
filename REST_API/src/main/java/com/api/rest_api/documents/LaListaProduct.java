@@ -1,12 +1,16 @@
 package com.api.rest_api.documents;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+
+import java.io.Serializable;
+
 @ToString
 @Getter
-@Builder
-public class LaListaProduct {
-    String productBarcode;
-    String productSupermercado;
-    @Setter String listaId;
+@NoArgsConstructor
+public class LaListaProduct implements Serializable {
+    @JsonProperty("barcode") String barcode;
+    @JsonProperty("supermercado") String supermercado;
+    @Setter  @JsonProperty("listaId") String listaId;
 
 }
