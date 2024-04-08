@@ -2,12 +2,9 @@ package com.api.rest_api.controllers.lista;
 
 import co.elastic.clients.elasticsearch._types.Result;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
-import com.api.rest_api.documents.LaListaProduct;
 import com.api.rest_api.documents.requestModels.AddListaRequest;
 import com.api.rest_api.services.laListaProduct.LaListaProductIndexService;
 import com.api.rest_api.services.lista.ListaIndexService;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/index/listas")
