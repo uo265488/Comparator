@@ -8,23 +8,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/search/listas")
-public class ListaSearchController {
+@RequestMapping("api/v1/search/listas")
+public class LaListaSearchController {
 
     @Autowired
-    private LaListaSearchService service;
+    private LaListaSearchService laListaSearchService;
 
-    @GetMapping("/findByEmail")
-    public ResponseEntity<LaListaResponseModel> findByEmail(@RequestParam("email") Optional<String> email) {
-        if(email.isEmpty() || email.get().isBlank())
+    @GetMapping
+    public ResponseEntity<LaListaResponseModel> findByEmail(@RequestParam("email") String email) {
+        if(email == null || email.isEmpty() || email.isBlank())
             return ResponseEntity.badRequest().build();
 
-        System.out.println(email);
-        return ResponseEntity.ok(service.getListasByEmail(email.get()));
+        return ResponseEntity.ok(laListaSearchService.getListasByEmail(email));
     }
 }
