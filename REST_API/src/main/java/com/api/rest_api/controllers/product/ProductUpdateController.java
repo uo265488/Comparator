@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/update")
-public class UpdateProductController {
+@RequestMapping("/api/v1/products/update")
+public class ProductUpdateController {
 
     @Autowired
     private ProductUpdateService updateService;
