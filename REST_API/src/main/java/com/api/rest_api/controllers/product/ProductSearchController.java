@@ -18,36 +18,17 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/search")
-public class SearchProductController {
+@RequestMapping("/api/v1/products/search")
+public class ProductSearchController {
+
     @Autowired
-    private ProductSearchService service;
+    private ProductSearchService productSearchService;
 
     private static final Logger logger = LoggerFactory.getLogger("Logger");
 
-
-    @Operation(summary = "Match all query")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success. "),
-            @ApiResponse(responseCode = "400", description = "Bad request. ")
-    })
-    //@Parameters(value = {    })
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<ProductResponseModel> findAll() {
-        return ResponseEntity.ok(service.findAll());
-    }
-
-    @Operation(summary = "Match all query")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success. "),
-            @ApiResponse(responseCode = "400", description = "Bad request. ")
-    })
-    //@Parameters(value = {    })
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> findById(@PathVariable("id") final String id) {
-        System.out.println(id);
-        System.out.println(service.findById(id));
-        return ResponseEntity.ok(service.findById(id));
+        return ResponseEntity.ok(productSearchService.findAll());
     }
 
     @GetMapping("/filter")
@@ -60,19 +41,15 @@ public class SearchProductController {
                                                          @RequestParam("fecha_de_registro") Optional<String> fecha_de_registro) {
 
         return ResponseEntity.ok(
-                service.filter(nombre, marca, supermercado, proveedor, barcode));
+                productSearchService.filter(nombre, marca, supermercado, proveedor, barcode));
     }
 
-    @PostMapping("laLista/mejorar")
-    public ResponseEntity<ProductResponseModel> optimizeList(@RequestBody List<Product> laLista) {
-
-        ResponseEntity<ProductResponseModel> res = ResponseEntity.ok(service.optimizeList(laLista));
-        System.out.println(res);
-        return res;
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> findById(@PathVariable("id") final String id) {
+        return ResponseEntity.ok(productSearchService.findById(id));
     }
 
-    @SneakyThrows
-    @PostMapping("producto/alternativa")
+    @PostMapping("/improve")
     public ResponseEntity<ProductResponseModel> findBestAlternative(@RequestBody Product product,
                                                                     @RequestParam("supermercado") Optional<String> supermercado,
                                                                     @RequestParam("marca") Optional<String> marca) {
@@ -80,28 +57,23 @@ public class SearchProductController {
         if(product.getBarcode() == null || product.getBarcode().isEmpty() || product.getBarcode().isBlank()) {
             throw new ControllerException("Product received in RequestBody cannot be null, blank nor empty. ");
         }
-        ProductResponseModel res = service.findBestAlternative(product, supermercado, marca);
+
+        ProductResponseModel res = productSearchService.findBestAlternative(product, supermercado, marca);
         logger.info(res.toString());
+
         return ResponseEntity.ok(res);
     }
 
-    @GetMapping("product/mostUpdated")
-    public ResponseEntity<ProductResponseModel> getMostUpdatedProduct() {
+    //Seria mejor en LISTA???
+    @PostMapping("laLista/mejorar")
+    public ResponseEntity<ProductResponseModel> optimizeList(@RequestBody List<Product> laLista) {
 
-        ProductResponseModel res = service.getMostUpdated();
-        logger.info(res.toString());
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok(productSearchService.optimizeList(laLista));
     }
 
+    //Nuevo controller ????
     @GetMapping("/marcas")
     public ResponseEntity<ProductResponseModel> getAllMarcas() {
-        return ResponseEntity.ok(service.getAllMarcas());
+        return ResponseEntity.ok(productSearchService.getAllMarcas());
     }
-
-    @GetMapping("/lastPriceChange")
-    public ResponseEntity<ProductResponseModel> getMostRecentUpdate() {
-
-        return ResponseEntity.ok(service.mostRecentUpdate());
-    }
-
 }
