@@ -24,20 +24,15 @@ public class ImageController {
         String base64Image = imageRequest.getBase64Image();
         String barcode = imageRequest.getBarcode();
 
-        // Remove the data URI scheme part
         String base64Data = base64Image.replaceFirst("data:image\\/[^;]+;base64,", "");
 
-        // Decode the base64 data
         byte[] imageBytes = Base64.getDecoder().decode(base64Data);
 
-        // Generate a unique filename or use an existing filename
         String filename = barcode + ".png";
 
-        // Specify the target file path within the project folder
         String targetPath = saveLocation + filename;
 
         try {
-            // Save the image file to the specified location
            // FileUtils.writeByteArrayToFile(new File(targetPath), imageBytes);
             System.out.println("Image saved successfully.");
             return ResponseEntity.ok("Image saved successfully.");
