@@ -5,6 +5,7 @@ import com.api.rest_api.documents.Product;
 import com.api.rest_api.documents.responseModels.ProductResponseModel;
 import com.api.rest_api.helper.parser.ProductParser;
 import com.api.rest_api.repositories.search.SearchRepository;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,10 @@ public class ProductSearchService {
     private SearchRepository<Product> productSearchRepository;
 
     public ProductResponseModel findAll() {
-        return new ProductResponseModel(productSearchRepository.matchAllQuery("ASC", "supermercado", 1000));
+        return new ProductResponseModel(productSearchRepository.matchAllQuery(
+                "ASC",
+                "supermercado",
+                1000));
     }
 
     public Product findById(String id) {
@@ -48,11 +52,9 @@ public class ProductSearchService {
 
     public ProductResponseModel findBestAlternative(Product product, Optional<String> supermercado, Optional<String> marca) {
         Map<String, String> filters = new HashMap<>();
-        if(supermercado.isPresent())
-            filters.put("supermercado", supermercado.get());
 
-        if(marca.isPresent())
-            filters.put("marca", marca.get());
+        supermercado.ifPresent(s -> filters.put("supermercado", s));
+        marca.ifPresent(s -> filters.put("marca", s));
 
         ProductResponseModel res = new ProductResponseModel();
         res.addFirstHit(productSearchRepository.findAlternativeQuery(product, new String[]{"nombre"},
@@ -61,7 +63,7 @@ public class ProductSearchService {
         return res;
     }
 
-    public ProductResponseModel findProductByBarcode(String barcode) {
+    public ProductResponseModel findByBarcode(String barcode) {
         ProductResponseModel responseModel = new ProductResponseModel();
         responseModel.addHits(
                 productSearchRepository.filterByFieldQuery("barcode", barcode));
