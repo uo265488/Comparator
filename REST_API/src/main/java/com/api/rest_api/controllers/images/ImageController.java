@@ -7,13 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 
-@RestController("api/v1/images")
+@RestController
+@RequestMapping("api/v1/images")
 public class ImageController {
 
     @Value("C:\\Users\\oscar\\OneDrive\\Desktop\\TFG\\project\\REST_API\\src\\main\\resources\\")
