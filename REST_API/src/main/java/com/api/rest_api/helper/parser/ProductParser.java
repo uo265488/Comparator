@@ -23,7 +23,7 @@ public class ProductParser {
     }
 
     public ProductParser(MultipartFile file) {
-        throw new NotYetImplementedException();
+
     }
 
     public static Product mapToProduct(Object obj) {
