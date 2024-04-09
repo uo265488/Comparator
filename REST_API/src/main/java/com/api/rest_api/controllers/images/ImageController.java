@@ -13,13 +13,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 
-@RestController
+@RestController("api/v1/images")
 public class ImageController {
 
     @Value("C:\\Users\\oscar\\OneDrive\\Desktop\\TFG\\project\\REST_API\\src\\main\\resources\\")
     private String saveLocation;
 
-    @PostMapping("/utils/saveImage")
+    @PostMapping
     public ResponseEntity<String> saveImage(@RequestBody ImageRequest imageRequest) {
         String base64Image = imageRequest.getBase64Image();
         String barcode = imageRequest.getBarcode();
