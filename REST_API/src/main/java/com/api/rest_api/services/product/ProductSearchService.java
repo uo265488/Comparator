@@ -1,11 +1,11 @@
 package com.api.rest_api.services.product;
 
+import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import com.api.rest_api.documents.Product;
+import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.documents.responseModels.ProductResponseModel;
 import com.api.rest_api.helper.parser.ProductParser;
 import com.api.rest_api.repositories.search.SearchRepository;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class ProductSearchService {
 
     public ProductResponseModel findAll() {
         return new ProductResponseModel(productSearchRepository.matchAllQuery(
-                "ASC",
+                SortOrder.Asc,
                 "supermercado",
                 1000));
     }
@@ -45,7 +45,7 @@ public class ProductSearchService {
         for(Product p : laLista) {
             responseModel.addFirstHit(
                     productSearchRepository.findAlternativeQuery(p, new String[]{"nombre"},
-                            "ASC", "precioActual", new HashMap<>(), 10));
+                            SortOrder.Asc, "precioActual", new HashMap<>(), 10));
         }
         return responseModel;
     }
@@ -58,7 +58,7 @@ public class ProductSearchService {
 
         ProductResponseModel res = new ProductResponseModel();
         res.addFirstHit(productSearchRepository.findAlternativeQuery(product, new String[]{"nombre"},
-                "ASC", "precioActual", filters, 10));
+                SortOrder.Asc, "precioActual", filters, 10));
 
         return res;
     }
@@ -83,7 +83,7 @@ public class ProductSearchService {
 
     public ProductResponseModel mostRecentUpdate() {
         return new ProductResponseModel(
-                productSearchRepository.matchAllQuery("DESC", "fechas_de_registro",  1));
+                productSearchRepository.matchAllQuery(SortOrder.Asc, "fechas_de_registro",  1));
     }
 
     public SearchResponse<Product> getAveragePricesBySupermercado() {
@@ -92,6 +92,6 @@ public class ProductSearchService {
 
     public Map<String, Map<String, Double>> getAvgPricePerMonthBySupermercado() {
         return ProductParser.searchResponseToStatistic(
-                productSearchRepository.matchAllQuery("", "", 10000));
+                productSearchRepository.matchAllQuery(SortOrder.Asc, "", 10000));
     }
 }

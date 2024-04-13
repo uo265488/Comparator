@@ -1,7 +1,6 @@
 package com.api.rest_api.repositories.search;
 
-import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 
 import java.util.Map;
@@ -12,13 +11,13 @@ public interface SearchRepository<Document> {
     /**
      * Performs a MatchAll query
      */
-    SearchResponse<Document> matchAllQuery(String sortOrder, String sortBy, int size);
+    SearchResponse<Document> matchAllQuery(SortOrder sortOrder, String sortBy, int size);
 
     /**
      * Performs a filter query
-     * @param field
-     * @param value
-     * @return
+     * @param field : document field to filter
+     * @param value : value of that field
+     * @return SearchResponse
      */
     SearchResponse<Document> filterByFieldQuery(String field, Object value);
 
@@ -27,23 +26,6 @@ public interface SearchRepository<Document> {
      * @return
      */
     SearchResponse<Document> getAveragePricesBySupermercado();
-
-    /**
-     * Query executor
-     * @param query
-     * @return List<Hit<Document>>
-     */
-    SearchResponse<Document> executeQuery(Query query, int size, String ordering, String orderBy);
-
-    /**
-     * Query executor
-     * @param query
-     * @return List<Hit<Document>>
-     */
-
-    SearchResponse<Document> executeQuery(Query query, int size, String sortOrder, String sortBy,
-                                          Map<String, Aggregation> aggs);
-
 
     /**
      * Filters byf everything
@@ -62,13 +44,17 @@ public interface SearchRepository<Document> {
                                          Optional<String> fechaDeRegistro);
 
     /**
-     * Performs the moreLikeThisQuery over the List of Documents given and the list of fields
-     * @param Documents
+     * Returns an improved alternative for a document
+     * @param Document
      * @param fields
+     * @param sortOrder
+     * @param sortBy
+     * @param filters
+     * @param size
      * @return
      */
     SearchResponse<Document> findAlternativeQuery(Document Document, String[] fields,
-                                                  String sortOrder, String sortBy,
+                                                  SortOrder sortOrder, String sortBy,
                                                   Map<String, String> filters, int size);
 
     /**
