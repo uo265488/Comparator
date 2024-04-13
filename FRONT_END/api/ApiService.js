@@ -1,30 +1,37 @@
 import { productListToListaProductList } from "../helper/parser";
 
-const apiEndPoint = process.env.API_URI || 'http://localhost:8080';
-const searchAllURL = apiEndPoint + "/search/all";
-const findProductByIdURL = apiEndPoint + "/search/";
-const findProductByBarcodeURL = apiEndPoint + "/search/filter?barcode=";
-const addNonExistingProductURL = apiEndPoint + "/index/product";
-const getProductsByNombreURL = apiEndPoint + '/search/filter?nombre=';
-const registrarSubidaDePrecioURL = apiEndPoint + '/update/product';
-const generarListaMejoradaURL = apiEndPoint + '/search/laLista/mejorar';
-const findAlternativeURL = apiEndPoint + '/search/producto/alternativa';
-const getAllMarcasURL = apiEndPoint + '/search/marcas';
-const saveImageURL = apiEndPoint + '/utils/saveImage';
-const lastPriceChangeURL = apiEndPoint + '/search/lastPriceChange';
-const getAvgPriceBySupermercadoURL = apiEndPoint + '/statistics/avgPriceBySupermercado';
-const getAvgPricePerMonthBySupermercadoURL = apiEndPoint + '/statistics/avgPricePerMonthBySupermercado';
-const getListByEmailURL = apiEndPoint + '/search/listas/findByEmail';
-const savePersonalListURL = apiEndPoint + '/index/listas/add';
+const apiEndPoint = process.env.API_URI || 'http://localhost:8080/api/v1';
 
-/**
- * This function returns the productst that are currently stored in the databse.
- * First we get the api endpoint that we are going to be listening on.
- * Then we call the api function with the address that we want to request at. (localhost:5000/products/list)
- * Then we send back the response.
- */
+const productsEnpoint = apiEndPoint + '/products';
+
+//PRODUCTS ENDPOINTS
+const searchProductsEndpoint = productsEnpoint + '/search';
+const filterProductsURL = searchProductsEndpoint + '/filter';
+const findProductByIdURL = searchProductsEndpoint + '/';
+const improveProductURL = searchProductsEndpoint + '/improve';
+const improveProductsListURL = searchProductsEndpoint + '/improveLaLista';
+const findAllMarcasURL = searchProductsEndpoint + '/marcas';
+
+const indexProductsEndpoint = productsEnpoint + '/index';
+
+const registrarSubidaDePrecioURL = apiEndPoint + '/products/update'; //Spanish naming (mas significativo)
+
+//STATISTICS ENDPOINTS
+const statisticsEndpoint = apiEndPoint + '/statistics';
+const lastPriceChangeURL = statisticsEndpoint + '/lastPriceChange';
+const getAvgPriceBySupermercadoURL = statisticsEndpoint + '/avgPriceBySupermercado';
+const getAvgPricePerMonthBySupermercadoURL = statisticsEndpoint + '/avgPricePerMonthBySupermercado';
+
+//LALISTA ENDPOINTS
+const searchListasURL= apiEndPoint + '/listas/search';
+const indexListasURL = apiEndPoint + '/listas/index';
+
+//IMAGES ENDPOINTS
+const saveImageURL = apiEndPoint + '/images';
+
+
 export async function getAllProducts() {
-	let response = await fetch(searchAllURL);
+	let response = await fetch(searchProductsEndpoint);
 	return response.json();
 }
 
@@ -35,23 +42,18 @@ export async function findProductById(id) {
   }
 
 export async function findProductByBarcode(barcode) {
-	let response = await fetch(findProductByBarcodeURL + barcode);
+	let response = await fetch(filterProductsURL + '?barcode=' + barcode);
 	return response.json();
 }
 
 export async function getProductsFiltered(name) {
-	let response = await fetch(getProductsByNombreURL + name);
+	let response = await fetch(filterProductsURL + '?nombre=' + name);
 	return response.json();
 }
 
-/**
- *
- * @param user Function to add orders to the db
- * @returns
- */
 export async function addNonExistingProduct(product) {
 
-	let response = await fetch(addNonExistingProductURL, {
+	let response = await fetch(indexProductsEndpoint, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
@@ -73,7 +75,7 @@ export async function addNonExistingProduct(product) {
 
 export async function findProductByBarcodeAndSupermercado(producto) {
 	try {
-		const response = await fetch("http://localhost:8080/search/filter?barcode=" + producto.barcode + "&supermercado=" + producto.supermercado);
+		const response = await fetch(filterProductsURL + "?barcode=" + producto.barcode + "&supermercado=" + producto.supermercado);
 		if (!response.ok) {
 			throw new Error('Network response was not ok');
 		}
@@ -120,7 +122,7 @@ function getActualDate() {
 }
 
 export function generarListaMejorada(lista) {
-	fetch(generarListaMejoradaURL, {
+	fetch(improveProductsListURL, {
 		method: 'POST',
 		body: JSON.stringify(lista),
 		headers: {
@@ -151,9 +153,9 @@ export function registrarSubidaDePrecio(producto) {
 }
 
 export async function findAlternative(productoAMejorar) {
-	var url = (productoAMejorar.supermercado != undefined && productoAMejorar.supermercado != '')
-		? findAlternativeURL + '?supermercado=' + productoAMejorar.supermercado + ((productoAMejorar.marca) != undefined ? '&marca=' + productoAMejorar.marca : '')
-		: findAlternativeURL + ((productoAMejorar.marca) != undefined ? '' : '?marca=' + productoAMejorar.marca);
+	var url = improveProductURL + ((productoAMejorar.supermercado != undefined && productoAMejorar.supermercado != '')
+		? '?supermercado=' + productoAMejorar.supermercado + ((productoAMejorar.marca) != undefined ? '&marca=' + productoAMejorar.marca : '')
+		: ((productoAMejorar.marca) != undefined ? '' : '?marca=' + productoAMejorar.marca));
 
 	return await fetch(url,
 		{
@@ -171,7 +173,7 @@ export async function findAlternative(productoAMejorar) {
 }
 
 export async function getAllMarcas() {
-	let response = await fetch(getAllMarcasURL);
+	let response = await fetch(findAllMarcasURL);
 	return response.json().aggregations.marcas;
 }
 
@@ -214,7 +216,7 @@ export async function getAvgPricePerMonthBySupermercado() {
 
 export async function getPersonalListByEmail(email) {
 	try {
-		const response = await fetch(getListByEmailURL + "?email=" + email);
+		const response = await fetch(searchListasURL + "?email=" + email);
 		if (!response.ok) {
 			throw new Error('Could not retrieve LaLista from database...');
 		}
@@ -235,7 +237,7 @@ export async function savePersonalList(listName, email, productList) {
 		});
 
 		console.log(requestBody);
-		const response = await fetch(savePersonalListURL, {
+		const response = await fetch(indexListasURL, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
