@@ -1,13 +1,9 @@
 package com.api.rest_api.controllers.product;
 
-import com.api.rest_api.documents.Product;
+import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.documents.responseModels.ProductResponseModel;
 import com.api.rest_api.helper.exceptions.ControllerException;
 import com.api.rest_api.services.product.ProductSearchService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +61,7 @@ public class ProductSearchController {
     }
 
     //Seria mejor en LISTA???
-    @PostMapping("laLista/mejorar")
+    @PostMapping("/improveLaLista")
     public ResponseEntity<ProductResponseModel> optimizeList(@RequestBody List<Product> laLista) {
 
         return ResponseEntity.ok(productSearchService.optimizeList(laLista));

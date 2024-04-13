@@ -5,7 +5,7 @@ import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
 import com.api.rest_api.config.ESClientConfig;
-import com.api.rest_api.documents.Lista;
+import com.api.rest_api.documents.domain.LaLista;
 import com.api.rest_api.helper.Indices;
 import com.api.rest_api.helper.exceptions.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Repository
-public class  ListaIndexRepository implements IndexRepository<Lista> {
+public class  ListaIndexRepository implements IndexRepository<LaLista> {
 
     @Autowired
     private ESClientConfig elasticsearchClientConfig;
@@ -55,7 +55,7 @@ public class  ListaIndexRepository implements IndexRepository<Lista> {
     }
 
     @Override
-    public IndexResponse indexDocument(Lista lista) {
+    public IndexResponse indexDocument(LaLista lista) {
         IndexResponse response;
         try {
             response = elasticsearchClientConfig.getEsClient()
@@ -70,12 +70,12 @@ public class  ListaIndexRepository implements IndexRepository<Lista> {
     }
 
     @Override
-    public BulkResponse synchronousBulkIndexing(List<Lista> documentsList) {
+    public BulkResponse synchronousBulkIndexing(List<LaLista> documentsList) {
         throw new NotYetImplementedException();
     }
 
     @Override
-    public List<Lista> asynchronousBulkIndexing(List<Lista> documentsList) {
+    public List<LaLista> asynchronousBulkIndexing(List<LaLista> documentsList) {
         throw new NotYetImplementedException();
     }
 

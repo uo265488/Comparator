@@ -4,13 +4,11 @@ import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.api.rest_api.documents.Product;
+import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.helper.exceptions.NotYetImplementedException;
-import io.micrometer.core.instrument.search.Search;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;

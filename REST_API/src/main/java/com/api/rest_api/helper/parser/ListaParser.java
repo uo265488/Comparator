@@ -1,6 +1,6 @@
 package com.api.rest_api.helper.parser;
 
-import com.api.rest_api.documents.LaListaProduct;
+import com.api.rest_api.documents.domain.LaListaProduct;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

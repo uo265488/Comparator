@@ -1,7 +1,7 @@
 package com.api.rest_api.services.laListaProduct;
 
 import co.elastic.clients.elasticsearch.core.BulkResponse;
-import com.api.rest_api.documents.LaListaProduct;
+import com.api.rest_api.documents.domain.LaListaProduct;
 import com.api.rest_api.repositories.index.IndexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

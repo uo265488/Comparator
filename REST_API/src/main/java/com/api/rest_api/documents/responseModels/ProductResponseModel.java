@@ -2,7 +2,7 @@ package com.api.rest_api.documents.responseModels;
 
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import com.api.rest_api.documents.Product;
+import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.helper.parser.ProductParser;
 import lombok.Value;
 

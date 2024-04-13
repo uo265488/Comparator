@@ -1,7 +1,7 @@
 package com.api.rest_api.controllers.product;
 
 import co.elastic.clients.elasticsearch.core.UpdateResponse;
-import com.api.rest_api.documents.Product;
+import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.services.product.ProductUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ public class ProductUpdateController {
     private ProductUpdateService updateService;
 
     @CrossOrigin(origins = "*")
-    @PutMapping("product")
+    @PutMapping
     public ResponseEntity<UpdateResponse<Product>> update(@RequestBody Product product) {
         return ResponseEntity.ok(updateService.updateDocument(product));
     }

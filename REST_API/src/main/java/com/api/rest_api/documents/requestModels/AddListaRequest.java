@@ -1,6 +1,6 @@
 package com.api.rest_api.documents.requestModels;
 
-import com.api.rest_api.documents.LaListaProduct;
+import com.api.rest_api.documents.domain.LaListaProduct;
 import lombok.Getter;
 
 import java.util.List;

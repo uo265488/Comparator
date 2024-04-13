@@ -1,6 +1,6 @@
 package com.api.rest_api.documents.responseModels;
 
-import com.api.rest_api.documents.LaListaProduct;
+import com.api.rest_api.documents.domain.LaListaProduct;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,6 @@
 package com.api.rest_api.controllers.images;
 
-import com.api.rest_api.documents.ImageRequest;
-//import org.apache.commons.io.FileUtils;
+import com.api.rest_api.documents.requestModels.ImageRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Base64;
 
 @RestController

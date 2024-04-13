@@ -1,7 +1,7 @@
 package com.api.rest_api.repositories.delete;
 
 import com.api.rest_api.config.ESClientConfig;
-import com.api.rest_api.documents.Product;
+import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.helper.Indices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

@@ -1,9 +1,8 @@
 package com.api.rest_api.documents.responseModels;
 
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import com.api.rest_api.documents.LaListaProduct;
+import com.api.rest_api.documents.domain.LaListaProduct;
 import com.api.rest_api.helper.parser.ListaParser;
-import lombok.Builder;
 import lombok.Value;
 
 import java.util.ArrayList;

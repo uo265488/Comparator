@@ -1,8 +1,8 @@
-package com.api.rest_api.repositories.search;
+package com.api.rest_api.repositories.search.query.factory;
 
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import com.api.rest_api.documents.Product;
+import com.api.rest_api.documents.domain.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

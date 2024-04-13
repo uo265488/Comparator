@@ -1,11 +1,10 @@
-package com.api.rest_api.repositories.search;
+package com.api.rest_api.repositories.search.query.factory;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.json.JsonData;
-import com.api.rest_api.documents.Product;
+import com.api.rest_api.documents.domain.Product;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,29 +45,23 @@ public class QueryFactoryImpl implements QueryFactory {
 
     @Override
     public Query getTermsQuery(String field, Object value) {
-        Query termQuery = TermQuery.of(t -> t
+        return TermQuery.of(t -> t
                 .value(value.toString())
                 .field(field))._toQuery();
-        return termQuery;
     }
     @Override
     public Query getLowercaseTermsQuery(String field, Object value) {
-        Query termQuery = TermQuery.of(t -> t
+        return TermQuery.of(t -> t
                 .value(value.toString())
                 .field(field).caseInsensitive(true))._toQuery();
-        return termQuery;
     }
 
     @Override
     public Query getMoreLikeThisQuery(Product product, String[] fields) {
-       Query MLTQuery = MoreLikeThisQuery.of(p ->
+       return MoreLikeThisQuery.of(p ->
                 p   .minTermFreq(1)
                     .maxQueryTerms(10)
                     .fields(Arrays.asList(fields))
                     .like(new Like.Builder().text(product.getNombre()).build()))._toQuery();
-
-
-        return MLTQuery;
     }
-
 }

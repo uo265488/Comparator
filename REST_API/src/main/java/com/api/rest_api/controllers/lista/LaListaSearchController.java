@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("api/v1/search/listas")
+@RequestMapping("api/v1/listas/search")
 public class LaListaSearchController {
 
     @Autowired

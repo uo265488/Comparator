@@ -1,7 +1,7 @@
 package com.api.rest_api.controllers.statistics;
 
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import com.api.rest_api.documents.Product;
+import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.documents.responseModels.ProductResponseModel;
 import com.api.rest_api.services.product.ProductSearchService;
 import com.google.gson.Gson;

@@ -6,7 +6,7 @@ import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
 import com.api.rest_api.config.ESClientConfig;
-import com.api.rest_api.documents.Product;
+import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.helper.Indices;
 import com.api.rest_api.helper.exceptions.NotYetImplementedException;
 import org.slf4j.LoggerFactory;
@@ -26,6 +26,7 @@ public class ProductIndexRepository implements IndexRepository<Product> {
             "C:/Users/oscar/OneDrive/Desktop/TFG/TFG_code/REST_API/src/main/resources";
     private static final String MAPPING_FILENAME = Indices.PRODUCT_INDEX + ".json";
     private static final String MY_ANALYZER_FILENAME = "my_analyzer.json";
+
     @Override
     public boolean createIndex() {
         boolean res = false;
