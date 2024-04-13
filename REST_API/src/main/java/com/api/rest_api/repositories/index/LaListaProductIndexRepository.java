@@ -7,7 +7,7 @@ import co.elastic.clients.elasticsearch.core.IndexResponse;
 import co.elastic.clients.elasticsearch.indices.PutMappingResponse;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
 import com.api.rest_api.config.ESClientConfig;
-import com.api.rest_api.documents.LaListaProduct;
+import com.api.rest_api.documents.domain.LaListaProduct;
 import com.api.rest_api.helper.Indices;
 import com.api.rest_api.helper.exceptions.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,9 @@ public class LaListaProductIndexRepository implements IndexRepository<LaListaPro
 
     @Autowired
     private ESClientConfig elasticsearchClientConfig;
+
     private static final String MAPPING_FILENAME = Indices.LALISTA_PRODUCT_INDEX + ".json";
+
     @Override
     public boolean createIndex() {
         boolean res = false;
@@ -50,7 +52,17 @@ public class LaListaProductIndexRepository implements IndexRepository<LaListaPro
 
     @Override
     public IndexResponse indexDocument(LaListaProduct laListaProduct) {
-        throw new NotYetImplementedException();
+        IndexResponse response;
+        try {
+            response = elasticsearchClientConfig.getEsClient()
+                    .index(i -> i.index(Indices.LALISTA_PRODUCT_INDEX)
+                            .id(laListaProduct.getListaId())
+                            .document(laListaProduct)
+                    );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return response;
     }
 
     @Override
