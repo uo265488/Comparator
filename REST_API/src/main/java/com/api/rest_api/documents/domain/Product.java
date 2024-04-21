@@ -9,13 +9,12 @@ import lombok.*;
 @Getter
 @Setter
 public class Product {
-    private String barcode;
-    private String nombre;
-    private String marca;
-    private String proveedor;
-    private String supermercado;
-    private String[] fechas_de_registro;
-    private double[] precios;
-    private double precioActual;
-
+    String barcode;
+    String nombre;
+    String marca;
+    String proveedor;
+    String supermercado;
+    String[] fechas_de_registro;
+    double[] precios;
+    double precioActual;
 }

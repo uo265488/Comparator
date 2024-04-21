@@ -1,5 +1,6 @@
 package com.api.rest_api.controllers.product;
 
+import co.elastic.clients.elasticsearch._types.Result;
 import co.elastic.clients.elasticsearch.core.UpdateResponse;
 import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.services.product.ProductUpdateService;
@@ -16,7 +17,11 @@ public class ProductUpdateController {
 
     @CrossOrigin(origins = "*")
     @PutMapping
-    public ResponseEntity<UpdateResponse<Product>> update(@RequestBody Product product) {
-        return ResponseEntity.ok(updateService.updateDocument(product));
+    public ResponseEntity<Product> update(@RequestBody Product product) {
+        UpdateResponse<Product> response = updateService.updateDocument(product);
+
+        return response.result().equals(Result.Updated)
+                ? ResponseEntity.ok(response.get().source())
+                : ResponseEntity.badRequest().build();
     }
 }

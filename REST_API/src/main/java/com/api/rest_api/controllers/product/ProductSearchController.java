@@ -51,7 +51,7 @@ public class ProductSearchController {
                                                                     @RequestParam("marca") Optional<String> marca) {
 
         if(product.getBarcode() == null || product.getBarcode().isEmpty() || product.getBarcode().isBlank()) {
-            throw new ControllerException("Product received in RequestBody cannot be null, blank nor empty. ");
+            return ResponseEntity.badRequest().build();
         }
 
         ProductResponseModel res = productSearchService.findBestAlternative(product, supermercado, marca);

@@ -21,16 +21,15 @@ public class ProductResponseModel {
         addHits(response);
     }
 
-    public ProductResponseModel() {
+    //For testing purposes
+    public ProductResponseModel(List<Product> hits) {
+        this.hits.addAll(hits);
     }
 
-    public ProductResponseModel(SearchResponse res, String name) {
-        addStermsAggregations(res, name);
-    }
+    public ProductResponseModel() { }
 
     /**
      * Adds the List to the hits
-     * @param  response
      */
     public void addHits(SearchResponse<Product> response) {
         response.hits().hits().forEach(h ->
@@ -41,7 +40,7 @@ public class ProductResponseModel {
         });
     }
     public void addFirstHit(SearchResponse<Product> response) {
-        if(response.hits().hits().size() > 0)
+        if(!response.hits().hits().isEmpty())
             this.hits.add(ProductParser.mapToProduct(response.hits().hits().get(0).source()));
     }
 
@@ -53,7 +52,7 @@ public class ProductResponseModel {
     }
 
     public void addStermsAggregations(SearchResponse res, String name) {
-        if(res.aggregations().size() > 0) {
+        if(!res.aggregations().isEmpty()) {
             Aggregate marcasAgg = (Aggregate) res.aggregations().get(name);
             List list = new ArrayList();
 

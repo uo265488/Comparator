@@ -23,7 +23,7 @@ public class ProductIndexController {
         IndexResponse response = productIndexService.indexDocument(product);
 
         return response.result().equals(Result.Created)
-                ? ResponseEntity.ok(response.id())
+                ? ResponseEntity.status(HttpStatus.CREATED).body(response.id())
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
@@ -32,10 +32,7 @@ public class ProductIndexController {
         boolean success = productIndexService.createIndex();
 
         return success
-                ? ResponseEntity.created(ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/products")
-                .buildAndExpand().toUri()).build()
+                ? ResponseEntity.status(HttpStatus.CREATED).build()
                 : ResponseEntity.internalServerError().build();
     }
 
