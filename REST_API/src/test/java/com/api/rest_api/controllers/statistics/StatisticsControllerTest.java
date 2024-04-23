@@ -8,13 +8,26 @@ import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.documents.responseModels.ProductResponseModel;
 import com.api.rest_api.services.product.ProductSearchService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@WebMvcTest(StatisticsController.class)
+@ContextConfiguration(classes = {
+        ProductSearchService.class,
+        StatisticsController.class
+})
 public class StatisticsControllerTest {
 
     public static final String GET_MOST_UPDATED_URI = "/api/v1/statistics/mostUpdated";
@@ -30,7 +43,7 @@ public class StatisticsControllerTest {
 
     @Test
     public void testGetMostUpdatedProduct() {
-        ProductResponseModel mockResponse = mock(ProductResponseModel.class);
+        ProductResponseModel mockResponse = new ProductResponseModel();
 
         when(productSearchService.getMostUpdated()).thenReturn(mockResponse);
 
@@ -68,12 +81,12 @@ public class StatisticsControllerTest {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .json("df");
+                .json("{}");
     }
 
     @Test
     public void testGetAvgPricePerMonthBySupermercado() {
-        Map<String, Map<String, Double>> response = mock(Map.class);
+        Map<String, Map<String, Double>> response = new HashMap<>();
         when(this.productSearchService.getAvgPricePerMonthBySupermercado())
                 .thenReturn(response);
 
@@ -81,7 +94,7 @@ public class StatisticsControllerTest {
                 .uri(AVG_PRICE_PER_MONTH_BY_SUPERMERCADO)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(Object.class)
+                .expectBody(Map.class)
                 .isEqualTo(response);
     }
 }
