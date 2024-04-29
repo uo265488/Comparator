@@ -63,11 +63,8 @@ public class ProductSearchService {
         return res;
     }
 
-    public ProductResponseModel findByBarcode(String barcode) {
-        ProductResponseModel responseModel = new ProductResponseModel();
-        responseModel.addHits(
-                productSearchRepository.filterByFieldQuery("barcode", barcode));
-        return responseModel;
+    public Product findByBarcode(String barcode) {
+        return productSearchRepository.filterByFieldQuery("barcode", barcode).hits().hits().get(0).source();
     }
 
     public ProductResponseModel getMostUpdated() {

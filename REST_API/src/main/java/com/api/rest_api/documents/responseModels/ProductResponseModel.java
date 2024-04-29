@@ -52,9 +52,9 @@ public class ProductResponseModel {
     }
 
     public void addStermsAggregations(SearchResponse res, String name) {
+        List list = new ArrayList();
         if(!res.aggregations().isEmpty()) {
             Aggregate marcasAgg = (Aggregate) res.aggregations().get(name);
-            List list = new ArrayList();
 
             marcasAgg.sterms().buckets().array().forEach(bucket -> {
                 list.add(bucket.key()._get());
@@ -63,6 +63,4 @@ public class ProductResponseModel {
             aggregations.put(name, list);
         }
     }
-
-
 }
