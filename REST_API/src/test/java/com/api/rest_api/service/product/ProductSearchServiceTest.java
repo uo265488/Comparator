@@ -7,19 +7,13 @@ import co.elastic.clients.elasticsearch._types.aggregations.*;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
-import co.elastic.clients.elasticsearch.core.search.ResponseBody;
 import com.api.rest_api.controllers.product.ProductIndexController;
 import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.documents.responseModels.ProductResponseModel;
 import com.api.rest_api.helper.parser.ProductParser;
-import com.api.rest_api.repositories.delete.DeleteRepository;
 import com.api.rest_api.repositories.index.IndexRepository;
 import com.api.rest_api.repositories.search.SearchRepository;
-import com.api.rest_api.services.product.ProductIndexService;
 import com.api.rest_api.services.product.ProductSearchService;
-import org.elasticsearch.client.ml.job.results.Bucket;
-import org.elasticsearch.search.aggregations.Aggregations;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -33,7 +27,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.*;
 
-import static com.api.rest_api.helper.parser.ProductParser.searchResponseToStatistic;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -43,7 +36,6 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 @WebMvcTest(ProductIndexController.class)
 @ContextConfiguration(classes = {
-        IndexRepository.class,
         ProductSearchService.class
 })
 public class ProductSearchServiceTest {
