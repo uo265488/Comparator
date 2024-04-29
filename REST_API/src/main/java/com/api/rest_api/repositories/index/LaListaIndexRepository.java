@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Repository
-public class  ListaIndexRepository implements IndexRepository<LaLista> {
+public class LaListaIndexRepository implements IndexRepository<LaLista> {
 
     @Autowired
     private ESClientConfig elasticsearchClientConfig;

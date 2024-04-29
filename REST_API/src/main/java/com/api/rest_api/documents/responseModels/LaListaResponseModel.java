@@ -2,13 +2,14 @@ package com.api.rest_api.documents.responseModels;
 
 import com.api.rest_api.documents.domain.LaListaProduct;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Builder
 @AllArgsConstructor
+@Getter
+@EqualsAndHashCode
 public class LaListaResponseModel implements Serializable {
     @JsonProperty("email") private String email;
 

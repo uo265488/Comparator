@@ -2,7 +2,7 @@ package com.api.rest_api.services.lista;
 
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import com.api.rest_api.documents.domain.LaLista;
-import com.api.rest_api.repositories.index.ListaIndexRepository;
+import com.api.rest_api.repositories.index.LaListaIndexRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +12,11 @@ import java.time.LocalDate;
 public class LaListaIndexService {
 
     @Autowired
-    private ListaIndexRepository listaIndexRepository;
+    private LaListaIndexRepository laListaIndexRepository;
 
     public IndexResponse indexLista(String email, String listName) {
 
-        return listaIndexRepository.indexDocument(LaLista.builder()
+        return laListaIndexRepository.indexDocument(LaLista.builder()
                 .name(listName)
                 .email(email)
                 .date(LocalDate.now().toString())
@@ -24,7 +24,7 @@ public class LaListaIndexService {
     }
 
     public boolean createIndex() {
-        return listaIndexRepository.createIndex();
+        return laListaIndexRepository.createIndex();
     }
 
 }

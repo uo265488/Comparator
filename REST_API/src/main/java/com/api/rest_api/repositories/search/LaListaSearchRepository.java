@@ -16,7 +16,7 @@ import java.util.Optional;
 import static com.api.rest_api.repositories.search.ProductSearchRepository.DEFAULT_QUERY_SIZE;
 
 @Repository
-public class ListaSearchRepository implements SearchRepository<LaLista> {
+public class LaListaSearchRepository implements SearchRepository<LaLista> {
 
     @Autowired
     private QueryFactory queryFactory;

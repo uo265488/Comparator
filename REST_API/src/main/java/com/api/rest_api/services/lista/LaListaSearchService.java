@@ -6,7 +6,7 @@ import com.api.rest_api.documents.domain.LaListaProduct;
 import com.api.rest_api.documents.domain.LaLista;
 import com.api.rest_api.documents.responseModels.LaListaResponseModel;
 import com.api.rest_api.repositories.search.LaListaProductSearchRepository;
-import com.api.rest_api.repositories.search.ListaSearchRepository;
+import com.api.rest_api.repositories.search.LaListaSearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class LaListaSearchService {
 
     @Autowired
-    private ListaSearchRepository listaSearchRepository;
+    private LaListaSearchRepository laListaSearchRepository;
 
     @Autowired
     private LaListaProductSearchRepository laListaProductSearchRepository;
@@ -24,7 +24,7 @@ public class LaListaSearchService {
     public LaListaResponseModel getListasByEmail(String email) {
         //exists email
 
-        SearchResponse<LaLista> listaResponse = listaSearchRepository.filterByFieldQuery("email", email);
+        SearchResponse<LaLista> listaResponse = laListaSearchRepository.filterByFieldQuery("email", email);
         if (listaResponse.hits().hits().isEmpty()) {
             return LaListaResponseModel.builder().build();
         }
