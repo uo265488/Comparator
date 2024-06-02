@@ -2,11 +2,11 @@ package com.api.rest_api.controllers.lalista;
 
 import co.elastic.clients.elasticsearch._types.Result;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
-import com.api.rest_api.controllers.lista.LaListaIndexController;
+import com.api.rest_api.controllers.laLista.LaListaIndexController;
 import com.api.rest_api.documents.domain.LaListaProduct;
 import com.api.rest_api.documents.requestModels.AddListaRequest;
 import com.api.rest_api.services.laListaProduct.LaListaProductIndexService;
-import com.api.rest_api.services.lista.LaListaIndexService;
+import com.api.rest_api.services.laLista.LaListaIndexService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

@@ -1,4 +1,4 @@
-package com.api.rest_api.services.lista;
+package com.api.rest_api.services.laLista;
 
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;

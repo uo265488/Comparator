@@ -33,21 +33,26 @@ public class ProductIndexRepository implements IndexRepository<Product> {
         try {
             BooleanResponse response =
                     elasticsearchClientConfig.getEsClient().indices().exists(i -> i.index(Indices.PRODUCT_INDEX));
-            if(!response.value())
+            if (!response.value()) {
                 res = elasticsearchClientConfig.getEsClient().indices().create(i -> i.index(Indices.PRODUCT_INDEX))
                         .acknowledged();
-            updateSettings();
-            updateMapping();
-            return res;
+                updateSettings();
+                updateMapping();
+
+                return res;
+            }
+
+            return false;
         } catch (ElasticsearchException es) {
             throw new RuntimeException(es.getMessage());
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
      * Updates the mapping of the PRODUCT index
+     *
      * @return
      * @throws IOException
      */
@@ -62,6 +67,7 @@ public class ProductIndexRepository implements IndexRepository<Product> {
 
     /**
      * Updates the settings
+     *
      * @return String with the update
      */
     private String updateSettings() throws IOException {
@@ -93,7 +99,7 @@ public class ProductIndexRepository implements IndexRepository<Product> {
         return response;
     }
 
-        @Override
+    @Override
     public BulkResponse synchronousBulkIndexing(List<Product> productList) {
         BulkRequest.Builder br = new BulkRequest.Builder();
 

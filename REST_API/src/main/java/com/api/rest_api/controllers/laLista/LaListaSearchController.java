@@ -1,15 +1,13 @@
-package com.api.rest_api.controllers.lista;
+package com.api.rest_api.controllers.laLista;
 
 import com.api.rest_api.documents.responseModels.LaListaResponseModel;
-import com.api.rest_api.services.lista.LaListaSearchService;
+import com.api.rest_api.services.laLista.LaListaSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("api/v1/listas/search")
