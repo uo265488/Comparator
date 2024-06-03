@@ -39,7 +39,7 @@ export async function findProductById(id) {
 	let response = await fetch(findProductByIdURL + id);
 	let data = await response.json(); 
 	return data;
-  }
+}
 
 export async function findProductByBarcode(barcode) {
 	let response = await fetch(filterProductsURL + '?barcode=' + barcode);
@@ -67,11 +67,9 @@ export async function addNonExistingProduct(product) {
 			precioActual: product.precioActual
 		}),
 	});
-	if (response.status === 200) return true;
+	if (response.status === 201) return true;
 	else return false;
 }
-
-
 
 export async function findProductByBarcodeAndSupermercado(producto) {
 	try {

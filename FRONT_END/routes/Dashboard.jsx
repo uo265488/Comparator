@@ -8,9 +8,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Chart from "../components/estadisticas/Chart";
-import AdviceBox from "../components/estadisticas/AdviceBox";
-import Board from "../components/estadisticas/Board";
+import Chart from "../components/statistics/Chart";
+import AdviceBox from "../components/statistics/AdviceBox";
+import Board from "../components/statistics/Board";
 import { createData } from "../helper/parser";
 import {
   getAvgPriceBySupermercado,

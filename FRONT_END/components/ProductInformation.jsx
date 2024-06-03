@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import SubidaDePrecioForm from "./scanner/SubidaDePrecioForm";
 import { productToChartData } from "../helper/parser";
-import Chart from "./estadisticas/Chart";
+import Chart from "./statistics/Chart";
 import ProductInformationCard from "./ProductInformationCard";
 import { findAlternative } from "../api/ApiService";
 import { compareProducts } from "../helper/comparator";

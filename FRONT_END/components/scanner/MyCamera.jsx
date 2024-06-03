@@ -1,4 +1,4 @@
-{/*import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserBarcodeReader,
   NotFoundException,
@@ -95,6 +95,8 @@ export default function MyCamera(props) {
     props.setProductos(prod.hits);
     
     props.setCode(tempCode);
+    console.log(tempCode);
+    console.log(prod.hits);
   }
 
   useEffect(
@@ -141,4 +143,4 @@ export default function MyCamera(props) {
           </section>
     </Box>
   );
-}*/}
+}

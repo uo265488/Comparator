@@ -42,7 +42,7 @@ export default function RegisterProductForm(props) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [successfulAdd, setSuccessfulAdd] = useState(false);
-  const [notLoggedIn, setNotLoggedIn] = useState(false);
+  const [unsuccesfulAdd, setUnsuccesfulAdd] = useState(false);
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -70,6 +70,8 @@ export default function RegisterProductForm(props) {
       precioActual: parseFloat(formValues.precio),
     });
 
+    console.log(result);
+
     if (result) {
       setFormValues({
         ...formValues,
@@ -89,7 +91,7 @@ export default function RegisterProductForm(props) {
       });
       setSuccessfulAdd(true);
     } else {
-      setNotLoggedIn(true);
+      setUnsuccesfulAdd(true);
     }
     setIsOpen(false);
   };
@@ -144,10 +146,9 @@ export default function RegisterProductForm(props) {
             !Muchas gracias!{" "}
           </Alert>
         )}
-        {notLoggedIn && (
+        {unsuccesfulAdd && (
           <Alert severity="error">
-            You are not logged in. Go and log into your POD if you want to check
-            out.
+            El producto no ha podido registrarse en la base de datos... Prueba de nuevo en unos minutos.
           </Alert>
         )}
 

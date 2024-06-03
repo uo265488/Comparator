@@ -8,7 +8,7 @@ import BarcodeInformation from "../components/scanner/BarcodeInformation";
 export default function ProductRegistry() {
 
     const [code, setCode] = useState("");
-    const [productos, setProductos] = useState();
+    const [productos, setProductos] = useState(undefined);
 
     return (
         <Grid container
@@ -21,7 +21,7 @@ export default function ProductRegistry() {
             {
                 code === ""
                     ? <MyCamera code={code} setProductos={setProductos} setCode={setCode} key="camera"></MyCamera>
-                    : productos != undefined
+                    : (productos != undefined && productos.length > 0)
                         ? <BarcodeInformation productos={productos}></BarcodeInformation>
                         : <RegisterProductForm code={code} key="form"></RegisterProductForm>
             }

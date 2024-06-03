@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import SubidaDePrecioForm from "./SubidaDePrecioForm";
 import { findAlternative } from "../../api/ApiService";
 import ProductInformationCard from "../ProductInformationCard";
-import Chart from "../estadisticas/Chart";
+import Chart from "../statistics/Chart";
 import { productToChartData } from "../../helper/parser";
 
 export default function BarcodeInformation(props) {
