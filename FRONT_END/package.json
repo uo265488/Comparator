@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "cypress": "^13.11.0",
     "react-scripts": "latest"
   },
   "browser": {
