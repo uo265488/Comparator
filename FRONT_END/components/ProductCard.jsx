@@ -37,7 +37,7 @@ export default function ProductCard(props) {
         component="img"
         sx={{ height: { md: 300, xs: 150 } }}
         image={imageRef}
-        alt={props.product.nombre}
+        alt={props.product.id + '_' + props.product.supermercado}
       />
       <CardContent sx={{ height: { xs: 100, md: 120 } }}>
         <Typography
@@ -60,7 +60,7 @@ export default function ProductCard(props) {
           €
         </Typography>
         <Wrapper>
-          <img  src={imgSupermercado} alt={props.supermercado} />
+          <img  src={imgSupermercado} alt={props.product.supermercado} />
         </Wrapper>
       </CardContent>
       <CardActions>

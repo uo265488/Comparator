@@ -14,19 +14,21 @@ export default function MyComboBox(props) {
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 120, width: '100%' }}>
-        <InputLabel id="demo-simple-select-helper-label">Supermercado</InputLabel>
+        <InputLabel id="label">Supermercado</InputLabel>
         <Select
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
+          labelId="label"
+          id="select-helper"
           value={props.supermercado}
           label="Supermercado"
           onChange={handleChange}
+          data-testid="combobox"
         >
           <MenuItem value="">
             <em>None</em>
          </MenuItem>
                   
-                  {props.supermercados.map(s => <MenuItem value={s} key={s}> {s}</MenuItem>)}
+          {props.supermercados.map(s =>
+            <MenuItem value={s} key={s}> {s}</MenuItem>)}
         </Select>
         <FormHelperText>{props.helperText}</FormHelperText>
       </FormControl>
