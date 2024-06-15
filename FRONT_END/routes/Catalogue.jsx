@@ -12,24 +12,31 @@ import { SUPERMERCADOS } from "../helper/settings.js";
 
 export default function Catalogo() {
 
-  const dispatch = useDispatch();
-
   const [products, setProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [verMasProducto, setVerMasProducto] = useState();
+  const [supermercado, setSupermercado] = useState("");
+  const [allProducts, setAllProducts] = useState([]);
 
   useEffect(
     () => {
       refreshProductList();
-    },
-    // eslint-disable-next-line
-    []
-  );
+    }, []);
 
-  const refreshProductList = async () => {
-    const productsResult = await getAllProducts();
-    setProducts(productsResult.hits);
-    //dispatch(loadProducts(productsResult));
+  useEffect(
+    () => {
+      refreshProductList();
+    }, [supermercado]);
+  
+    const refreshProductList = async () => {
+      const result = await getAllProducts();
+      setAllProducts(result.hits);
+      
+      if (supermercado !== "") {
+        setProducts(allProducts.filter(a => a.supermercado == supermercado))
+      } else {
+        setProducts(result.hits);
+      }
   };
 
   /**
@@ -48,20 +55,6 @@ export default function Catalogo() {
   const searchForProducts = () => {
     if (searchText.trim() !== "") updateProductList();
   };
-
-  const handleChange = async (event) => {
-    var type = event.target.value;
-    var filteredProducts;
-    if (!type) {
-      filteredProducts = await getAllProducts();
-    } else {
-      filteredProducts = await filterProducts(type);
-    }
-    dispatch(loadProducts(filteredProducts));
-    setValue(type);
-  };
-
-  const [value, setValue] = useState("");
 
   const onChangeSearch = (query) => {
     setSearchText(query);
@@ -112,47 +105,26 @@ export default function Catalogo() {
                     sm={10}
                     sx={{ pt: { xs: 2, sm: 0 } }}
                   >
-                    {
-                      //<input id="searchText" data-testid="search" type="text" />
-                    }
                     <Searchbar
                       value={searchText}
                       onChangeText={onChangeSearch}
                       onIconPress={updateProductList}
                       placeholder="Refina la búsqueda de tus productos..."
+                      onKeyPress={(e) => {
+                        if (e.nativeEvent.key === 'Enter') {
+                          updateProductList();
+                        }
+                      }}
                       autoFocus
                     ></Searchbar>
                   </Grid>
                   <Grid item xs={10} sm={2} sx={{ pt: { xs: 2, sm: 0 } }}>
                     <MyComboBox
-                      supermercado={value}
-                      setSupermercado={setValue}
+                      supermercado={supermercado}
+                      setSupermercado={setSupermercado}
                       supermercados={SUPERMERCADOS}
                       helperText={""}
                     />
-                    {/*<FormControl
-                      variant="filled"
-                      sx={{ marginLeft: 2, minHeight: 40, minWidth: 120 }}
-                    >
-                      <InputLabel id="demo-simple-select-filled-label">
-                        Supermercado
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-filled-label"
-                        data-testid="Type"
-                        id="demo-simple-select-filled"
-                        value={value}
-                        label="Type"
-                        onChange={(event) => {
-                          setValue(event.target.value);
-                          handleChange(event);
-                        }}
-                      >
-                        <MenuItem sx={{ color: "text.dark" }} value="">
-                          <em>None</em>
-                        </MenuItem>
-                      </Select>
-                      </FormControl>*/}
                   </Grid>
                 </Grid>
               </form>
@@ -174,7 +146,8 @@ export default function Catalogo() {
             {products.map((product, i) => {
               return (
                 <Grid
-                  key={-i}
+                  className="ProductCard"
+                  key={'productGrid_' + i}
                   item
                   xs={11}
                   sm={6}
@@ -184,7 +157,8 @@ export default function Catalogo() {
                   sx={{ pl: { xs: 0 }, pr: 0 }}
                 >
                   <ProductCard
-                    key={i}
+                    id={product.id}
+                    key={'product_' + i}
                     product={product}
                     setVerMasProducto={setVerMasProducto}
                   ></ProductCard>
