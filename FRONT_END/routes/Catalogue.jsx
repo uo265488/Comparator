@@ -1,14 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getAllProducts, getProductsFiltered } from "../api/ApiService";
+import { getAllProducts, getProductsFiltered } from "../api/ApiService.js";
 import { useState } from "react";
 import { Grid, Typography } from "@mui/material";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/ProductCard.jsx";
 import { Searchbar } from "react-native-paper";
-import ProductInformation from "../components/ProductInformation";
+import ProductInformation from "../components/ProductInformation.jsx";
 import MyComboBox from "../components/MyComboBox.jsx";
-import { SUPERMERCADOS } from "../helper/settings";
+import { SUPERMERCADOS } from "../helper/settings.js";
 
 export default function Catalogo() {
 
@@ -83,14 +83,13 @@ export default function Catalogo() {
     >
       {verMasProducto == undefined ? (
         <>
-          <Grid item sx={{ pt: 4, pl: { xs: 0, sm: 15 } }}>
+          <Grid item sx={{ pt: 2, pl: { xs: 0, sm: 15 } }}>
             <Typography
               variant="h2"
               align="center"
               sx={{ color: "text.primary" }}
             >
-              Catálogo: escoge los productos que quieras añadir a tu Lista de la
-              compra! 
+              Catálogo de Comparator!!
             </Typography>
           </Grid>
 

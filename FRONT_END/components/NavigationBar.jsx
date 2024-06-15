@@ -26,9 +26,9 @@ const pages = [
   { name: "Scanner", link: "scanner" },
   { name: "Catálogo", link: "productos" },
   { name: "La Lista de la compra", link: "lista" },
-  { name: "Estadisticas", link: "estadisticas" },
-  { name: "Perfil", link : "profile"},
-  { name: "Tus listas", link: "listasPersonales" }
+  { name: "Tus listas", link: "listasPersonales" },
+  { name: "Estadisticas", link: "estadisticas" }
+  
 ];
 
 export function NavigationBar() {
@@ -150,7 +150,7 @@ export function NavigationBar() {
               </Button>
             ))}
           </Box>
-          <Link to="/profile">
+          <Link to="/lista">
             <IconButton
               style={{ marginRight: "1em" }}
               size="large"

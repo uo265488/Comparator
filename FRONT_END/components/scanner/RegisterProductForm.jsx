@@ -143,7 +143,7 @@ export default function RegisterProductForm(props) {
         {successfulAdd && (
           <Alert severity="success">
             El Producto se ha registrado en nuestra base de datos correctamente,
-            !Muchas gracias!{" "}
+            ¡Muchas gracias!{" "}
           </Alert>
         )}
         {unsuccesfulAdd && (

@@ -261,7 +261,7 @@ export default function LaLista() {
         <div>
           {isListSaved && (
             <Alert severity="success">
-              La Lista ha sido guardada con éxito!{" "}
+              ¡La Lista ha sido guardada con éxito!{" "}
             </Alert>
           )}
           {isErrorWhenSave && (
