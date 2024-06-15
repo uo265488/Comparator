@@ -1,12 +1,9 @@
 package com.api.rest_api.controllers.lalista;
 
-import com.api.rest_api.controllers.lista.LaListaIndexController;
-import com.api.rest_api.controllers.lista.LaListaSearchController;
-import com.api.rest_api.documents.domain.LaLista;
+import com.api.rest_api.controllers.laLista.LaListaIndexController;
+import com.api.rest_api.controllers.laLista.LaListaSearchController;
 import com.api.rest_api.documents.responseModels.LaListaResponseModel;
-import com.api.rest_api.services.laListaProduct.LaListaProductIndexService;
-import com.api.rest_api.services.lista.LaListaIndexService;
-import com.api.rest_api.services.lista.LaListaSearchService;
+import com.api.rest_api.services.laLista.LaListaSearchService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

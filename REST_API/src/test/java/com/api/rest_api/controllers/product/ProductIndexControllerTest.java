@@ -5,6 +5,7 @@ import co.elastic.clients.elasticsearch.core.IndexResponse;
 import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.services.product.ProductIndexService;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -113,6 +114,7 @@ public class ProductIndexControllerTest {
     }
 
     @Test
+    @Disabled("Funcionalidad obsoleta. ")
     public void testBulkIndexing() throws Exception {
         byte[] fileContent = "file content".getBytes();
         MockMultipartFile mockFile = new MockMultipartFile("file", "products.json",

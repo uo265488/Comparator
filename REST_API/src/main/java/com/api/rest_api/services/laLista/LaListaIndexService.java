@@ -1,4 +1,4 @@
-package com.api.rest_api.services.lista;
+package com.api.rest_api.services.laLista;
 
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import com.api.rest_api.documents.domain.LaLista;

@@ -216,7 +216,7 @@ public class ProductSearchServiceTest {
         when(mockBucket.key()).thenReturn(FieldValue.of("Marca"));
 
         Buckets<StringTermsBucket> mockBuckets = mock(Buckets.class);
-        when(mockBuckets.array()).thenReturn(List.of(new StringTermsBucket[]{mockBucket}));
+        when(mockBuckets.array()).thenReturn(List.of(mockBucket));
 
         StringTermsAggregate mockStringTermsAggregate = mock(StringTermsAggregate.class);
         when(mockStringTermsAggregate.buckets()).thenReturn(mockBuckets);
@@ -224,16 +224,9 @@ public class ProductSearchServiceTest {
         Aggregate mockAggregate = mock(Aggregate.class);
         when(mockAggregate.sterms()).thenReturn(mockStringTermsAggregate);
 
-
         aggregations.put("marcas", mockAggregate);
-        StringTermsAggregate stringTermsAggregate = mock(StringTermsAggregate.class);
-        Buckets<StringTermsBucket> buckets = mock(Buckets.class);
-
 
         SearchResponse<Product> searchResponse = mock(SearchResponse.class);
-
-        when(aggregations.get(aggregations.keySet().stream().findFirst().get()   ).sterms()).thenReturn(stringTermsAggregate);
-        when(stringTermsAggregate.buckets()).thenReturn(buckets);
         when(searchResponse.aggregations()).thenReturn(aggregations);
         when(productSearchRepository.getAllMarcas()).thenReturn(searchResponse);
 
@@ -242,11 +235,15 @@ public class ProductSearchServiceTest {
 
 
         verify(productSearchRepository).getAllMarcas();
-        verify(searchResponse,times(2)).aggregations();
+        verify(searchResponse, times(2)).aggregations();
         verify(mockAggregate).sterms();
 
 
-        assertEquals(aggregations, result.getAggregations());
+        Map<String, List<String>> expectedAggregations = new HashMap<>();
+        expectedAggregations.put("marcas", List.of("Marca"));
+
+
+        assertEquals(expectedAggregations, result.getAggregations());
     }
 
 }

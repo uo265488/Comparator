@@ -1,10 +1,10 @@
-package com.api.rest_api.controllers.lista;
+package com.api.rest_api.controllers.laLista;
 
 import co.elastic.clients.elasticsearch._types.Result;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import com.api.rest_api.documents.requestModels.AddListaRequest;
 import com.api.rest_api.services.laListaProduct.LaListaProductIndexService;
-import com.api.rest_api.services.lista.LaListaIndexService;
+import com.api.rest_api.services.laLista.LaListaIndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
