@@ -14,7 +14,6 @@ import { productToChartData } from "../helper/parser";
 import Chart from "./statistics/Chart";
 import ProductInformationCard from "./ProductInformationCard";
 import { findAlternative } from "../api/ApiService";
-import { compareProducts } from "../helper/comparator";
 
 export default function ProductInformation(props) {
   const [buttonPressed, setButtonPressed] = useState(0);
@@ -26,19 +25,21 @@ export default function ProductInformation(props) {
   const encontrarAlternativa = () => {
     findAlternative({
       producto: props.producto,
-    }).then((data) => {
-      var productoMejorado = data.hits[0];
-
-      if (productoMejorado != undefined) {
-        setAlternativa(productoMejorado);
-        console.log(alternativa);
-        setAlternativaDefined(true);
+    }).then((result) => {
+      if (result !== "No product found") {
+        var productoMejorado = result.hits[0];
+        if (productoMejorado != undefined) {
+          setAlternativa(productoMejorado);
+          setAlternativaDefined(true);
+        }
       }
     });
   };
 
   useEffect(() => {
-    if (!alternativaDefined) encontrarAlternativa();
+    if (!alternativaDefined) {
+      encontrarAlternativa();
+    }
   }, []);
 
 
@@ -91,51 +92,54 @@ export default function ProductInformation(props) {
                   chartType="date"
                 ></Chart>
               </Grid>
+
               <Grid item>
-                {!alternativaDefined ? (
-                  <Alert severity="error">
-                    No hemos encontrado una alternativa más económica para este
-                    producto.{alternativa}
-                  </Alert>
-                ) : alternativa.barcode === props.producto.barcode &&
-                  alternativa.supermercado === props.producto.supermercado ? (
-                  <Alert severity="error">
-                    No hemos encontrado una alternativa más económica para este
-                    producto.
-                  </Alert>
-                ) : (
-                  <>
-                    <Typography
-                      variant="h3"
-                      sx={{
-                        color: "text.default",
-                        pt: 4,
-                        pb: 2,
-                        typography: { sm: "h3", xs: "h4" },
-                      }}
-                    >
-                      Alternativa más económica:
-                    </Typography>
-                    <Alert severity="success">
-                      Esta alternativa supone un ahorro del{" "}
-                      {(
-                        (1 - alternativa.precioActual /
-                          props.producto.precioActual) *
-                        100
-                      ).toFixed(2)}
-                      % =
-                      {(
-                        props.producto.precioActual - alternativa.precioActual
-                      ).toFixed(2)}{" "}
-                      euros por cada unidad de este producto.
+                <div className="product-alternative">
+                  {!alternativaDefined ? (
+                    <Alert severity="error">
+                      No hemos encontrado una alternativa más económica para este
+                      producto.{alternativa}
                     </Alert>
-                    <ProductInformationCard
-                      producto={alternativa}
-                      supermercado={alternativa.supermercado}
-                      setButtonPressed={setButtonPressed}
-                    ></ProductInformationCard>
-                  </>
-                )}
+                  ) : alternativa.barcode === props.producto.barcode &&
+                    alternativa.supermercado === props.producto.supermercado ? (
+                    <Alert severity="error">
+                      No hemos encontrado una alternativa más económica para este
+                      producto.
+                    </Alert>
+                  ) : (
+                    <>
+                      <Typography
+                        variant="h3"
+                        sx={{
+                          color: "text.default",
+                          pt: 4,
+                          pb: 2,
+                          typography: { sm: "h3", xs: "h4" },
+                        }}
+                      >
+                        Alternativa más económica:
+                      </Typography>
+                      <Alert severity="success">
+                        Esta alternativa supone un ahorro del{" "}
+                        {(
+                          (1 - alternativa.precioActual /
+                            props.producto.precioActual) *
+                          100
+                        ).toFixed(2)}
+                        % =
+                        {(
+                          props.producto.precioActual - alternativa.precioActual
+                        ).toFixed(2)}{" "}
+                        euros por cada unidad de este producto.
+                      </Alert>
+                      <ProductInformationCard
+                        producto={alternativa}
+                        supermercado={alternativa.supermercado}
+                        setButtonPressed={setButtonPressed}
+                      ></ProductInformationCard>
+                    </>
+                  )}
+                </div>
               </Grid>
             </Grid>
           </Container>

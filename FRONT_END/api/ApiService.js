@@ -1,4 +1,5 @@
 import { productListToListaProductList } from "../helper/parser";
+import isNullOrEmpty from "../helper/utils";
 
 const apiEndPoint = process.env.API_URI || 'http://localhost:8080/api/v1';
 
@@ -23,7 +24,7 @@ const getAvgPriceBySupermercadoURL = statisticsEndpoint + '/avgPriceBySupermerca
 const getAvgPricePerMonthBySupermercadoURL = statisticsEndpoint + '/avgPricePerMonthBySupermercado';
 
 //LALISTA ENDPOINTS
-const searchListasURL= apiEndPoint + '/listas/search';
+const searchListasURL = apiEndPoint + '/listas/search';
 const indexListasURL = apiEndPoint + '/listas/index';
 
 //IMAGES ENDPOINTS
@@ -37,7 +38,7 @@ export async function getAllProducts() {
 
 export async function findProductById(id) {
 	let response = await fetch(findProductByIdURL + id);
-	let data = await response.json(); 
+	let data = await response.json();
 	return data;
 }
 
@@ -151,9 +152,16 @@ export function registrarSubidaDePrecio(producto) {
 }
 
 export async function findAlternative(productoAMejorar) {
-	var url = improveProductURL + ((productoAMejorar.supermercado != undefined && productoAMejorar.supermercado != '')
-		? '?supermercado=' + productoAMejorar.supermercado + ((productoAMejorar.marca) != undefined ? '&marca=' + productoAMejorar.marca : '')
-		: ((productoAMejorar.marca) != undefined ? '' : '?marca=' + productoAMejorar.marca));
+	var url = improveProductURL;
+
+	if (!isNullOrEmpty(productoAMejorar.supermercado)) {
+		url += '?supermercado=' + productoAMejorar.supermercado;
+		if (!isNullOrEmpty(productoAMejorar.marca)) {
+			url += '&marca=' + productoAMejorar.marca;
+		}
+	} else if (!isNullOrEmpty(productoAMejorar.marca)) {
+		url += '?marca=' + productoAMejorar.marca;
+	}
 
 	return await fetch(url,
 		{
@@ -162,12 +170,9 @@ export async function findAlternative(productoAMejorar) {
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		})
-		.then(response => response.json())
-
-		.catch(error => {
-			console.error(error);
-		});
+		}).then(
+			data => data.json()
+		);
 }
 
 export async function getAllMarcas() {
@@ -226,7 +231,7 @@ export async function getPersonalListByEmail(email) {
 }
 
 export async function savePersonalList(listName, email, productList) {
-	
+
 	try {
 		const requestBody = JSON.stringify({
 			productList: productListToListaProductList(productList),
