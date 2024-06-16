@@ -78,7 +78,7 @@ export default function Catalogo() {
         <>
           <Grid item sx={{ pt: 2, pl: { xs: 0, sm: 15 } }}>
             <Typography
-              variant="h2"
+              variant="h1"
               align="center"
               sx={{ color: "text.primary" }}
             >

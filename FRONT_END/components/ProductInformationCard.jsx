@@ -52,10 +52,11 @@ export default function ProductInformationCard(props) {
                 color: "text.default",
                 typography: { sm: "h5", xs: "h6" },
               }}
+              className="product-price"
             >
               Precio: {props.producto.precioActual}€
             </Typography>
-            <Box>
+            <Box className="product-img" >
               <img src={imageRef} alt={props.producto.nombre} />
             </Box>
             <div>
