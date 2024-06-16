@@ -22,6 +22,7 @@ export default function SubidaDePrecioForm(props) {
   let imageRef = require("../../static/images/producto.png");
 
   const [isOpen, setIsOpen] = useState(false);
+  const [updatePerformed, setUpdatePerformed] = useState(false);
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -46,7 +47,10 @@ export default function SubidaDePrecioForm(props) {
       precioActual: precios[precios.length - 1],
     };
 
-    let result = registrarSubidaDePrecio(producto);
+    registrarSubidaDePrecio(producto);
+
+    setIsOpen(false);
+    setUpdatePerformed(true);
 
     setFormValues({
       ...formValues,
@@ -57,9 +61,6 @@ export default function SubidaDePrecioForm(props) {
       precio: "",
     });
     props.setMejoraPerformed(true);
-    props.setProductToUpdate(undefined);
-
-    setIsOpen(false);
   };
 
   const submitForm = () => {
@@ -80,6 +81,12 @@ export default function SubidaDePrecioForm(props) {
 
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+      {updatePerformed && (
+        <Alert severity="success">
+          El cambio de precio se ha registrado en nuestra base de datos
+          correctamente, ¡Muchas gracias!{" "}
+        </Alert>
+      )}
       <Paper
         variant="outlined"
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}

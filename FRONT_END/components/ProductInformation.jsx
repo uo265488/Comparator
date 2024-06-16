@@ -16,7 +16,7 @@ import ProductInformationCard from "./ProductInformationCard";
 import { findAlternative } from "../api/ApiService";
 
 export default function ProductInformation(props) {
-  const [buttonPressed, setButtonPressed] = useState(0);
+  const [buttonPressed, setButtonPressed] = useState(false);
   const [alternativa, setAlternativa] = useState(undefined);
   const [alternativaDefined, setAlternativaDefined] = useState(false);
 
@@ -42,9 +42,7 @@ export default function ProductInformation(props) {
     }
   }, []);
 
-
-
-  return buttonPressed == 0 ? (
+  return buttonPressed == false ? (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CssBaseline />
@@ -147,6 +145,9 @@ export default function ProductInformation(props) {
       </Box>
     </ThemeProvider>
   ) : (
-    <SubidaDePrecioForm product={props.product}></SubidaDePrecioForm>
+      <SubidaDePrecioForm 
+        producto={props.producto}
+        setMejoraPerformed={setButtonPressed}
+      ></SubidaDePrecioForm>
   );
 }

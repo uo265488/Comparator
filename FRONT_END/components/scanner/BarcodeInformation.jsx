@@ -17,7 +17,7 @@ import { productToChartData } from "../../helper/parser";
 
 export default function BarcodeInformation(props) {
   const [productToUpdate, setProductToUpdate] = useState(undefined);
-  const [mejoraPerformed, setMejoraPerformed] = useState();
+  const [mejoraPerformed, setMejoraPerformed] = useState(false);
   const [alternativa, setAlternativa] = useState(undefined);
   const [alternativaDefined, setAlternativaDefined] = useState(false);
 

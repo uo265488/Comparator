@@ -20,7 +20,6 @@ export default function ProductoEnLista(props) {
 
   const [productItem, setProductItem] = useState(props.item);
   const [existsAlternativeAlert, setExistsAlternativeAlert] = useState(false);
-  const [isMejoraPerformed, setMejoraPerformed] = useState(false);
 
   /**
    * Añade un producto a la lista de la compra
@@ -83,7 +82,6 @@ export default function ProductoEnLista(props) {
             mejora: -1,
           })
         );
-        setMejoraPerformed(true);
 
         props.mejorarAlternativa(productItem.producto, productoMejorado);
         setProductItem({

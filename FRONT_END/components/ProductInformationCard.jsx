@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { añadirProductoALaLista } from "../redux/reduxConfig";
 import { NumberPicker } from "react-widgets/cjs";
 import { StyledButton, Wrapper } from "../helper/styles";
+import { Button } from "react-native-paper";
 
 export default function ProductInformationCard(props) {
 
@@ -17,7 +18,7 @@ export default function ProductInformationCard(props) {
   const [value, setValue] = useState(1);
 
   function abrirSubidaDePrecioForm() {
-    props.displaySubidaDePrecio(props.producto);
+    props.setButtonPressed(true);
   }
 
   const addProductToLaLista = () => {
@@ -96,18 +97,10 @@ export default function ProductInformationCard(props) {
                 Añadir a LaLista
               </StyledButton>
             </Box>
-            <StyledButton
-              mode="contained"
-              sx={{
-                bgcolor: "background.button",
-                ":hover": { bgcolor: "background.buttonhover" },
-                color: "text.dark",
-                mr: { xs: 0, sm: 2, md: 10, lg: 0, xl: 30 },
-              }}
-              onClick={abrirSubidaDePrecioForm}
-            >
+
+            <Button id="rsButton" mode="contained" onClick={abrirSubidaDePrecioForm}>
               Registrar un cambio de precio
-            </StyledButton>
+            </Button>
           </div>
         </Box>
       </Paper>
