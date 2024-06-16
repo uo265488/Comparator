@@ -64,9 +64,6 @@ export default function ProductCard(props) {
         </Wrapper>
       </CardContent>
       <CardActions>
-        {
-          //<Button size="small">Share</Button>
-        }
         <StyledButton
           sx={{
             bgcolor: "background.button",
