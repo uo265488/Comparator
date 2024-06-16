@@ -21,7 +21,7 @@ public class ProductUpdateController {
         UpdateResponse<Product> response = updateService.updateDocument(product);
 
         return response.result().equals(Result.Updated)
-                ? ResponseEntity.ok(response.get().source())
+                ? ResponseEntity.ok(product)
                 : ResponseEntity.badRequest().build();
     }
 }
