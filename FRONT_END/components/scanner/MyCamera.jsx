@@ -7,13 +7,14 @@ import {
 } from "@zxing/library";
 
 import { Button } from "react-native-paper";
-import { Box, FormLabel, NativeSelect } from "@mui/material";
+import { Box, FormLabel, NativeSelect, TextField, Typography } from "@mui/material";
 import { findProductByBarcode } from "../../api/ApiService";
 
 export default function MyCamera(props) {
 
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
   const [videoInputDevices, setVideoInputDevices] = useState([]);
+  const [cameraOn, setCameraOn] = useState(true);
 
   const [tempCode, setTempCode] = useState("");
 
@@ -93,7 +94,7 @@ export default function MyCamera(props) {
   async function sendCode() {
     var prod = await findProductByBarcode(tempCode);
     props.setProductos(prod.hits);
-    
+
     props.setCode(tempCode);
     console.log(tempCode);
     console.log(prod.hits);
@@ -106,41 +107,56 @@ export default function MyCamera(props) {
     },
     [selectedDeviceId]
   );
- 
+
+  const handleInputChange = (event) => {
+    setTempCode(event.target.value);
+  };
+
   return (
-    
-    <Box sx={{bgcolor: 'background.default', display: 'flex', flexWrap: 'wrap', 
+
+    <Box sx={{
+      bgcolor: 'background.default', display: 'flex', flexWrap: 'wrap',
       height: '100%', justifyContent: 'center', pb: 5
     }}>
-    
+      <Typography variant="h3" align="center" style={{ marginTop:"1em"}} >
+        Scanner de código de barras
+      </Typography>
       <section className="container" id="demo-content">
+
         <div id="sourceSelectPanel">
           <FormLabel htmlFor="sourceSelect">Change video source:  </FormLabel>
           <NativeSelect
             id="sourceSelect"
             onChange={() => setSelectedDeviceId(sourceSelect.value)}
-          > 
+          >
             {
               videoInputDevices.map(element => (
                 <option key={element.deviceId} value={element.deviceId}>{element.label}</option>
-              )) 
+              ))
             }
           </NativeSelect>
         </div>
-        
         <div>
-          <video id="video"  width="100%" max-width="600px" padding-bottom="56.25%" />
-          </div>
-
+          <video id="video" width="100%" max-width="600px" padding-bottom="56.25%" />
+        </div>
         <FormLabel>Código de barras: </FormLabel>
-        <pre>
-          <code id="result">{tempCode}</code>
-        </pre>
+        <div >
+          <TextField
+            required
+            id="outlined-required"
+            label="Barcode"
+            type="text"
+            placeholder="Introduce el código de barras del producto..."
+            value={tempCode}
+            onChange={handleInputChange}
+            style={{ marginBottom: '10px', marginTop: '4px' }}
+            fullWidth
+          />
 
-          <Button mode="contained" id="registerButton" onClick={() => sendCode()}>Registrar código de barras</Button>
-          <Button mode="contained" id="resetButton" onClick={() => resetClick()}>Resetear</Button> 
-
-          </section>
+          <Button mode="contained" id="registerButton" onClick={() => sendCode()} style={{ marginBottom: '10px' }}>Registrar código de barras</Button>
+          <Button mode="contained" id="resetButton" onClick={() => resetClick()}>Resetear</Button>
+        </div>
+      </section>
     </Box>
   );
 }
