@@ -166,7 +166,7 @@ export default function LaLista() {
       <BreadcrumbsLaLista />
 
       <Typography
-        variant="h3"
+        variant="h1"
         sx={{
           color: "text.default",
           pt: 4,

@@ -78,7 +78,6 @@ describe('Comparator application', () => {
         cy.wait(1000);
 
         cy.contains('El cambio de precio se ha registrado en nuestra base de datos correctamente, ¡Muchas gracias!');
-
     });
 
 })

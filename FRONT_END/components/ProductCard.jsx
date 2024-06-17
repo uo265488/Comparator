@@ -74,7 +74,7 @@ export default function ProductCard(props) {
           onPress={(_event) => onAddToLaLista(productoAElemento(props.product))}
           mode="contained"
         >
-          Añadir a la lista de la compra
+          Añadir a la Lista de la compra
         </StyledButton>
         <Button
           sx={{
