@@ -8,14 +8,11 @@ import {
 
 import { Button } from "react-native-paper";
 import { Box, FormLabel, NativeSelect, TextField, Typography } from "@mui/material";
-import { findProductByBarcode } from "../../api/ApiService";
 
 export default function MyCamera(props) {
 
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
   const [videoInputDevices, setVideoInputDevices] = useState([]);
-  const [cameraOn, setCameraOn] = useState(true);
-
   const [tempCode, setTempCode] = useState("");
 
   const barcodeReader = new BrowserBarcodeReader();
@@ -63,28 +60,17 @@ export default function MyCamera(props) {
         }
 
         if (err) {
-          props.setCode("");
-
-          // As long as this error belongs into one of the following categories
-          // the code reader is going to continue as excepted. Any other error
-          // will stop the decoding loop.
-          //
-          // Excepted Exceptions:
-          //
-          //  - NotFoundException
-          //  - ChecksumException
-          //  - FormatException
 
           if (err instanceof NotFoundException) {
             console.log("No QR code found.");
           }
 
           if (err instanceof ChecksumException) {
-            console.log("A code was found, but it's read value was not valid.");
+            console.log("A code was found, but its read value was not valid.");
           }
 
           if (err instanceof FormatException) {
-            console.log("A code was found, but it was in a invalid format.");
+            console.log("A code was found, but it was in an invalid format.");
           }
         }
       }
@@ -92,12 +78,9 @@ export default function MyCamera(props) {
   }
 
   async function sendCode() {
-    var prod = await findProductByBarcode(tempCode);
-    props.setProductos(prod.hits);
-
-    props.setCode(tempCode);
+    props.sendCode(tempCode);
+    console.log("El codigo que se manda es")
     console.log(tempCode);
-    console.log(prod.hits);
   }
 
   useEffect(
@@ -113,16 +96,14 @@ export default function MyCamera(props) {
   };
 
   return (
-
     <Box sx={{
       bgcolor: 'background.default', display: 'flex', flexWrap: 'wrap',
       height: '100%', justifyContent: 'center', pb: 5
     }}>
-      <Typography variant="h3" align="center" style={{ marginTop:"1em"}} >
-        Scanner de código de barras
-      </Typography>
       <section className="container" id="demo-content">
-
+        <Typography variant="h3" align="center" style={{ marginTop: "1em" }} >
+          Scanner de código de barras
+        </Typography>
         <div id="sourceSelectPanel">
           <FormLabel htmlFor="sourceSelect">Change video source:  </FormLabel>
           <NativeSelect

@@ -1,14 +1,44 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Grid } from "@mui/material";
 import RegisterProductForm from "../components/scanner/RegisterProductForm";
-import MyCamera from "../components/Scanner/MyCamera";
 import BarcodeInformation from "../components/scanner/BarcodeInformation";
-
+import MyCamera from "../components/scanner/MyCamera";
+import isArrayNullOrUndefined from "../helper/utils";
+import { findProductByBarcode } from "../api/ApiService";
 
 export default function ProductRegistry() {
 
     const [code, setCode] = useState("");
-    const [productos, setProductos] = useState(undefined);
+    const [productos, setProductos] = useState([]);
+    const [isCameraVisible, setIsCameraVisible] = useState(true);
+    const [isRegistryFormVisible, setIsRegistryFormVisible] = useState(false);
+    const [isBarcodeInformationVisible, setIsBarcodeInformationVisible] = useState(false);
+
+    const sendCode = (sentCode) => {
+        setIsCameraVisible(false);
+        setCode(sentCode);
+        console.log(sentCode);
+        
+        findProductByBarcode(sentCode).then((result) => {
+            console.log(result.hits);
+            setProductos(result.hits);
+            
+            // Use the updated state within the callback of setProductos
+            setProductos((updatedProductos) => {
+                console.log(updatedProductos);
+                if (!isArrayNullOrUndefined(updatedProductos)) {
+                    updatedProductos.length === 0
+                        ? setIsRegistryFormVisible(true)
+                        : setIsBarcodeInformationVisible(true);
+                } else {
+                    console.log("else")
+                }
+                return updatedProductos;  // Return the updated state
+            });
+        }).catch(error => {
+            console.error('Error fetching product:', error);
+        });
+    };
 
     return (
         <Grid container
@@ -19,13 +49,15 @@ export default function ProductRegistry() {
             }}>
             
             {
-                code === ""
-                    ? <MyCamera code={code} setProductos={setProductos} setCode={setCode} key="camera"></MyCamera>
-                    : (productos != undefined && productos.length > 0)
-                        ? <BarcodeInformation productos={productos}></BarcodeInformation>
-                        : <RegisterProductForm code={code} key="form"></RegisterProductForm>
+                isCameraVisible && <MyCamera sendCode={sendCode} key="camera"></MyCamera>
             }
-            
+            {
+                isBarcodeInformationVisible && <BarcodeInformation productos={productos}></BarcodeInformation>
+            }
+            {
+                isRegistryFormVisible && <RegisterProductForm code={code} key="form"></RegisterProductForm>
+            }
         </Grid>
     );
 };
+

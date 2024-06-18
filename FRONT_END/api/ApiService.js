@@ -43,8 +43,18 @@ export async function findProductById(id) {
 }
 
 export async function findProductByBarcode(barcode) {
-	let response = await fetch(filterProductsURL + '?barcode=' + barcode);
-	return response.json();
+    console.log(barcode);
+    try {
+        let response = await fetch(filterProductsURL + '?barcode=' + barcode);
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        let data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
 }
 
 export async function getProductsFiltered(name) {
