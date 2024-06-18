@@ -1,4 +1,4 @@
-describe('Comparator application', () => {
+describe('CatalogueTest', () => {
 
     beforeEach(() => {
         cy.visit('http://localhost:19006/productos');
