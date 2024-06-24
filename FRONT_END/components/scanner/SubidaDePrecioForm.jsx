@@ -7,6 +7,7 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import { registrarSubidaDePrecio } from "../../api/ApiService";
 import { Title } from "react-native-paper";
+import ProductImageLoader from "../../helper/ProductImageLoader";
 
 export default function SubidaDePrecioForm(props) {
   const [formValues, setFormValues] = useState({
@@ -18,8 +19,6 @@ export default function SubidaDePrecioForm(props) {
     precio: "",
     supermercado: "",
   });
-
-  let imageRef = require("../../static/images/producto.png");
 
   const [isOpen, setIsOpen] = useState(false);
   const [updatePerformed, setUpdatePerformed] = useState(false);
@@ -34,7 +33,7 @@ export default function SubidaDePrecioForm(props) {
 
   const registrarSubida = async () => {
     var precios = props.producto.precios;
-    precios[precios.length] = parseFloat(formValues.precio);
+    precios[precios.length] = parseFloat(formValues.precio.replace(',', '.'));
 
     var producto = {
       barcode: props.producto.barcode,
@@ -159,11 +158,12 @@ export default function SubidaDePrecioForm(props) {
             value={props.producto.marca}
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
-          <img
-            src={imageRef}
-            alt={props.producto.nombre}
-            style={{ width: "100%", height: "auto", padding: "1em" }}
+          <ProductImageLoader
+            imageName={`${props.producto.barcode}${props.producto.supermercado}`}
+            alt={`${props.producto.id}_${props.producto.supermercado}`}
+            style={{ width: '95%', height: '95%', marginTop: '1em' }}
           />
         </Grid>
 

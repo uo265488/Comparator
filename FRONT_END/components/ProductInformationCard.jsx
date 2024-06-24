@@ -5,10 +5,10 @@ import { añadirProductoALaLista } from "../redux/reduxConfig";
 import { NumberPicker } from "react-widgets/cjs";
 import { StyledButton, Wrapper } from "../helper/styles";
 import { Button } from "react-native-paper";
+import ProductImageLoader from "../helper/ProductImageLoader";
 
 export default function ProductInformationCard(props) {
 
-  let imageRef = require("../static/images/producto.png");
   let imgSupermercado = require("../static/images/" +
     props.producto.supermercado +
     ".png");
@@ -58,7 +58,11 @@ export default function ProductInformationCard(props) {
               Precio: {props.producto.precioActual}€
             </Typography>
             <Box className="product-img" >
-              <img src={imageRef} alt={props.producto.nombre} />
+              <ProductImageLoader
+                imageName={`${props.producto.barcode}${props.producto.supermercado}`}
+                alt={`${props.producto.id}_${props.producto.supermercado}`}
+                style={{ width: '95%', height: '95%' }}
+              />
             </Box>
             <div>
               <Typography variant="subtitle1" paragraph>

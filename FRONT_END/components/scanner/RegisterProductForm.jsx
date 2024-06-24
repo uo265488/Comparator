@@ -63,7 +63,7 @@ export default function RegisterProductForm(props) {
     let result = await addNonExistingProduct({
       barcode: props.code,
       nombre: formValues.nombre,
-      precios: [parseFloat(formValues.precio)],
+      precios: [parseFloat(formValues.precio.replace(',', '.'))],
       supermercado: formValues.supermercado,
       marca: formValues.marca,
       proveedor: formValues.proveedor,

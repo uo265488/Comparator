@@ -83,7 +83,7 @@ export default function ProductInformation(props) {
                 ></ProductInformationCard>
               </Grid>
 
-              <Grid item>
+              <Grid item xs={12}>
                 <Chart
                   data={productToChartData(props.producto)}
                   title={"Evolución del precio de este producto"}
@@ -91,7 +91,7 @@ export default function ProductInformation(props) {
                 ></Chart>
               </Grid>
 
-              <Grid item>
+              <Grid item xs={12}>
                 <div className="product-alternative">
                   {!alternativaDefined ? (
                     <Alert severity="error">
