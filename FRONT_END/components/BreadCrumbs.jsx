@@ -19,12 +19,12 @@ export function BreadcrumbsDashBoard() {
 export function BreadcrumbsProduct(props) {
   return (
     <Breadcrumbs aria-label="breadcrumb">
-      <Link underline="hover" href="/">
+      <Link underline="hover" to="/">
         <Typography variant="h6" sx={{ color: "text.secondary" }}>
           Home
         </Typography>
       </Link>
-      <Link underline="hover" href="/shop">
+      <Link underline="hover" to="/productos">
         <Typography variant="h6" sx={{ color: "text.secondary" }}>
           Catalogue
         </Typography>
