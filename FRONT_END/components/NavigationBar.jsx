@@ -27,13 +27,13 @@ const pages = [
   { name: "La Lista de la compra", link: "lista" },
   { name: "Tus listas", link: "listasPersonales" },
   { name: "Estadisticas", link: "estadisticas" }
-  
+
 ];
 
 export function NavigationBar() {
   const { user, isAuthenticated, isLoading } = useAuth0();
   console.log("Usuario en sesion: " + user);
-    
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -111,8 +111,10 @@ export function NavigationBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page.name}</Typography>
+                <MenuItem key={page.name} component="a" href={page.link} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center" variant="body1">
+                    {page.name}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -151,14 +153,14 @@ export function NavigationBar() {
             <IconButton
               style={{ marginRight: "1em" }}
               size="large"
-            aria-label={"show " + cart.forEach + "new notifications"}
-            
+              aria-label={"show " + cart.forEach + "new notifications"}
+
             >
               <Badge badgeContent={unidades} color="error">
-                <ShoppingCartIcon  />
+                <ShoppingCartIcon />
               </Badge>{" "}
             </IconButton>
-            </Link>
+          </Link>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
