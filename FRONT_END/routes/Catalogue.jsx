@@ -27,16 +27,16 @@ export default function Catalogo() {
     () => {
       refreshProductList();
     }, [supermercado]);
-  
-    const refreshProductList = async () => {
-      const result = await getAllProducts();
-      setAllProducts(result.hits);
-      
-      if (supermercado !== "") {
-        setProducts(allProducts.filter(a => a.supermercado == supermercado))
-      } else {
-        setProducts(result.hits);
-      }
+
+  const refreshProductList = async () => {
+    const result = await getAllProducts();
+    setAllProducts(result.hits);
+
+    if (supermercado !== "") {
+      setProducts(allProducts.filter(a => a.supermercado == supermercado))
+    } else {
+      setProducts(result.hits);
+    }
   };
 
   /**
@@ -76,35 +76,61 @@ export default function Catalogo() {
     >
       {verMasProducto == undefined ? (
         <>
-          <Grid item sx={{ pt: 2, pl: { xs: 0, sm: 15 } }}>
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              margin: '30px 0',
+              padding: '10px 20px',
+              background: 'linear-gradient(to right, #7b2cbf, #9d4edd)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textAlign: 'center',
+            }}
+          >
             <Typography
               variant="h1"
+              component="h1"
               align="center"
-              sx={{ color: "text.primary" }}
+              sx={{
+                color: "text.primary",
+                fontWeight: 'bold',
+                textShadow: '2px 2px 8px rgba(0,0,0,0.3)',
+                '@media (max-width: 600px)': {
+                  fontSize: '2.5rem',
+                  margin: '20px 0',
+                  padding: '5px 10px',
+                },
+                '@media (min-width: 600px) and (max-width: 960px)': {
+                  fontSize: '2.5rem',
+                },
+                '@media (min-width: 960px)': {
+                  fontSize: '2.5rem',
+                },
+              }}
             >
-              Catálogo de Comparator!!
+              ¡Catálogo de Comparator!
             </Typography>
           </Grid>
 
           <Grid
             container
             className="search-container"
-            alignItems="stretch"
+            alignItems="center"
+            justifyContent="center"
             sx={{ pt: 0 }}
           >
-            <Grid item xs={5} sm={8}>
+            <Grid item xs={10} sm={8}>
               <form
                 className="searchForm"
-                onSubmit={(event) => searchForProducts(event)}
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  searchForProducts(event);
+                }}
               >
-                <Grid container justifyContent="right">
-                  <Grid
-                    key={1324235}
-                    item
-                    xs={10}
-                    sm={10}
-                    sx={{ pt: { xs: 2, sm: 0 } }}
-                  >
+                <Grid container justifyContent="right" alignItems="center" spacing={2}>
+                  <Grid item xs={12} sm={8}>
                     <Searchbar
                       value={searchText}
                       onChangeText={onChangeSearch}
@@ -116,9 +142,9 @@ export default function Catalogo() {
                         }
                       }}
                       autoFocus
-                    ></Searchbar>
+                    />
                   </Grid>
-                  <Grid item xs={10} sm={2} sx={{ pt: { xs: 2, sm: 0 } }}>
+                  <Grid item xs={12} sm={4}>
                     <MyComboBox
                       supermercado={supermercado}
                       setSupermercado={setSupermercado}

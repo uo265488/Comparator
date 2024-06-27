@@ -101,7 +101,7 @@ export default function MyCamera(props) {
       height: '100%', justifyContent: 'center', pb: 5
     }}>
       <section className="container" id="demo-content">
-        <Typography variant="h3" align="center" style={{ marginTop: "1em" }} >
+        <Typography variant="h3" component="h1" align="center" style={{ marginTop: "1em" }} >
           Scanner de código de barras
         </Typography>
         <div id="sourceSelectPanel">

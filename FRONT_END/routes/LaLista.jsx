@@ -167,6 +167,7 @@ export default function LaLista() {
 
       <Typography
         variant="h1"
+        component="h1"
         sx={{
           color: "text.default",
           pt: 4,
