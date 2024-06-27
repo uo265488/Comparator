@@ -21,9 +21,6 @@ import java.util.*;
 public class ProductSearchRepository implements SearchRepository<Product> {
 
     @Autowired
-    private ESClientConfig elasticsearchClientConfig;
-
-    @Autowired
     private QueryFactory queryFactory;
 
     @Autowired

@@ -60,14 +60,12 @@ public class ProductSearchController {
         return ResponseEntity.ok(res);
     }
 
-    //Seria mejor en LISTA???
     @PostMapping("/improveLaLista")
     public ResponseEntity<ProductResponseModel> optimizeList(@RequestBody List<Product> laLista) {
 
         return ResponseEntity.ok(productSearchService.optimizeList(laLista));
     }
 
-    //Nuevo controller ????
     @GetMapping("/marcas")
     public ResponseEntity<ProductResponseModel> getAllMarcas() {
         return ResponseEntity.ok(productSearchService.getAllMarcas());
