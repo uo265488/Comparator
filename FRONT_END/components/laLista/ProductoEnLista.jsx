@@ -10,11 +10,11 @@ import {
 
 import { productoAElemento } from "../../helper/parser";
 import { findAlternative } from "../../api/ApiService";
-import { Alert, Checkbox, FormControlLabel } from "@mui/material";
+import { Alert, Checkbox, FormControlLabel, Grid } from "@mui/material";
 import { StyledFilledButton, Wrapper } from "../../helper/styles";
+import ProductImageLoader from "../../helper/ProductImageLoader";
 
 export default function ProductoEnLista(props) {
-  let imageRef = require("../../static/images/producto.png");
 
   const dispatch = useDispatch();
 
@@ -103,7 +103,8 @@ export default function ProductoEnLista(props) {
 
   return (
     <Wrapper className="cart-item-product">
-      <div>
+      <Grid container spacing={2}>
+      <Grid item xs={8}>
         {productItem.mejora > 0 && (
           <Alert severity="success">
             La mejora de esta alternativa ha supuesto un ahorro del{" "}
@@ -203,9 +204,16 @@ export default function ProductoEnLista(props) {
         >
           Buscar mejor alternativa
         </StyledFilledButton>
-      </div>
+      </Grid>
 
-      <img src={imageRef} alt={productItem.producto.nombre} />
+      <Grid item xs={4}>
+        <ProductImageLoader
+          imageName={`${productItem.producto.barcode}${productItem.producto.supermercado}`}
+          alt={`${productItem.producto.id}_${productItem.producto.supermercado}`}
+          style={{ width: '100%', height: '100%' }}
+        />
+      </Grid>
+      </Grid>
     </Wrapper>
   );
 }
