@@ -60,6 +60,7 @@ public class QueryFactoryImpl implements QueryFactory {
     public Query getMoreLikeThisQuery(Product product, String[] fields) {
        return MoreLikeThisQuery.of(p ->
                 p   .minTermFreq(1)
+                        .minDocFreq(1)
                     .maxQueryTerms(10)
                     .fields(Arrays.asList(fields))
                     .like(new Like.Builder().text(product.getNombre()).build()))._toQuery();
