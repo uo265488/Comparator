@@ -58,9 +58,9 @@ export function NavigationBar() {
 
   return (
     <AppBar position="static">
-      <Container style={{ backgroundColor: "rgb(103, 80, 164)" }} maxWidth="xl">
+      <Container style={{ backgroundColor: "rgb(97, 75, 154)" }} maxWidth="xl">
         <Toolbar
-          style={{ backgroundColor: "rgb(103, 80, 164)" }}
+          style={{ backgroundColor: "rgb(97, 75, 154)" }}
           disableGutters
         >
           <Typography
@@ -131,11 +131,11 @@ export function NavigationBar() {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "rgb(103, 80, 164)",
+              color: "rgb(255, 255, 255)",
               textDecoration: "none",
             }}
           >
-            LOGO
+            COMPARATOR
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
