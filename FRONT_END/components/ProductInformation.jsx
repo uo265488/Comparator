@@ -27,6 +27,7 @@ export default function ProductInformation(props) {
     findAlternative({
       producto: props.producto,
     }).then((result) => {
+      console.log(result)
       if (result !== "No product found") {
         var productoMejorado = result.hits[0];
         if (productoMejorado != undefined) {
@@ -61,16 +62,20 @@ export default function ProductInformation(props) {
             overflow: "auto",
             display: "flex",
             flexDirection: "column",
+
           }}
         >
-          <Container maxWidth="lg">
+          <Container maxWidth="sm">
             <Typography
               variant="h3"
               sx={{
-                color: "text.default",
+                color: mdTheme.palette.text.primary,
                 pt: 4,
                 pb: 2,
-                typography: { sm: "h3", xs: "h4" },
+                typography: { sm: 'h3', xs: 'h4' },
+                fontFamily: 'Montserrat, sans-serif',
+                fontWeight: 'bold', 
+                letterSpacing: '0.05em', 
               }}
             >
               Ver más: {props.producto.nombre}
@@ -147,9 +152,9 @@ export default function ProductInformation(props) {
       </Box>
     </ThemeProvider>
   ) : (
-      <SubidaDePrecioForm 
-        producto={props.producto}
-        setMejoraPerformed={setButtonPressed}
-      ></SubidaDePrecioForm>
+    <SubidaDePrecioForm
+      producto={props.producto}
+      setMejoraPerformed={setButtonPressed}
+    ></SubidaDePrecioForm>
   );
 }
