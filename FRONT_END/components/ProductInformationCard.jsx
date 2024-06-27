@@ -42,6 +42,18 @@ export default function ProductInformationCard(props) {
       >
         <Box>
           <div className="product-info">
+            <Typography
+              variant="h2"
+              sx={{
+                pt: 4,
+                pb: 4,
+                color: "text.default",
+                typography: { sm: "h5", xs: "h6" }
+              }}
+              className="product-price"
+            >
+              {props.producto.nombre}
+            </Typography>
             <Wrapper>
               <img sx={{}} src={imgSupermercado} alt={props.supermercado} />
             </Wrapper>

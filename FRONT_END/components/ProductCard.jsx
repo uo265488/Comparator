@@ -47,7 +47,7 @@ export default function ProductCard(props) {
           gutterBottom
           variant="h5"
           component="div"
-          sx={{ typography: { md: 'h5', xs: 'h6' } }}
+          sx={{ typography: { md: 'h5', xs: 'h6'} }}
         >
           {props.product.nombre}
         </Typography>
@@ -77,7 +77,7 @@ export default function ProductCard(props) {
           onClick={() => onAddToLaLista(productoAElemento(props.product))}
           mode="contained"
         >
-          AÑADIR A LA LISTA DE LA COMPRA
+          AÑADIR A LA LISTA
         </StyledButton>
         <Button
           sx={{
