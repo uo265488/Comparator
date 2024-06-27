@@ -134,8 +134,10 @@ export default function MyCamera(props) {
             fullWidth
           />
 
-          <Button mode="contained" id="registerButton" onClick={() => sendCode()} style={{ marginBottom: '10px' }}>Registrar código de barras</Button>
-          <Button mode="contained" id="resetButton" onClick={() => resetClick()}>Resetear</Button>
+          <Button mode="contained" id="registerButton" onClick={() => sendCode()} style={{ marginBottom: '10px' }}>
+            REGISTRAR CÓDIGO DE BARRAS
+          </Button>
+          <Button mode="contained" id="resetButton" onClick={() => resetClick()}>RESETEAR CÓDIGO</Button>
         </div>
       </section>
     </Box>

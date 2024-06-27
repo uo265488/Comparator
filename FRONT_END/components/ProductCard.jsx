@@ -77,7 +77,7 @@ export default function ProductCard(props) {
           onClick={() => onAddToLaLista(productoAElemento(props.product))}
           mode="contained"
         >
-          Añadir a la Lista de la compra
+          AÑADIR A LA LISTA DE LA COMPRA
         </StyledButton>
         <Button
           sx={{
@@ -87,7 +87,7 @@ export default function ProductCard(props) {
           }}
           onClick={verMas}
         >
-          Ver más
+          VER MÁS
         </Button>
       </CardActions>
     </Card>

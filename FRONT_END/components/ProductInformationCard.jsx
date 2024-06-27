@@ -55,7 +55,7 @@ export default function ProductInformationCard(props) {
               }}
               className="product-price"
             >
-              Precio: {props.producto.precioActual}€
+              Precio: {props.producto.precioActual.toFixed(2)}€
             </Typography>
             <Box className="product-img" >
               <ProductImageLoader
@@ -98,12 +98,12 @@ export default function ProductInformationCard(props) {
                 }}
                 onClick={addProductToLaLista}
               >
-                Añadir a LaLista
+                AÑADIR A LA LISTA
               </StyledButton>
             </Box>
 
             <Button id="rsButton" mode="contained" onClick={abrirSubidaDePrecioForm}>
-              Registrar un cambio de precio
+              REGISTRAR UN CAMBIO DE PRECIO
             </Button>
           </div>
         </Box>

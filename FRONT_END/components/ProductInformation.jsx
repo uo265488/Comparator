@@ -14,6 +14,7 @@ import { productToChartData } from "../helper/parser";
 import Chart from "./statistics/Chart";
 import ProductInformationCard from "./ProductInformationCard";
 import { findAlternative } from "../api/ApiService";
+import { BreadcrumbsProduct } from "./BreadCrumbs";
 
 export default function ProductInformation(props) {
   const [buttonPressed, setButtonPressed] = useState(false);
@@ -46,6 +47,7 @@ export default function ProductInformation(props) {
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CssBaseline />
+        <BreadcrumbsProduct producto={props.producto}></BreadcrumbsProduct>
 
         <Box
           component="main"
