@@ -189,10 +189,11 @@ export default function RegisterProductForm(props) {
         {errors.precio && <Alert severity="error">{errors.precio}</Alert>}
         <Grid item xs={12} sm={6}>
           <FormControl sx={{ m: 1, minWidth: 120, width: "100%" }}>
-            <InputLabel id="demo-simple-select-helper-label">
+            <InputLabel htmlFor={"supermercado-id"} id="demo-simple-select-helper-label">
               Supermercado
             </InputLabel>
             <Select
+              inputProps={{ id: 'supermercado-id' }}
               labelId="demo-simple-select-helper-label"
               id="supermercado"
               value={formValues.supermercado}

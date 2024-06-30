@@ -19,23 +19,24 @@ const Searchbar = ({
         label={placeholder}
         value={value}
         onChange={(e) => {
-          console.log("Text changed:", e.target.value); // Debugging log
           onChangeText(e.target.value);
         }}
         fullWidth
         onKeyPress={(e) => {
           if (onKeyPress) {
-            console.log("Key pressed:", e.key); // Debugging log
             onKeyPress(e);
           }
         }}
         autoFocus={autoFocus}
         InputProps={{
           endAdornment: (
-            <IconButton onClick={() => {
-              console.log("Search icon clicked"); // Debugging log
-              onIconPress();
-            }} edge="end">
+            <IconButton
+              onClick={() => {
+                onIconPress();
+              }}
+              edge="end"
+              aria-label="Buscar"
+            >
               <SearchIcon />
             </IconButton>
           ),
