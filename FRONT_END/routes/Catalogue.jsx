@@ -1,63 +1,64 @@
-import React from "react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { getAllProducts, getProductsFiltered } from "../api/ApiService.js";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Typography } from "@mui/material";
+import { getAllProducts, getProductsFiltered } from "../api/ApiService.js";
 import ProductCard from "../components/ProductCard.jsx";
-import { Searchbar } from "react-native-paper";
-import ProductInformation from "../components/ProductInformation.jsx";
+import MySearchBar from "../components/catalogue/MySearchBar.jsx";
 import MyComboBox from "../components/MyComboBox.jsx";
+import ProductInformation from "../components/ProductInformation.jsx";
 import { SUPERMERCADOS } from "../helper/settings.js";
 
 export default function Catalogo() {
-
   const [products, setProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [verMasProducto, setVerMasProducto] = useState();
   const [supermercado, setSupermercado] = useState("");
   const [allProducts, setAllProducts] = useState([]);
 
-  useEffect(
-    () => {
-      refreshProductList();
-    }, []);
+  useEffect(() => {
+    refreshProductList();
+  }, []);
 
-  useEffect(
-    () => {
-      refreshProductList();
-    }, [supermercado]);
+  useEffect(() => {
+    if (supermercado) {
+      const filteredProducts = allProducts.filter(a => a.supermercado === supermercado);
+      setProducts(filteredProducts);
+    } else {
+      setProducts(allProducts);
+    }
+  }, [supermercado, allProducts]);
 
   const refreshProductList = async () => {
     const result = await getAllProducts();
     setAllProducts(result.hits);
+    setProducts(result.hits);
+  };
 
-    if (supermercado !== "") {
-      setProducts(allProducts.filter(a => a.supermercado == supermercado))
+  const updateProductList = async () => {
+    if (searchText.trim() !== "") {
+      const filteredProducts = await getProductsFiltered(searchText);
+      setProducts(filteredProducts.hits);
     } else {
-      setProducts(result.hits);
+      refreshProductList();
     }
   };
 
-  /**
-   * Actualiza la lista de productos
-   * @param input
-   */
-  const updateProductList = async () => {
-    const filteredProducts = await getProductsFiltered(searchText);
-    setProducts(filteredProducts.hits);
-  };
-
-  /**
-   * Filters the products by name
-   * @param event
-   */
   const searchForProducts = () => {
-    if (searchText.trim() !== "") updateProductList();
+    if (searchText.trim() !== "") {
+      updateProductList();
+    } else {
+      refreshProductList();
+    }
   };
 
   const onChangeSearch = (query) => {
     setSearchText(query);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      updateProductList();
+    }
   };
 
   return (
@@ -126,21 +127,18 @@ export default function Catalogo() {
                 className="searchForm"
                 onSubmit={(event) => {
                   event.preventDefault();
-                  searchForProducts(event);
+                  searchForProducts();
                 }}
               >
                 <Grid container justifyContent="right" alignItems="center" spacing={2}>
                   <Grid item xs={12} sm={8}>
-                    <Searchbar
+                    <MySearchBar
+                      id="search-id"
                       value={searchText}
                       onChangeText={onChangeSearch}
-                      onIconPress={updateProductList}
+                      onIconPress={searchForProducts}
                       placeholder="Refina la búsqueda de tus productos..."
-                      onKeyPress={(e) => {
-                        if (e.nativeEvent.key === 'Enter') {
-                          updateProductList();
-                        }
-                      }}
+                      onKeyPress={handleKeyPress}
                       autoFocus
                     />
                   </Grid>
@@ -169,32 +167,30 @@ export default function Catalogo() {
               width: "100%",
             }}
           >
-            {products.map((product, i) => {
-              return (
-                <Grid
-                  className="ProductCard"
-                  key={'productGrid_' + i}
-                  item
-                  xs={11}
-                  sm={6}
-                  md={6}
-                  lg={4}
-                  xl={3}
-                  sx={{ pl: { xs: 0 }, pr: 0 }}
-                >
-                  <ProductCard
-                    id={product.id}
-                    key={'product_' + i}
-                    product={product}
-                    setVerMasProducto={setVerMasProducto}
-                  ></ProductCard>
-                </Grid>
-              );
-            })}
+            {products.map((product, i) => (
+              <Grid
+                className="ProductCard"
+                key={'productGrid_' + i}
+                item
+                xs={11}
+                sm={6}
+                md={6}
+                lg={4}
+                xl={3}
+                sx={{ pl: { xs: 0 }, pr: 0 }}
+              >
+                <ProductCard
+                  id={product.id}
+                  key={'product_' + i}
+                  product={product}
+                  setVerMasProducto={setVerMasProducto}
+                />
+              </Grid>
+            ))}
           </Grid>
         </>
       ) : (
-        <ProductInformation producto={verMasProducto}></ProductInformation>
+        <ProductInformation producto={verMasProducto} />
       )}
     </Grid>
   );

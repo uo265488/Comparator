@@ -8,13 +8,13 @@ import Select from '@mui/material/Select';
 export default function MyComboBox(props) {
 
   const handleChange = (event) => {
-      props.setSupermercado(event.target.value);
+    props.setSupermercado(event.target.value);
   };
-  
+
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 120, width: '100%' }}>
-        <InputLabel id="label">Supermercado</InputLabel>
+        <InputLabel id="label" htmlFor={'supermercado-id'}>Supermercado</InputLabel>
         <Select
           labelId="label"
           id="select-helper"
@@ -22,11 +22,12 @@ export default function MyComboBox(props) {
           label="Supermercado"
           onChange={handleChange}
           data-testid="combobox"
+          inputProps={{ id: 'supermercado-id' }}
         >
           <MenuItem value="">
             <em>None</em>
-         </MenuItem>
-                  
+          </MenuItem>
+          
           {props.supermercados.map(s =>
             <MenuItem value={s} key={s}> {s}</MenuItem>)}
         </Select>
