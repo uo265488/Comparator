@@ -17,6 +17,7 @@
     "@expo/webpack-config": "^18.0.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.16",
+    "@mui/x-charts": "^7.9.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@zxing/library": "^0.16.1",

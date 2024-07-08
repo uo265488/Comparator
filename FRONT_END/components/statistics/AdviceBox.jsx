@@ -34,7 +34,7 @@ export default function AdviceBox(props) {
       <Typography component="p" variant="h4">
         {changePercentage >= 0
           ? props.producto.precioActual + " (+" + changePercentage+ "%)"
-          : props.producto.precioActual + " (-" + changePercentage + "%)"}
+          : props.producto.precioActual + " (" + changePercentage + "%)"}
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
         el{" "}

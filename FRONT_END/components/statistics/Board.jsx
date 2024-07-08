@@ -11,6 +11,8 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
+var key = 0;
+
 export default function Board(props) {
   return (
     <React.Fragment>
@@ -28,7 +30,7 @@ export default function Board(props) {
             return (
               <TableRow key={row[Object.keys(props.data[0])[0]]}>
                 {Object.keys(row).map((cell) => {
-                  return <TableCell key={row[cell]}> {row[cell]}</TableCell>;
+                  return <TableCell key={key++}> {row[cell]}</TableCell>;
                 })}
               </TableRow>
             );
