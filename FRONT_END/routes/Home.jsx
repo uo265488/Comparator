@@ -26,7 +26,7 @@ export default function Home() {
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.1,
+          opacity: 0.075,
           zIndex: 1,
         }}
       />
