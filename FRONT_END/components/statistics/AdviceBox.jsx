@@ -9,26 +9,21 @@ function preventDefault(event) {
 }
 
 export default function AdviceBox(props) {
-  let imgSupermercado = require("../../static/images/" +
-    props.producto.supermercado +
-    ".png");
+  let imgSupermercado = require("../../static/images/" + props.producto.supermercado + ".png");
 
-  const precio = (
-    ((props.producto.precioActual -
-      props.producto.precios[props.producto.precios.length - 2]) /
-      props.producto.precios[props.producto.precios.length - 2]) *
-    100
-  ).toFixed(2);
-
-  const calcularCambioDePrecio = () => {
-    console.log(props.producto);
-    precio = (
-      ((props.producto.precioActual -
-        props.producto.precios[props.producto.precios.length - 2]) /
-        props.producto.precios[props.producto.precios.length - 2]) *
-      100
-    ).toFixed(2);
+  const computeChangePercentage = () => {
+    if (props.producto.precios.length > 1) {
+      return (
+        ((props.producto.precioActual -
+          props.producto.precios[props.producto.precios.length - 2]) /
+          props.producto.precios[props.producto.precios.length - 2]) *
+        100
+      ).toFixed(2);
+    }
+    return 0;
   };
+
+  var changePercentage = computeChangePercentage();
 
   return (
     <React.Fragment>
@@ -37,26 +32,21 @@ export default function AdviceBox(props) {
         {props.producto.nombre}
       </Typography>
       <Typography component="p" variant="h4">
-        {precio >= 0
-          ? props.producto.precioActual + " (+" + precio + "%)"
-          : props.producto.precioActual + " (-" + precio + "%)"}
+        {changePercentage >= 0
+          ? props.producto.precioActual + " (+" + changePercentage+ "%)"
+          : props.producto.precioActual + " (-" + changePercentage + "%)"}
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
         el{" "}
         {
           props.producto.fechas_de_registro[
-            props.producto.fechas_de_registro.length - 1
+          props.producto.fechas_de_registro.length - 1
           ]
         }
       </Typography>
       <Wrapper>
         <img src={imgSupermercado} alt={props.producto.supermercado} />
       </Wrapper>
-      {/*<div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          Ver producto
-        </Link>
-      </div>*/}
     </React.Fragment>
   );
 }
