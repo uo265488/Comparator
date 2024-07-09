@@ -4,6 +4,7 @@ import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.documents.responseModels.ProductResponseModel;
+import com.api.rest_api.documents.responseModels.ResponseModel;
 import com.api.rest_api.helper.parser.ProductParser;
 import com.api.rest_api.repositories.search.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,18 @@ public class ProductSearchService {
     public ProductResponseModel mostRecentUpdate() {
         return new ProductResponseModel(
                 productSearchRepository.matchAllQuery(SortOrder.Asc, "fechas_de_registro",  1));
+    }
+
+    public ProductResponseModel getMostFrecuentlyUpdated() {
+        SearchResponse<Product> response = productSearchRepository.getMostFrequentlyUpdated();
+        ProductResponseModel productResponseModel = new ProductResponseModel(response);
+        productResponseModel.addStermsAggregations(response, "products_with_most_dates");
+
+        return new ProductResponseModel(
+                productResponseModel.getHits().stream().filter(
+                        hit -> productResponseModel.getAggregations().get("products_with_most_dates")
+                                .contains(hit.getBarcode())
+                ).toList());
     }
 
     public SearchResponse<Product> getAveragePricesBySupermercado() {

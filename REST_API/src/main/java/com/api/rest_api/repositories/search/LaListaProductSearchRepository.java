@@ -48,6 +48,12 @@ public class LaListaProductSearchRepository implements SearchRepository<LaListaP
     public SearchResponse<LaListaProduct> getAllMarcas() {
         throw new NotYetImplementedException();
     }
+
+    @Override
+    public SearchResponse<LaListaProduct> getMostFrequentlyUpdated() {
+        throw new NotYetImplementedException();
+    }
+
     @Override
     public SearchResponse<LaListaProduct> getAveragePricesBySupermercado() {
         throw new NotYetImplementedException();

@@ -1,17 +1,17 @@
 package com.api.rest_api.repositories.search;
 
 import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
-import co.elastic.clients.elasticsearch._types.aggregations.AverageAggregation;
-import co.elastic.clients.elasticsearch._types.aggregations.TermsAggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.*;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.util.NamedValue;
 import com.api.rest_api.config.ESClientConfig;
 import com.api.rest_api.documents.fieldAttrs.ProductsFieldAttr;
 import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.helper.Indices;
 import com.api.rest_api.repositories.search.query.executor.QueryExecutor;
 import com.api.rest_api.repositories.search.query.factory.QueryFactory;
+import org.elasticsearch.search.aggregations.BucketOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -74,19 +74,62 @@ public class ProductSearchRepository implements SearchRepository<Product> {
 
     @Override
     public SearchResponse<Product> getMostUpdated() {
-        return queryExecutor.executeSearchQuery(null, 1, SortOrder.Desc,
-                "doc['fechas_de_registro'].size() > 0 ? doc['fechas_de_registro'][doc['fechas_de_registro'].size() - 1] : null",
-                Map.of(), Indices.PRODUCT_INDEX, Product.class);
+        return queryExecutor.executeSearchQuery(
+                queryFactory.getMatchAllQuery(),
+                1,
+                SortOrder.Desc,
+                "fechas_de_registro",
+                Map.of(),
+                Indices.PRODUCT_INDEX,
+                Product.class
+        );
     }
+
 
     @Override
     public SearchResponse<Product> getAllMarcas() {
-        Aggregation genres = TermsAggregation.of(t -> t.field("marca").size(100))._toAggregation();
+        Aggregation marcas = TermsAggregation.of(t -> t.field("marca").size(100))._toAggregation();
         Map<String, Aggregation> aggs = new HashMap<String, Aggregation>();
-        aggs.put("marcas", genres);
+        aggs.put("marcas", marcas);
 
         return queryExecutor.executeSearchQuery(
-                queryFactory.getMatchAllQuery(), 1000, SortOrder.Asc, "nombre", aggs, Indices.PRODUCT_INDEX, Product.class);
+                queryFactory.getMatchAllQuery(),
+                1000,
+                SortOrder.Asc,
+                null,
+                aggs,
+                Indices.PRODUCT_INDEX,
+                Product.class);
+    }
+
+    @Override
+    public SearchResponse<Product> getMostFrequentlyUpdated() {
+        Aggregation topHits = Aggregation.of(a -> a
+                .topHits(TopHitsAggregation.of(th -> th.size(1)))
+        );
+
+        Aggregation dateCount = Aggregation.of(a -> a
+                .valueCount(ValueCountAggregation.of(vc -> vc.field("fechas_de_registro")))
+        );
+
+        List<NamedValue<SortOrder>> orderList = Collections.singletonList(
+                new NamedValue<>("date_count", SortOrder.Desc)
+        );
+
+        Aggregation termsAggregation = Aggregation.of(a -> a
+                .terms(TermsAggregation.of(t -> t
+                        .field("barcode")
+                        .size(5)
+                        .order(orderList)
+                ))
+                .aggregations("date_count", dateCount)
+                .aggregations("top_hits", topHits)
+        );
+        Map<String, Aggregation> aggs = new HashMap<>();
+        aggs.put("products_with_most_dates", termsAggregation);
+
+        return queryExecutor.executeSearchQuery(
+                queryFactory.getMatchAllQuery(), 100, null, null, aggs, Indices.PRODUCT_INDEX, Product.class);
     }
 
     @Override

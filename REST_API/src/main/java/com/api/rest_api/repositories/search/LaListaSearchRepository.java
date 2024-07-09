@@ -62,4 +62,9 @@ public class LaListaSearchRepository implements SearchRepository<LaLista> {
     public SearchResponse<LaLista> getAllMarcas() {
         throw new NotYetImplementedException();
     }
+
+    @Override
+    public SearchResponse<LaLista> getMostFrequentlyUpdated() {
+        throw new NotYetImplementedException();
+    }
 }

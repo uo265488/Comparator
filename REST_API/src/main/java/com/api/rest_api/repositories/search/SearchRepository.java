@@ -2,7 +2,9 @@ package com.api.rest_api.repositories.search;
 
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import com.api.rest_api.documents.domain.Product;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -70,4 +72,9 @@ public interface SearchRepository<Document> {
      */
     SearchResponse<Document> getAllMarcas();
 
+    /**
+     * Returns the documents with higher number of price updates
+     * @return
+     */
+    SearchResponse<Document> getMostFrequentlyUpdated();
 }

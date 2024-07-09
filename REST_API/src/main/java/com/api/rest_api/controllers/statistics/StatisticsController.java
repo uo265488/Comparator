@@ -28,6 +28,13 @@ public class StatisticsController {
         return ResponseEntity.ok(res);
     }
 
+    @GetMapping("/mostFrequentlyUpdated")
+    public ResponseEntity<ProductResponseModel> getMostFrecuentlyUpdatedProducts() {
+        ProductResponseModel res = productSearchService.getMostFrecuentlyUpdated();
+
+        return ResponseEntity.ok(res);
+    }
+
     @GetMapping("/lastPriceChange")
     public ResponseEntity<ProductResponseModel> getMostRecentUpdate() {
 
