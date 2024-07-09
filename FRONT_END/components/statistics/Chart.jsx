@@ -1,15 +1,8 @@
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Label,
-  ResponsiveContainer,
-} from "recharts";
+import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from "recharts";
 import Title from "./Title";
-import { Paper } from "@mui/material";
+import { Paper, Grid, Box } from "@mui/material";
 
 export default function Chart(props) {
   const theme = useTheme();
@@ -24,11 +17,23 @@ export default function Chart(props) {
           height: 240,
         }}
       >
-        <Title>{props.title}</Title>
-        <ResponsiveContainer>
+        <Grid container alignItems="center" spacing={2}>
+          <Grid item xs={8}>
+            <Title>{props.title}</Title>
+          </Grid>
+          <Grid item xs={4} sx={{ textAlign: 'right' }}>
+            <img
+              src={require("../../static/images/" + props.supermercado + ".png")}
+              alt={props.supermercado}
+              style={{
+                width: '70%',
+                height: '40%',
+              }}
+            />
+          </Grid>
+        </Grid>
+        <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            width={500}
-            height={800}
             data={props.data}
             margin={{
               top: 16,

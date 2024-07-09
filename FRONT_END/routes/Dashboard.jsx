@@ -11,27 +11,17 @@ import Paper from "@mui/material/Paper";
 import Chart from "../components/statistics/Chart";
 import AdviceBox from "../components/statistics/AdviceBox";
 import Board from "../components/statistics/Board";
-import { createData } from "../helper/parser";
+import { createDataFromProduct } from "../helper/parser";
 import { LineChart } from '@mui/x-charts/LineChart';
 import {
   getAvgPriceBySupermercado,
   getAvgPricePerMonthBySupermercado,
   getLastPriceChange,
+  getMostFrequentlyUpdated,
 } from "../api/ApiService";
 import { BreadcrumbsDashBoard } from "../components/BreadCrumbs";
-import { Title } from "react-native-paper";
-
-const atunData = [
-  createData("2023-01-01", 0),
-  createData("2023-02-01", 300),
-  createData("2023-03-01", 600),
-  createData("2023-06-01", 800),
-  createData("2023-08-01", 1500),
-  createData("2023-08-02", 2000),
-  createData("2023-08-20", 2400),
-  createData("2023-08-30", 2400),
-  createData("2023-12-01", undefined),
-];
+import Title from "../components/statistics/Title";
+import { Wrapper } from "../helper/styles";
 
 const mdTheme = createTheme();
 
@@ -39,6 +29,7 @@ export default function DashboardContent() {
   const [lastPriceChangeProduct, setLastPriceChangeProduct] = React.useState(undefined);
   const [boardData, setBoardData] = React.useState(undefined);
   const [chartData, setChartData] = React.useState(undefined);
+  const [productsChartData, setProductsChartData] = React.useState(undefined);
 
   React.useEffect(() => {
     getLastPriceChange().then((result) => {
@@ -59,7 +50,6 @@ export default function DashboardContent() {
         counter = counter + 1;
       });
 
-      var porcentajesDeSubida = [];
       getAvgPricePerMonthBySupermercado().then((result) => {
         var initialPrice = 0;
         data.forEach((fila) => {
@@ -74,12 +64,17 @@ export default function DashboardContent() {
                   : average.toFixed(2) + " (" + porcentaje.toFixed(2) + " %)";
             }
           );
-          fila["Porcentaje de subida total"] = porcentaje.toFixed(2) + " %";
+          fila["Porcentaje de subida total"] = "+" + porcentaje.toFixed(2) + " %";
         });
 
         setBoardData(data);
         setChartData(convertBoardDataToChart(result));
       });
+    });
+
+    getMostFrequentlyUpdated().then((result) => {
+      console.log(result.hits);
+      setProductsChartData(result.hits);
     });
 
   }, []);
@@ -99,6 +94,11 @@ export default function DashboardContent() {
     result.xLabels = xLabels;
 
     return result;
+  }
+
+  const getProductChartData = (product) => {
+
+    return createDataFromProduct(product);
   }
 
   return (
@@ -131,7 +131,7 @@ export default function DashboardContent() {
                 typography: { sm: "h3", xs: "h4" },
               }}
             >
-              Estadísticas: ¿Qué supermercado se aprovecha más de la inflación?
+              Estadísticas: precios injustificados y fraude ecónomico
             </Typography>
 
             <Grid container spacing={3}>
@@ -147,7 +147,7 @@ export default function DashboardContent() {
               </Grid>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <Title>Comparativa de supermercado (Gráfico):</Title>
+                  <Title>Comparativa de supermercados (Gráfico):</Title>
                   {boardData != undefined && chartData != undefined && (
                     <LineChart
                       height={300}
@@ -163,11 +163,31 @@ export default function DashboardContent() {
                     p: 2,
                     display: "flex",
                     flexDirection: "column",
-                    height: 240,
+                    minHeight: 240,
+                    height: "auto",
+                    overflow: "auto",
                   }}
                 >
-                  <Chart data={atunData} title="Evolución del precio del atun claro en aceite de girasol (Mercadona)"
-                    chartType="time" />
+                  <Title> Productos que reciben más subidas de precio:</Title>
+                  {productsChartData !== undefined && (
+                    productsChartData.map((product, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          marginBottom: 16,
+                          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                          borderRadius: 8,
+                        }}
+                      >   
+                        <Chart
+                          data={getProductChartData(product)}
+                          title={'Evolución del precio de ' + product.nombre}
+                          chartType="time"
+                          supermercado={product.supermercado}
+                        />
+                      </div>
+                    ))
+                  )}
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>

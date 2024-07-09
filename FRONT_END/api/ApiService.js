@@ -22,6 +22,7 @@ const statisticsEndpoint = apiEndPoint + '/statistics';
 const lastPriceChangeURL = statisticsEndpoint + '/lastPriceChange';
 const getAvgPriceBySupermercadoURL = statisticsEndpoint + '/avgPriceBySupermercado';
 const getAvgPricePerMonthBySupermercadoURL = statisticsEndpoint + '/avgPricePerMonthBySupermercado';
+const getMostFrequentlyUpdatedURL = statisticsEndpoint + '/mostFrequentlyUpdated';
 
 //LALISTA ENDPOINTS
 const searchListasURL = apiEndPoint + '/listas/search';
@@ -224,6 +225,11 @@ export async function getAvgPriceBySupermercado() {
 
 export async function getAvgPricePerMonthBySupermercado() {
 	let response = await fetch(getAvgPricePerMonthBySupermercadoURL);
+	return response.json();
+}
+
+export async function getMostFrequentlyUpdated() {
+	let response = await fetch(getMostFrequentlyUpdatedURL);
 	return response.json();
 }
 

@@ -17,8 +17,16 @@ export const productToChartData = (producto) => {
     data[data.length] = createData(formattedDate, producto.precioActual)
     return data;
 }
-export const createData = (date, precio) => {
-    return { date, precio };
+
+export const createDataFromProduct = (product) => {
+    const data = [];
+    for (let i = 0; i < product.fechas_de_registro.length; i++) {
+        data.push({
+            date: new Date(product.fechas_de_registro[i]),
+            precio: product.precios[i]
+        });
+    }
+    return data;
 }
 
 export const productListToListaProductList = (productList) => {
