@@ -38,8 +38,8 @@ public class LaListaIndexController {
     public ResponseEntity<Boolean> createLista(@RequestBody AddListaRequest request) {
         //Check list exists
 
-        IndexResponse indexResponse = laListaIndexService.indexLista(request.getEmail(), request.getListName());
-        if (indexResponse.result().equals(Result.Created)) {
+        IndexResponse indexResponse = laListaIndexService.indexLista(request.getEmail(), request.getListName(), request.getPrecioTotal());
+        if (indexResponse.result().equals(Result.Created) || indexResponse.result().equals(Result.Updated)) {
             return laListaProductIndexService.indexLaListaProducts(indexResponse.id(), request.getProductList())
                     ? ResponseEntity.status(HttpStatus.CREATED).build()
                     : ResponseEntity.status(HttpStatus.CONFLICT).build();

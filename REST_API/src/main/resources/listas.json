@@ -11,6 +11,9 @@
     },
     "fechaDeRegistro": {
       "type": "text"
+    },
+    "precioTotal": {
+      "type": "double"
     }
   }
 }

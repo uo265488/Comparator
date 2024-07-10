@@ -28,7 +28,12 @@ public class ProductSearchService {
     }
 
     public Product findById(String id) {
-        return productSearchRepository.filterByFieldQuery("_id", id).hits().hits().get(0).source();
+        SearchResponse<Product> response = productSearchRepository.filterByFieldQuery("_id", id);
+
+        if (!response.hits().hits().isEmpty()) {
+            return response.hits().hits().get(0).source();
+        }
+        return null;
     }
 
     public ProductResponseModel filter(Optional<String> nombre, Optional<String> marca,

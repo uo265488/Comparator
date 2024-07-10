@@ -16,4 +16,5 @@ public class LaLista implements Serializable {
     String name;
     @JsonProperty("email") String email;
     @JsonProperty("date") String date;
+    @JsonProperty("precioTotal") Double precioTotal;
 }

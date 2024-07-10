@@ -42,6 +42,7 @@ public class LaListaSearchService {
                 lista.getEmail(),
                 lista.getName(),
                 lista.getDate(),
-                productList);
+                productList,
+                lista.getPrecioTotal());
     }
 }

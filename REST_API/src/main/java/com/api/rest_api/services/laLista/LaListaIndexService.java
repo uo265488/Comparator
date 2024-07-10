@@ -14,12 +14,13 @@ public class LaListaIndexService {
     @Autowired
     private LaListaIndexRepository laListaIndexRepository;
 
-    public IndexResponse indexLista(String email, String listName) {
+    public IndexResponse indexLista(String email, String listName, double precioTotal) {
 
         return laListaIndexRepository.indexDocument(LaLista.builder()
                 .name(listName)
                 .email(email)
                 .date(LocalDate.now().toString())
+                .precioTotal(precioTotal)
                 .build());
     }
 

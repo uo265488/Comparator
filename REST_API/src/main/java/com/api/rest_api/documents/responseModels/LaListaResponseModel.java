@@ -18,4 +18,5 @@ public class LaListaResponseModel implements Serializable {
     @JsonProperty("date") private String date;
 
     @JsonProperty("products") private LaListaProduct[] laListaProductsList;
+    @JsonProperty("precioTotal") private Double precioTotal;
 }
