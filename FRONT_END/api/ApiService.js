@@ -39,9 +39,26 @@ export async function getAllProducts() {
 }
 
 export async function findProductById(id) {
-	let response = await fetch(findProductByIdURL + id);
-	let data = await response.json();
-	return data;
+	try {
+		let response = await fetch(findProductByIdURL + id);
+	
+		if (!response.ok) {
+		  throw new Error(`HTTP error! status: ${response.status}`);
+		}
+	
+		let text = await response.text();
+	
+		if (text) {
+		  let data = JSON.parse(text);
+		  return data;
+		} else {
+		  console.log('La respuesta está vacía');
+			return undefined;
+		}
+	  } catch (error) {
+		console.error("Error al obtener el producto:", error);
+		throw error;
+	  }
 }
 
 export async function findProductByBarcode(barcode) {
@@ -261,28 +278,40 @@ export async function getPersonalListByEmail(email) {
 	}
 }
 
-export async function savePersonalList(listName, email, productList) {
-
+export async function savePersonalList(listName, email, productList, precioTotal) {
 	try {
-		const requestBody = JSON.stringify({
-			productList: productListToListaProductList(productList),
-			email: email,
-			listName: listName
-		});
-
-		console.log(requestBody);
-		const response = await fetch(indexListasURL, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: requestBody
-		})
-
-		return await response.json();
-
+	  const requestBody = JSON.stringify({
+		productList: productListToListaProductList(productList),
+		email: email,
+		listName: listName,
+		precioTotal: precioTotal
+	  });
+  
+	  console.log(requestBody);
+  
+	  const response = await fetch(indexListasURL, {
+		method: 'POST',
+		headers: {
+		  'Content-Type': 'application/json'
+		},
+		body: requestBody
+	  });
+  
+	  if (!response.ok) {
+		throw new Error(`HTTP error! status: ${response.status}`);
+	  }
+  
+	  const text = await response.text();
+  
+	  if (text) {
+		return JSON.parse(text);
+	  } else {
+		return null; 
+	  }
+  
 	} catch (error) {
-		console.error(error);
-		return Promise.reject(error);
+	  console.error('Error al guardar la lista personal:', error);
+	  return Promise.reject(error);
 	}
-}
+  }
+  

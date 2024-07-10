@@ -37,9 +37,9 @@ export default function LaLista() {
     state.laListaReducer.lista.length === 0
       ? 0.0
       : state.laListaReducer.lista
-          .map((item) => item.producto.precioActual * item.unidades)
-          .reduce((a, b) => a + b)
-          .toFixed(2)
+        .map((item) => item.producto.precioActual * item.unidades)
+        .reduce((a, b) => a + b)
+        .toFixed(2)
   );
 
   const [activateUseEffect, setActivateUseEffect] = useState(true);
@@ -49,15 +49,16 @@ export default function LaLista() {
   const [isListSaved, setListSaved] = useState(false);
   const [isErrorWhenSave, setErrorWhenSave] = useState(false);
   const [listName, setListName] = useState("");
+  const [isNotAuthenticatedAlert, setIsNotAuthenticatedAlert] = useState(false);
 
   useEffect(() => {
     setPrecioTotal(
       state.laListaReducer.lista.length === 0
         ? 0.0
         : state.laListaReducer.lista
-            .map((item) => item.producto.precioActual * item.unidades)
-            .reduce((a, b) => a + b)
-            .toFixed(2)
+          .map((item) => item.producto.precioActual * item.unidades)
+          .reduce((a, b) => a + b)
+          .toFixed(2)
     );
     setListaDeProductos(listaDeProductos);
   }, [activateUseEffect]);
@@ -143,10 +144,13 @@ export default function LaLista() {
 
   const savePersonalListWithName = (listName) => {
     if (isAuthenticated) {
-      savePersonalList(listName, user.email, listaDeProductos)
+      setIsNotAuthenticatedAlert(false);
+      savePersonalList(listName, user.email, listaDeProductos, precioTotal)
         .then(() => setListSaved(true))
         .catch(() => setErrorWhenSave(true))
         .finally(() => setShowPersonalListNameDialog(false));
+    } else {
+      setIsNotAuthenticatedAlert(true);
     }
   };
 
@@ -234,6 +238,13 @@ export default function LaLista() {
 
         <Dialog open={isShowPersonalListNameDialog}>
           <DialogTitle>Guardar LaLista</DialogTitle>
+          {
+            isNotAuthenticatedAlert && (
+              <Alert severity="error">
+                No estas autenticado, inicia sesión para guardar tu Lista personal.
+              </Alert>
+            )
+          }
           <DialogContent>
             <DialogContentText>
               Introduce un nombre para tu lista:

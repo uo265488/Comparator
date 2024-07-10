@@ -15,15 +15,28 @@ import {
 } from "@mui/material";
 import { findProductById } from "../../api/ApiService";
 import { Wrapper } from "../../helper/styles";
-import { Link } from "react-router-dom";
 import { Card } from "react-native-paper";
 
 export default function ProductoEnListaPersonal(props) {
 
-  let productImg = require("../../static/images/producto.png");
-  var supermercadoImg = require("../../static/images/" + props.product.supermercado + ".png");;
-
   const [productItem, setProductItem] = useState();
+  const [imgSrc, setImgSrc] = useState('');
+
+  const defaultImage = require('../../static/images/producto.png');
+
+  useEffect(() => {
+    const loadImage = () => {
+      try {
+        const productImage = require(`../../static/images/${props.product.barcode}${props.product.supermercado}.jpg`);
+        setImgSrc(productImage);
+      } catch (error) {
+        setImgSrc(defaultImage);
+      }
+    };
+
+    loadImage();
+    getProductCharacteristics();
+  }, []);
 
   const getProductCharacteristics = () => {
     findProductById(
@@ -33,9 +46,7 @@ export default function ProductoEnListaPersonal(props) {
     });
   };
 
-  useEffect(() => {
-    getProductCharacteristics();
-  }, []);
+  const supermercadoImg = require(`../../static/images/${props.product.supermercado}.png`);
 
   return (
     <Grid item xs={12} md={6}>
@@ -52,7 +63,7 @@ export default function ProductoEnListaPersonal(props) {
           <CardMedia
             component="img"
             sx={{ height: { md: 300, xs: 150 } }}
-            image={productImg}
+            image={imgSrc}
             alt={productItem.nombre}
           />
           <CardContent sx={{ height: { xs: 100, md: 120 } }}>
@@ -73,9 +84,9 @@ export default function ProductoEnListaPersonal(props) {
             </Wrapper>
           </CardContent>
           <FormControlLabel
-          control={<Checkbox color="success" />}
-          label="Producto comprado"
-        />
+            control={<Checkbox color="success" />}
+            label="Producto comprado"
+          />
         </Card>
       )}
     </Grid>

@@ -33,6 +33,7 @@ export default function PersonalLists() {
 
   const [productList, setProductList] = useState([]);
   const [precioTotal, setPrecioTotal] = useState(0);
+  const [nombreLista, setNombreLista] = useState("");
 
   var keyCount = 0;
 
@@ -40,24 +41,15 @@ export default function PersonalLists() {
     () => {
       if (user != undefined)
         getPersonalListByEmail(user.email).then((res) => {
-          console.log(res);
+          setNombreLista(res.name)
+          setPrecioTotal(res.precioTotal);
           setProductList(res.products);
         });
     },
-    // eslint-disable-next-line
     [user]
   );
 
   useEffect(() => {
-    console.log(productList);
-    /**setPrecioTotal(
-      productList.length === 0
-        ? 0.0
-        : productList
-            .map((item) => item.producto.precioActual * item.unidades)
-            .reduce((a, b) => a + b)
-            .toFixed(2)
-    );*/
     setProductList(productList);
   }, [productList]);
 
@@ -87,9 +79,22 @@ export default function PersonalLists() {
             pt: 4,
             pb: 2,
             typography: { sm: "h3", xs: "h4" },
+            width: "100%",
           }}
         >
           Tu lista de la compra:
+        </Typography>
+        <Typography
+          variant="h3"
+          sx={{
+            color: "text.default",
+            pt: 4,
+            pb: 2,
+            typography: { sm: "h4", xs: "h4" },
+            width: "100%",
+          }}
+        >
+          Nombre: {nombreLista}
         </Typography>
 
         <Grid container spacing={4} direction="column" wrap='nowrap'>

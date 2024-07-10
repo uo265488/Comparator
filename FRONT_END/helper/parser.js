@@ -34,5 +34,9 @@ export const createDataFromProduct = (product) => {
 }
 
 export const productListToListaProductList = (productList) => {
-    return productList.map((p) => ({ barcode: p.producto.barcode, supermercado: p.producto.supermercado, listaId: "" }));
+    return productList.map((p) => ({
+        barcode: p.producto.barcode,
+        supermercado: p.producto.supermercado,
+        listaId: ""
+    }));
 }
