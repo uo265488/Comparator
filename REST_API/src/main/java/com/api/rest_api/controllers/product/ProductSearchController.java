@@ -60,6 +60,18 @@ public class ProductSearchController {
         return ResponseEntity.ok(res);
     }
 
+    @PostMapping("/compare")
+    public ResponseEntity<ProductResponseModel> compareProduct(@RequestBody Product product) {
+
+        if(product.getBarcode() == null || product.getBarcode().isEmpty() || product.getBarcode().isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        ProductResponseModel res = productSearchService.compareProduct(product);
+
+        return ResponseEntity.ok(res);
+    }
+
     @PostMapping("/improveLaLista")
     public ResponseEntity<ProductResponseModel> optimizeList(@RequestBody List<Product> laLista) {
 

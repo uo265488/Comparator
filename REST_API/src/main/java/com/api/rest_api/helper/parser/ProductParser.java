@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +48,8 @@ public class ProductParser {
             String supermercado = ProductParser.mapToProduct(hit.source()).getSupermercado();
 
             if (!statistics.containsKey(supermercado)) {
-                statistics.put(supermercado, new HashMap<>());
-                counter.put(supermercado, new HashMap<>());
+                statistics.put(supermercado, new LinkedHashMap<>());
+                counter.put(supermercado, new LinkedHashMap<>());
             }
 
             Map<String, Double> supermercadoMap = statistics.get(supermercado);

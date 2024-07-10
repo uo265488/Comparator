@@ -4,7 +4,6 @@ import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import com.api.rest_api.documents.domain.Product;
 import com.api.rest_api.documents.responseModels.ProductResponseModel;
-import com.api.rest_api.documents.responseModels.ResponseModel;
 import com.api.rest_api.helper.parser.ProductParser;
 import com.api.rest_api.repositories.search.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,5 +102,10 @@ public class ProductSearchService {
     public Map<String, Map<String, Double>> getAvgPricePerMonthBySupermercado() {
         return ProductParser.searchResponseToStatistic(
                 productSearchRepository.matchAllQuery(SortOrder.Asc, "", 10000));
+    }
+
+    public ProductResponseModel compareProduct(Product product) {
+        return new ProductResponseModel(productSearchRepository.findAlternativeQuery(product, new String[]{"nombre"},
+                SortOrder.Asc, "", new HashMap<>(), 5));
     }
 }
