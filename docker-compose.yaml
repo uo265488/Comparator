@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./rest_api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - elastic-net
+    depends_on:
+      - elasticsearch
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mydb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200
+
+  front_end:
+    build:
+      context: ./front_end
+      dockerfile: Dockerfile
+    ports:
+      - "19006:19006"  # Puerto usado por `npm run web`
+    networks:
+      - elastic-net
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Necesario para que React detecte cambios en Docker
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: my_elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    networks:
+      - elastic-net
+
+networks:
+  elastic-net:
+    driver: bridge

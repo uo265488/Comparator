@@ -51,7 +51,7 @@ public class LaListaSearchServiceTest {
         String listaId = "1";
         String name = "Mi lista semanal";
         String date = "fecha";
-        LaLista laLista = new LaLista(name, email, date);
+        LaLista laLista = new LaLista(name, email, date, 10.2);
         SearchResponse<LaLista> mockListaResponse = mock(SearchResponse.class);
         SearchResponse<LaListaProduct> mockProductsResponse = mock(SearchResponse.class);
         HitsMetadata<LaLista> responseHitsMetadata = mock(HitsMetadata.class);

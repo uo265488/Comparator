@@ -99,7 +99,7 @@ public class LaListaIndexControllerTest {
         IndexResponse indexResponse = mock(IndexResponse.class);
         when(indexResponse.result()).thenReturn(Result.Created);
         when(indexResponse.id()).thenReturn("1");
-        when(laListaIndexService.indexLista(requestEmail, requestListName )).thenReturn(indexResponse);
+        when(laListaIndexService.indexLista(requestEmail, requestListName, 10.2 )).thenReturn(indexResponse);
 
         when(laListaProductIndexService.indexLaListaProducts(any(), any())).thenReturn(true);
 
@@ -107,7 +107,7 @@ public class LaListaIndexControllerTest {
         this.webTestClient.post()
                 .uri(CREATE_LISTA_URI)
                 .header("cookieSession")
-                .bodyValue(new AddListaRequest(requestEmail, requestListName, laListaProductList))
+                .bodyValue(new AddListaRequest(requestEmail, requestListName, laListaProductList,10.2))
                 .exchange()
                 .expectStatus()
                 .isCreated()
@@ -124,7 +124,7 @@ public class LaListaIndexControllerTest {
         IndexResponse indexResponse = mock(IndexResponse.class);
         when(indexResponse.result()).thenReturn(Result.Created);
         when(indexResponse.id()).thenReturn("1");
-        when(laListaIndexService.indexLista(requestEmail, requestListName )).thenReturn(indexResponse);
+        when(laListaIndexService.indexLista(requestEmail, requestListName, 10.2 )).thenReturn(indexResponse);
 
         when(laListaProductIndexService.indexLaListaProducts(indexResponse.id(), laListaProductList))
                 .thenReturn(false);
@@ -133,7 +133,7 @@ public class LaListaIndexControllerTest {
         this.webTestClient.post()
                 .uri(CREATE_LISTA_URI)
                 .header("cookieSession")
-                .bodyValue(new AddListaRequest(requestEmail, requestListName, laListaProductList))
+                .bodyValue(new AddListaRequest(requestEmail, requestListName, laListaProductList, 10.2))
                 .exchange()
                 .expectStatus()
                 .isEqualTo(HttpStatus.CONFLICT)
@@ -148,13 +148,13 @@ public class LaListaIndexControllerTest {
 
 
         IndexResponse indexResponse = mock(IndexResponse.class);
-        when(laListaIndexService.indexLista(requestEmail, requestListName)).thenReturn(indexResponse);
+        when(laListaIndexService.indexLista(requestEmail, requestListName, 10.2)).thenReturn(indexResponse);
         when(indexResponse.result()).thenReturn(Result.NoOp);
 
         this.webTestClient.post()
                 .uri(CREATE_LISTA_URI)
                 .header("cookieSession")
-                .bodyValue(new AddListaRequest(requestEmail, requestListName, laListaProductList))
+                .bodyValue(new AddListaRequest(requestEmail, requestListName, laListaProductList, 10.2))
                 .exchange()
                 .expectStatus()
                 .isEqualTo(HttpStatus.BAD_REQUEST)
