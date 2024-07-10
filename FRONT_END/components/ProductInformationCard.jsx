@@ -114,9 +114,13 @@ export default function ProductInformationCard(props) {
               </StyledButton>
             </Box>
 
-            <Button id="rsButton" mode="contained" onClick={abrirSubidaDePrecioForm}>
-              REGISTRAR UN CAMBIO DE PRECIO
-            </Button>
+            {
+              props.priceUpdateButton && (
+                <Button id="rsButton" mode="contained" onClick={abrirSubidaDePrecioForm}>
+                  REGISTRAR UN CAMBIO DE PRECIO
+                </Button>
+              )
+            }
           </div>
         </Box>
       </Paper>

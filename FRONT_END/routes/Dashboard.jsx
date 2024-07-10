@@ -182,7 +182,7 @@ export default function DashboardContent() {
                         <Chart
                           data={getProductChartData(product)}
                           title={'Evolución del precio de ' + product.nombre}
-                          chartType="time"
+                          chartType="date"
                           supermercado={product.supermercado}
                         />
                       </div>

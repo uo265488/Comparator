@@ -13,13 +13,14 @@ import SubidaDePrecioForm from "./scanner/SubidaDePrecioForm";
 import { productToChartData } from "../helper/parser";
 import Chart from "./statistics/Chart";
 import ProductInformationCard from "./ProductInformationCard";
-import { findAlternative } from "../api/ApiService";
+import { compareProduct, findAlternative } from "../api/ApiService";
 import { BreadcrumbsProduct } from "./BreadCrumbs";
 
 export default function ProductInformation(props) {
   const [buttonPressed, setButtonPressed] = useState(false);
   const [alternativa, setAlternativa] = useState(undefined);
   const [alternativaDefined, setAlternativaDefined] = useState(false);
+  const [productsCompared, setProductsCompared] = useState([]);
 
   const mdTheme = createTheme();
 
@@ -38,11 +39,26 @@ export default function ProductInformation(props) {
     });
   };
 
+  const executeCompareProducts = () => {
+    compareProduct({
+      producto: props.producto,
+    }).then((result) => {
+
+      var hits = result.hits;
+      var filteredHits = hits.filter(hit => hit.barcode != props.producto.barcode);
+      setProductsCompared(filteredHits);
+    });
+    console.log(productsCompared);
+  };
+
   useEffect(() => {
-    if (!alternativaDefined) {
-      encontrarAlternativa();
-    }
-  }, []);
+    encontrarAlternativa();
+    executeCompareProducts();
+  }, [props.producto]);
+
+  useEffect(() => {
+    console.log("Products compared state updated: ", productsCompared);
+  }, [productsCompared]);
 
   return buttonPressed == false ? (
     <ThemeProvider theme={mdTheme}>
@@ -74,19 +90,20 @@ export default function ProductInformation(props) {
                 pb: 2,
                 typography: { sm: 'h3', xs: 'h4' },
                 fontFamily: 'Montserrat, sans-serif',
-                fontWeight: 'bold', 
-                letterSpacing: '0.05em', 
+                fontWeight: 'bold',
+                letterSpacing: '0.05em',
               }}
             >
               Ver más: {props.producto.nombre}
             </Typography>
 
             <Grid container spacing={3}>
-              <Grid item>
+              <Grid alignItems="center" item>
                 <ProductInformationCard
                   producto={props.producto}
                   supermercado={props.supermercado}
                   setButtonPressed={setButtonPressed}
+                  priceUpdateButton={true}
                 ></ProductInformationCard>
               </Grid>
 
@@ -119,7 +136,7 @@ export default function ProductInformation(props) {
                           color: "text.default",
                           pt: 4,
                           pb: 2,
-                          typography: { sm: "h3", xs: "h4" },
+                          typography: { sm: "h4", xs: "h4" },
                         }}
                       >
                         Alternativa más económica:
@@ -131,7 +148,7 @@ export default function ProductInformation(props) {
                             props.producto.precioActual) *
                           100
                         ).toFixed(2)}
-                        % =
+                        % ={" "}
                         {(
                           props.producto.precioActual - alternativa.precioActual
                         ).toFixed(2)}{" "}
@@ -141,10 +158,76 @@ export default function ProductInformation(props) {
                         producto={alternativa}
                         supermercado={alternativa.supermercado}
                         setButtonPressed={setButtonPressed}
+                        priceUpdateButton={false}
                       ></ProductInformationCard>
                     </>
                   )}
                 </div>
+              </Grid>
+              <Grid item xs={12}>
+                {productsCompared.length > 0 ? (
+                  <Grid container spacing={2} className="products-compared">
+                    <Grid item xs={12}>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          color: "text.default",
+                          pt: 4,
+                          pb: 2,
+                          typography: { sm: "h4", xs: "h4" },
+                        }}
+                      >
+                        Otros productos similares:
+                      </Typography>
+                    </Grid>
+                    {
+                      productsCompared.map((product) => (
+                        <Grid item xs={12} key={product.barcode}>
+                          <Alert severity={product.precioActual < props.producto.precioActual ? "success" : "error"}>
+                            {product.precioActual < props.producto.precioActual ? (
+                              <span>
+                                Ahorro de{" "}
+                                {(
+                                  Math.abs(
+                                    (1 - product.precioActual / props.producto.precioActual) * 100
+                                  ).toFixed(2)
+                                )}
+                                % ={" "}
+                                {(
+                                  Math.abs(props.producto.precioActual - product.precioActual).toFixed(2)
+                                )}{" "}
+                                euros por cada unidad de este producto.
+                              </span>
+                            ) : (
+                              <span>
+                                Pérdida de{" "}
+                                {(
+                                  Math.abs(
+                                    (1 - product.precioActual / props.producto.precioActual) * 100
+                                  ).toFixed(2)
+                                )}
+                                % ={" "}
+                                {(
+                                  Math.abs(props.producto.precioActual - product.precioActual).toFixed(2)
+                                )}{" "}
+                                euros por cada unidad de este producto.
+                              </span>
+                            )}
+                          </Alert>
+
+                          <ProductInformationCard
+                            producto={product}
+                            supermercado={product.supermercado}
+                            priceUpdateButton={false}
+                          />
+                        </Grid>
+                      ))}
+                  </Grid>
+                ) : (
+                  <Grid item xs={12}>
+                    <Alert severity="error">No se han encontrado productos similares</Alert>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           </Container>

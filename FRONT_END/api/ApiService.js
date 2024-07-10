@@ -10,6 +10,7 @@ const searchProductsEndpoint = productsEnpoint + '/search';
 const filterProductsURL = searchProductsEndpoint + '/filter';
 const findProductByIdURL = searchProductsEndpoint + '/';
 const improveProductURL = searchProductsEndpoint + '/improve';
+const compareProductURL = searchProductsEndpoint + '/compare';
 const improveProductsListURL = searchProductsEndpoint + '/improveLaLista';
 const findAllMarcasURL = searchProductsEndpoint + '/marcas';
 
@@ -44,18 +45,18 @@ export async function findProductById(id) {
 }
 
 export async function findProductByBarcode(barcode) {
-    console.log(barcode);
-    try {
-        let response = await fetch(filterProductsURL + '?barcode=' + barcode);
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
-        let data = await response.json();
-        console.log(data);
-        return data;
-    } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-    }
+	console.log(barcode);
+	try {
+		let response = await fetch(filterProductsURL + '?barcode=' + barcode);
+		if (!response.ok) {
+			throw new Error('Network response was not ok ' + response.statusText);
+		}
+		let data = await response.json();
+		console.log(data);
+		return data;
+	} catch (error) {
+		console.error('There was a problem with the fetch operation:', error);
+	}
 }
 
 export async function getProductsFiltered(name) {
@@ -178,6 +179,20 @@ export async function findAlternative(productoAMejorar) {
 		{
 			method: "POST",
 			body: JSON.stringify(productoAMejorar.producto),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}).then(
+			data => data.json()
+		);
+}
+
+export async function compareProduct(producto) {
+	console.log(producto);
+	return await fetch(compareProductURL,
+		{
+			method: "POST",
+			body: JSON.stringify(producto.producto),
 			headers: {
 				'Content-Type': 'application/json'
 			}

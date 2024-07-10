@@ -6,7 +6,6 @@ import { Paper, Grid, Box } from "@mui/material";
 
 export default function Chart(props) {
   const theme = useTheme();
-
   return (
     <React.Fragment>
       <Paper
@@ -22,14 +21,16 @@ export default function Chart(props) {
             <Title>{props.title}</Title>
           </Grid>
           <Grid item xs={4} sx={{ textAlign: 'right' }}>
-            <img
+            {
+              props.supermercado != undefined && (<img
               src={require("../../static/images/" + props.supermercado + ".png")}
               alt={props.supermercado}
               style={{
                 width: '70%',
                 height: '40%',
               }}
-            />
+            />)
+            }
           </Grid>
         </Grid>
         <ResponsiveContainer width="100%" height="100%">

@@ -16,6 +16,10 @@ export const productToChartData = (producto) => {
     const formattedDate = year + '-' + month + '-' + day;
     data[data.length] = createData(formattedDate, producto.precioActual)
     return data;
+} 
+
+const createData = (date, price) => {
+    return { date: date, precio: price }
 }
 
 export const createDataFromProduct = (product) => {
