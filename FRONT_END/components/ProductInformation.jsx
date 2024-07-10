@@ -92,6 +92,7 @@ export default function ProductInformation(props) {
                 fontFamily: 'Montserrat, sans-serif',
                 fontWeight: 'bold',
                 letterSpacing: '0.05em',
+                textAlign: "center",
               }}
             >
               Ver más: {props.producto.nombre}

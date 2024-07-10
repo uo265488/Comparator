@@ -5,6 +5,7 @@ import BarcodeInformation from "../components/scanner/BarcodeInformation";
 import MyCamera from "../components/scanner/MyCamera";
 import isArrayNullOrUndefined from "../helper/utils";
 import { findProductByBarcode } from "../api/ApiService";
+import ProductInformation from "../components/ProductInformation";
 
 export default function ProductRegistry() {
 
@@ -52,7 +53,7 @@ export default function ProductRegistry() {
                 isCameraVisible && <MyCamera sendCode={sendCode} key="camera"></MyCamera>
             }
             {
-                isBarcodeInformationVisible && <BarcodeInformation productos={productos}></BarcodeInformation>
+                isBarcodeInformationVisible && <ProductInformation producto={productos[0]} />
             }
             {
                 isRegistryFormVisible && <RegisterProductForm code={code} key="form"></RegisterProductForm>

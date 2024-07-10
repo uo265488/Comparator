@@ -129,6 +129,7 @@ export default function DashboardContent() {
                 pt: 4,
                 pb: 2,
                 typography: { sm: "h3", xs: "h4" },
+                textAlign: "center",
               }}
             >
               Estadísticas: precios injustificados y fraude ecónomico

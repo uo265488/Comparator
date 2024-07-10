@@ -92,6 +92,7 @@ export default function BarcodeInformation(props) {
                         supermercado={p.supermercado}
                         displaySubidaDePrecio={displaySubidaDePrecio}
                         key={p.barcode + p.supermercado}
+                        priceUpdateButton={true}
                       ></ProductInformationCard>
                     </Grid>
 
@@ -101,6 +102,7 @@ export default function BarcodeInformation(props) {
                         title={"Evolución del precio de este producto"}
                         chartType="date"
                         key={"chart" + (p.barcode + p.supermercado)}
+                        supermercado={p.supermercado}
                       ></Chart>
                     </Grid>
                   </Grid>
@@ -132,8 +134,74 @@ export default function BarcodeInformation(props) {
                     <ProductInformationCard
                       producto={alternativa}
                       supermercado={alternativa.supermercado}
+                      priceUpdateButton={false}
                     ></ProductInformationCard>
                   </>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                {productsCompared.length > 0 ? (
+                  <Grid container spacing={2} className="products-compared">
+                    <Grid item xs={12}>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          color: "text.default",
+                          pt: 4,
+                          pb: 2,
+                          typography: { sm: "h4", xs: "h4" },
+                        }}
+                      >
+                        Otros productos similares:
+                      </Typography>
+                    </Grid>
+                    {
+                      productsCompared.map((product) => (
+                        <Grid item xs={12} key={product.barcode}>
+                          <Alert severity={product.precioActual < props.producto.precioActual ? "success" : "error"}>
+                            {product.precioActual < props.producto.precioActual ? (
+                              <span>
+                                Ahorro de{" "}
+                                {(
+                                  Math.abs(
+                                    (1 - product.precioActual / props.producto.precioActual) * 100
+                                  ).toFixed(2)
+                                )}
+                                % ={" "}
+                                {(
+                                  Math.abs(props.producto.precioActual - product.precioActual).toFixed(2)
+                                )}{" "}
+                                euros por cada unidad de este producto.
+                              </span>
+                            ) : (
+                              <span>
+                                Pérdida de{" "}
+                                {(
+                                  Math.abs(
+                                    (1 - product.precioActual / props.producto.precioActual) * 100
+                                  ).toFixed(2)
+                                )}
+                                % ={" "}
+                                {(
+                                  Math.abs(props.producto.precioActual - product.precioActual).toFixed(2)
+                                )}{" "}
+                                euros por cada unidad de este producto.
+                              </span>
+                            )}
+                          </Alert>
+
+                          <ProductInformationCard
+                            producto={product}
+                            supermercado={product.supermercado}
+                            priceUpdateButton={false}
+                          />
+                        </Grid>
+                      ))}
+                  </Grid>
+                ) : (
+                  <Grid item xs={12}>
+                    <Alert severity="error">No se han encontrado productos similares</Alert>
+                  </Grid>
                 )}
               </Grid>
             </Grid>
