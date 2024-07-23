@@ -15,22 +15,10 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 public class ESClientConfig {
 
-    @Value("${spring.elasticsearch.rest.uris}")
-    private String elasticsearchUris;
-
-    @Bean
-    public RestClient lowRestClient() {
-
-        RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200),
-                new HttpHost("elasticsearch", 9200)).build();
-
-        return restClient;
-    }
-
     @Bean
     public ElasticsearchClient getEsClient() {
         RestClient restClient = RestClient.builder(
-                HttpHost.create("localhost:9200")).build();
+                HttpHost.create("my_elasticsearch:9200")).build();
 
         ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
 

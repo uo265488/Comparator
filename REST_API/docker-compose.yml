@@ -1,4 +1,3 @@
-version: '3.7'
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
@@ -11,7 +10,10 @@ services:
       - elastic-net
 
   api:
-    image: rest_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rest_api_presentacion
     container_name: api
     environment:
       - SPRING_ELASTICSEARCH_REST_URIS=http://my_elasticsearch:9200
